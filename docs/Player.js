@@ -1,16 +1,15 @@
-export default class Game extends Phaser.Scene {
+export default class Entity extends Phaser.GameObjects.Sprite {
   constructor() {
     
     super({ key: 'main' });
   }
   
   preload() { 
-    
   }
 
   create() {
   }
 
-  update(time, delta) {    
+  preupdate(time, delta) {    
   }
 }
