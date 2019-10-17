@@ -7,7 +7,7 @@ export default class Game extends Phaser.Scene{
       
       preload() 
       {   
-        this.load.image('hero','../Assets/idle0.png');
+        this.load.image('hero','Assets/idle0.png');
       }
                 
       create() 
