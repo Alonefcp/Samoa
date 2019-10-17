@@ -7,32 +7,42 @@ export default class Player extends Entity{
       super(scene,x,y,'player');
       this.sprite=undefined;
       this.speedX=160;
-      this.speedY=160;
-      
-       
+      this.speedY=160;    
       }
       
-      preload() { 
-       }
-    
-      create() {
+      preload() 
+      { 
       }
     
-      preupdate(time, delta) {    
+      create() 
+      {
       }
-       moveUp() {
-        this.sprite.setVelocityY(-this.speedY);}
+    
+      preupdate(time, delta) 
+      {    
+      }
 
-        moveDown(){
+        MoveUp() 
+        {
+          this.sprite.setVelocityY(-this.speedY);
+        }
+
+        MoveDown()
+        {
           this.sprite.setVelocityY(this.speedY);
         }
-        moveRight(){
+
+        MoveRight()
+        {
           this.sprite.setVelocityX(this.speedX);
         }
-        moveLeft(){
+
+        MoveLeft()
+        {
           this.sprite.setVelocityX(-this.speedX);
         }
-        stop(){
+
+        Stop(){
           this.sprite.setVelocityX(0);
           this.sprite.setVelocityY(0);
         }
