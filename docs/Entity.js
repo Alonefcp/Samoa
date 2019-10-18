@@ -1,8 +1,7 @@
 export default class Entity extends Phaser.GameObjects.Sprite {
-  constructor(scene) {
-   let x,y;
-   super(scene,x,y,'entity'); 
-   this.sprite=undefined;
+  constructor(scene, x, y, img) {
+   super(scene,x,y,img); 
+   scene.add.existing(this);
       
   }
   

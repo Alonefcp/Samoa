@@ -2,10 +2,13 @@ import Entity from './Entity.js';
 let sprite;
 export default class Player extends Entity{
     
-    constructor(scene) {
-      let x,y;
+    constructor(scene, x, y) {
       super(scene,x,y,'player');
-      this.sprite=undefined;
+
+     
+      scene.physics.add.existing(this);
+
+      
       this.speedX=160;
       this.speedY=160;    
       }
@@ -24,27 +27,27 @@ export default class Player extends Entity{
 
         MoveUp() 
         {
-          this.sprite.setVelocityY(-this.speedY);
+          this.body.setVelocityY(-this.speedY);
         }
 
         MoveDown()
         {
-          this.sprite.setVelocityY(this.speedY);
+          this.body.setVelocityY(this.speedY);
         }
 
         MoveRight()
         {
-          this.sprite.setVelocityX(this.speedX);
+          this.body.setVelocityX(this.speedX);
         }
 
         MoveLeft()
         {
-          this.sprite.setVelocityX(-this.speedX);
+          this.body.setVelocityX(-this.speedX);
         }
 
         Stop(){
-          this.sprite.setVelocityX(0);
-          this.sprite.setVelocityY(0);
+          this.body.setVelocityX(0);
+          this.body.setVelocityY(0);
         }
       }
     
