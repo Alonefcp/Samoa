@@ -12,7 +12,8 @@ export default class Player extends Entity{
       this.Spawnx=x;
       this.Spawny=y;
       this.speedX=160;
-      this.speedY=160;    
+      this.speedY=160;   
+      this.cont=0; 
       }
       
       preload() 
@@ -70,6 +71,21 @@ export default class Player extends Entity{
         die(){
           this.HP=0;
         }
-      }
+
+         
+        PlayerGetDamage()
+        {
+           this.cont+=2;
+  
+          if(this.cont >= 50)
+          {
+            this.ReceiveDamage(10);
+            console.log(this.HP);
+            this.cont=0;
+          }
+
+        }
+        
+    }
     
     

@@ -8,13 +8,21 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
-    this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
+    //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
+    this.load.image('meleeEnemy','Assets/star.png');
   }
 
   create() {
     this.player = new Player(this, 100, 100);
-    this.meleeEnemy=new Enemy(this,130,100);
     this.player.body.setCollideWorldBounds(true);
+
+    this.meleeEnemy = new Enemy(this,170,170,'meleeEnemy');
+    this.meleeEnemy.body.setImmovable(true);
+    this.meleeEnemy.setDisplaySize(50,100);
+    this.meleeEnemy.body.setSize(45,95);
+
+    this.physics.add.overlap(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
+
   //animaciones
     this.anims.create({
       key:'melee',
