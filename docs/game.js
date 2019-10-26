@@ -1,26 +1,35 @@
 import Player from './Player.js';
 import Enemy from './Enemy.js';
+import Trap from './Trap.js';
 export default class Game extends Phaser.Scene {
   constructor() {
 
     super({ key: 'main' });
+  //preguntar si son variables globales
+    this.SlowTime = 100;
+    this.PoisonedTime = 100;
+    this.PoisonIntervals = 20;
   }
 
   preload() {
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.image('meleeEnemy','Assets/star.png');
+    this.load.image('spiderWeb','Assets/web.png');
+    this.load.image('acid','Assets/acido.jpg')
   }
 
   create() {
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
-
-    this.meleeEnemy = new Enemy(this,170,170,'meleeEnemy');
+    this.web=new Trap(this,300,150,'spiderWeb',0);
+    this.poison=new Trap(this,300,400,'acid',2);
+    this.meleeEnemy = new Enemy(this,100,200,'meleeEnemy');
     this.meleeEnemy.body.setImmovable(true);
     this.meleeEnemy.setDisplaySize(50,100);
     this.meleeEnemy.body.setSize(45,95);
-
+    this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
+    this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
 
   //animaciones
@@ -73,7 +82,6 @@ export default class Game extends Phaser.Scene {
     });
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
-    this.b=this.input.keyboard.addKey('B');
     //callbacks
     this.input.on('pointerdown',event=>{this.player.Attack();});
     
@@ -83,9 +91,6 @@ export default class Game extends Phaser.Scene {
    this.player.Stop()
     this.player.anims.play('idle');
 
-    if(this.b.isDown){
-      this.player.die();
-    }
     if (this.cursors.up.isDown) {
       this.player.MoveUp();
       this.player.anims.play('up');
@@ -106,5 +111,30 @@ export default class Game extends Phaser.Scene {
       }
   if(this.player.HP<=0)
   this.player.Spawn();
+  //preguntar como hacer dentro del player
+  if(this.player.slowdown===true){
+    
+    this.player.SlowTime += 1;
+        if (this.SlowTime >= this.player.SlowTime){
+      this.player.slowdown = false; 
+      this.player.SlowTime = 0;
+    } 
   }
+  if (this.player.poison === true){
+    this.poisonDamage=this.player.MaxHP/20;  
+    this.player.poisonedTime += 1;
+    this.player.poisonIntervals += 1;
+        if (this.poisonedTime >= this.player.poisonedTime){
+          this.player.poison = false;
+          this.player.poisonedTime = 0;
+        }
+        else if (this.player.PoisonIntervals >= this.poisonIntervals && this.player.HP - this.poisonDamage > 0){
+          
+          this.player.ReceiveDamage(this.poisonDamage);
+          console.log(this.player.HP);
+          this.player.poisonIntervals=0;
+        }
+  }  
+}
+  
 }

@@ -11,10 +11,16 @@ export default class Player extends Entity{
       this.dirY=1;
       this.Spawnx=x;
       this.Spawny=y;
+      this.SpeedNerf=.5;
       this.speedX=160;
       this.speedY=160;   
       this.cont=0; 
-      }
+      this.SlowTime=0;
+      this.poisonedTime=0;
+      this.poisonIntervals=0;
+      this.slowdown=false;
+      this.poison=false;
+    }
       
       preload() 
       { 
@@ -26,28 +32,41 @@ export default class Player extends Entity{
     
       preupdate(time, delta) 
       {    
+        
       }
 
         MoveUp() 
         {
+          if(this.slowdown)
+          this.body.setVelocityY(-this.speedY * ( 1 - this.SpeedNerf));
+          else
           this.body.setVelocityY(-this.speedY);
           this.dirY=-1;
         }
 
         MoveDown()
         {
+          if(this.slowdown)
+          this.body.setVelocityY(this.speedY * (1 - this.SpeedNerf));
+          else
           this.body.setVelocityY(this.speedY);
           this.dirY=1;
         }
 
         MoveRight()
         {
+          if(this.slowdown)
+          this.body.setVelocityX(this.speedX * (1 - this.SpeedNerf));
+          else
           this.body.setVelocityX(this.speedX);
           this.dirX=1;
         }
 
         MoveLeft()
         {
+          if(this.slowdown)
+          this.body.setVelocityX(-this.speedX * (1 - this.SpeedNerf));
+          else
           this.body.setVelocityX(-this.speedX);
           this.dirX=-1;
         }
@@ -67,13 +86,17 @@ export default class Player extends Entity{
         }
         Spawn(){
           this.body.reset(this.Spawnx,this.Spawny);
+          this.ResetHP();
         }
-        die(){
-          this.HP=0;
-        }
-
-         
-        PlayerGetDamage()
+        
+       SlowDown(){
+         this.slowdown=true;
+       }
+       Poison(){
+          this.poison=true;
+       }
+        
+       PlayerGetDamage()
         {
            this.cont+=2;
   

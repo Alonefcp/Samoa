@@ -26,4 +26,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
      this.HP=this.HP-damage;
      else this.HP=0;  
   }
+  ResetHP(){
+    this.HP=this.MaxHP;
+  }
 }
