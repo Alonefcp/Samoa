@@ -97,7 +97,7 @@ export default class Player extends Entity{
        }
         
        PlayerGetDamage()
-        {
+       {
            this.cont+=2;
   
           if(this.cont >= 50)
@@ -106,7 +106,6 @@ export default class Player extends Entity{
             console.log(this.HP);
             this.cont=0;
           }
-
         }
         
     }
