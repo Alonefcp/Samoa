@@ -24,6 +24,8 @@ export default class Game extends Phaser.Scene {
   create() {
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
+   //Ajustamos el collider
+    this.player.body.setSize(32,64);
     this.web=new Trap(this,300,150,'spiderWeb',0);
     this.poison=new Trap(this,300,400,'acid',2);
     this.hole = new Trap(this,350,500,'hole',3);
@@ -96,8 +98,23 @@ export default class Game extends Phaser.Scene {
   update(time, delta) {
    this.player.Stop()
     this.player.anims.play('idle');
-
-    if (this.cursors.up.isDown) {
+    if (this.cursors.up.isDown && this.cursors.right.isDown){
+      this.player.MoveUpRight();
+      this.player.anims.play('up');
+    }
+    else if (this.cursors.up.isDown && this.cursors.left.isDown){
+      this.player.MoveUpLeft();
+      this.player.anims.play('up');
+    }
+    else if (this.cursors.down.isDown && this.cursors.right.isDown){
+      this.player.MoveDownRight();
+      this.player.anims.play('down');
+    }
+    else if (this.cursors.down.isDown && this.cursors.left.isDown){
+      this.player.MoveDownLeft();
+      this.player.anims.play('down');
+    }
+    else if (this.cursors.up.isDown) {
       this.player.MoveUp();
       this.player.anims.play('up');
 
@@ -105,7 +122,7 @@ export default class Game extends Phaser.Scene {
       this.player.MoveDown();
       this.player.anims.play('down');
     }
-    if (this.cursors.right.isDown)
+   else  if (this.cursors.right.isDown)
       {
       this.player.MoveRight();
     this.player.anims.play('right');
@@ -118,14 +135,7 @@ export default class Game extends Phaser.Scene {
   if(this.player.HP<=0)
   this.player.Spawn();
   //preguntar como hacer dentro del player
-  if(this.player.slowdown===true){
-    
-    this.player.SlowTime += 1;
-        if (this.SlowTime >= this.player.SlowTime){
-      this.player.slowdown = false; 
-      this.player.SlowTime = 0;
-    } 
-  }
+  
   if (this.player.poison === true){
     this.poisonDamage=this.player.MaxHP/20;  
     this.player.poisonedTime += 1;
