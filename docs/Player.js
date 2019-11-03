@@ -3,8 +3,7 @@ export default class Player extends Entity{
     
     constructor(scene, x, y) {
       super(scene,x,y,'player');
-
-     
+   
       scene.physics.add.existing(this);
       this.maxMana = 100;
       this.mana = this.maxMana;
@@ -93,8 +92,8 @@ export default class Player extends Entity{
           this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
           this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
           }
-            else
-         {
+          else
+          {
             this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
             this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX);
           }
@@ -157,11 +156,14 @@ export default class Player extends Entity{
           this.dirY = 0;
         }
 
-        Stop(){
+        Stop()
+        {
           this.body.setVelocityX(0);
           this.body.setVelocityY(0);
         }
-        Attack(){
+
+        Attack()
+        {
           
           this.trigger = this.scene.add.zone(this.x + 20*this.dirX, this.y+84*this.dirY);
           if(this.dirX != 0)
@@ -172,15 +174,20 @@ export default class Player extends Entity{
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;
         }
-        Spawn(){
+
+        Spawn()
+        {
           this.body.reset(this.Spawnx,this.Spawny);
           this.ResetHP();
         }
         
-       SlowDown(){
+       SlowDown()
+       {
          this.slowdown=true;
        }
-       Poison(){
+
+       Poison()
+       {
           this.poison=true;
        }
         
