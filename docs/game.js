@@ -22,6 +22,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    // this.date=new Date();
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
    //Ajustamos el collider
@@ -136,21 +137,7 @@ export default class Game extends Phaser.Scene {
   this.player.Spawn();
   //preguntar como hacer dentro del player
   
-  if (this.player.poison === true){
-    this.poisonDamage=this.player.MaxHP/20;  
-    this.player.poisonedTime += 1;
-    this.player.poisonIntervals += 1;
-        if (this.poisonedTime >= this.player.poisonedTime){
-          this.player.poison = false;
-          this.player.poisonedTime = 0;
-        }
-        else if (this.player.PoisonIntervals >= this.poisonIntervals && this.player.HP - this.poisonDamage > 0){
-          
-          this.player.ReceiveDamage(this.poisonDamage);
-          console.log(this.player.HP);
-          this.player.poisonIntervals=0;
-        }
-  }  
+ 
 }
   
 }
