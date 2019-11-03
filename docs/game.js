@@ -19,6 +19,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('acid','Assets/acido.jpg');
     this.load.image('hole','Assets/hoyo.jpg');
     this.load.image('spikes','Assets/pinchos.jpg');
+    this.load.spritesheet('fireball','Assets/fireball_spritesheet.png',{frameWidth:512, frameHeight:512});
   }
 
   create() {
@@ -30,17 +31,15 @@ export default class Game extends Phaser.Scene {
     this.web=new Trap(this,300,150,'spiderWeb',0);
     this.poison=new Trap(this,300,400,'acid',2);
     this.hole = new Trap(this,350,500,'hole',3);
-    this.spike = new Trap(this,600,500,'spikes',1);
+    this.spikes = new Trap(this,600,500,'spikes',1);
     this.meleeEnemy = new Enemy(this,100,200,'meleeEnemy');
     this.meleeEnemy.body.setImmovable(true);
     this.meleeEnemy.setDisplaySize(50,100);
     //this.meleeEnemy.body.setSize(45,95);
-    //Trampas
     this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
     this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
-    this.physics.add.overlap(this.player,this.spike,this.spike.ApplyEffect,null,this.spike);
-
+    this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
     this.physics.add.collider(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
 
   //animaciones
@@ -137,8 +136,8 @@ export default class Game extends Phaser.Scene {
       }
   if(this.player.HP<=0)
   this.player.Spawn();
-  //preguntar como hacer dentro del player
   
+ 
  
 }
   

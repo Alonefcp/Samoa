@@ -8,17 +8,18 @@ export default class Trap extends Phaser.GameObjects.Sprite{
         scene.physics.add.existing(this);
         this.type=type;//0 = spiderWeb, 1 = spikes, 2 = Poison, 3 = Hole, 4 = CoveredHole
         this.Slowtime=100;
+      
     }
     ApplyEffect()
     {
        //preguntar cómo meterlo con colisiones en vez de buscar al player en la escena
-        if (this.type == 0)
+        if (this.type === 0)
            this.scene.player.SlowDown();
-        else if (this.type == 2)
+        else if (this.type === 2)
             this.scene.player.Poison();
-        else if(this.type == 1)
+        else if(this.type === 1)
           this.scene.player.PlayerGetDamage();         
-        else if(this.type == 3)
+        else if(this.type === 3)
           this.scene.player.Spawn();
     }
 }

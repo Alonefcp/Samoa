@@ -3,7 +3,8 @@ export default class Player extends Entity{
     
     constructor(scene, x, y) {
       super(scene,x,y,'player');
-   
+
+     
       scene.physics.add.existing(this);
       this.maxMana = 100;
       this.mana = this.maxMana;
@@ -32,12 +33,13 @@ export default class Player extends Entity{
       {
       }
     
-      preupdate(time, delta) 
+      preUpdate(time, delta) 
       {    
         if(this.slowdown===true){
-    console.log("bbbb");
+    
           this.SlowTime += 1;
-              if (this.SlowTime >= 100)
+    console.log(this.SlowTime);
+          if (this.SlowTime >= 100)
             {
               this.slowdown=false; 
               this.SlowTime = 0;
@@ -49,11 +51,11 @@ export default class Player extends Entity{
           this.poisonDamage=this.MaxHP/20;  
           this.poisonedTime += 1;
           this.poisonIntervals += 1;
-              if (this.poisonedTime >= 100){
+           if (this.poisonedTime >= 1000){
                 this.poison = false;
                 this.poisonedTime = 0;
               }
-              else if (this.PoisonIntervals >=20 && this.HP - this.poisonDamage > 0){
+              else if (this.PoisonIntervals >=200 && this.HP - this.poisonDamage > 0){
                 
                 ReceiveDamage(this.poisonDamage);
                 console.log(this.player.HP);
@@ -64,12 +66,12 @@ export default class Player extends Entity{
 
         MoveUp() 
         {
+          this.dirX = 0;
+          this.dirY = -1;
           if(this.slowdown)
           this.body.setVelocityY(-this.speedY * ( 1 - this.SpeedNerf));
           else
           this.body.setVelocityY(-this.speedY);
-          this.dirX = 0;
-          this.dirY = -1;
         }
         MoveUpRight(){
           this.dirX = 1;
@@ -92,20 +94,20 @@ export default class Player extends Entity{
           this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
           this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
           }
-          else
-          {
+           else
+         {
             this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
             this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX);
           }
       }
         MoveDown()
         {
+          this.dirX = 0;
+          this.dirY = 1;
           if(this.slowdown)
           this.body.setVelocityY(this.speedY * (1 - this.SpeedNerf));
           else
           this.body.setVelocityY(this.speedY);
-          this.dirX = 0;
-          this.dirY = 1;
         }
         MoveDownRight(){
           this.dirX = 1;
@@ -138,22 +140,22 @@ export default class Player extends Entity{
       }
         MoveRight()
         {
+          this.dirY = 0;
+          this.dirX = 1;
           if(this.slowdown)
           this.body.setVelocityX(this.speedX * (1 - this.SpeedNerf));
           else
           this.body.setVelocityX(this.speedX);
-          this.dirY = 0;
-          this.dirX = 1;
         }
 
         MoveLeft()
         {
+          this.dirX = -1;
+          this.dirY = 0;
           if(this.slowdown)
           this.body.setVelocityX(-this.speedX * (1 - this.SpeedNerf));
           else
           this.body.setVelocityX(-this.speedX);
-          this.dirX = -1;
-          this.dirY = 0;
         }
 
         Stop()
@@ -161,7 +163,6 @@ export default class Player extends Entity{
           this.body.setVelocityX(0);
           this.body.setVelocityY(0);
         }
-
         Attack()
         {
           
@@ -174,7 +175,6 @@ export default class Player extends Entity{
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;
         }
-
         Spawn()
         {
           this.body.reset(this.Spawnx,this.Spawny);
@@ -185,7 +185,6 @@ export default class Player extends Entity{
        {
          this.slowdown=true;
        }
-
        Poison()
        {
           this.poison=true;
@@ -202,10 +201,11 @@ export default class Player extends Entity{
             this.cont=0;
           }
         }
-        CastMagic(){
+        CastMagic()
+        {
           switch(this.currentMagic){
             case 0:
-              this.fireball=new Fireball
+              this.fireball=new Fireball(0,0,'fireball',5)
               break;
           }
         }
