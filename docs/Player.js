@@ -38,7 +38,6 @@ export default class Player extends Entity{
         if(this.slowdown===true){
     
           this.SlowTime += 1;
-    console.log(this.SlowTime);
           if (this.SlowTime >= 100)
             {
               this.slowdown=false; 
@@ -47,18 +46,17 @@ export default class Player extends Entity{
            
         }
         if (this.poison === true){
-          console.log("aaaa");
           this.poisonDamage=this.MaxHP/20;  
           this.poisonedTime += 1;
           this.poisonIntervals += 1;
-           if (this.poisonedTime >= 1000){
+           if (this.poisonedTime >= 250){
                 this.poison = false;
                 this.poisonedTime = 0;
               }
-              else if (this.PoisonIntervals >=200 && this.HP - this.poisonDamage > 0){
+              else if (this.poisonIntervals >=75 && this.HP - this.poisonDamage > 0){
                 
-                ReceiveDamage(this.poisonDamage);
-                console.log(this.player.HP);
+                this.ReceiveDamage(this.poisonDamage);
+                console.log(this.HP);
                 this.poisonIntervals=0;
               }
         }  
@@ -187,7 +185,7 @@ export default class Player extends Entity{
        }
        Poison()
        {
-          this.poison=true;
+         this.poison=true;
        }
         
        PlayerGetDamage()
