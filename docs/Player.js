@@ -1,4 +1,5 @@
 import Entity from './Entity.js'; 
+import Fireball from './Fireball.js';
 export default class Player extends Entity{
     
     constructor(scene, x, y) {
@@ -35,6 +36,7 @@ export default class Player extends Entity{
     
       preUpdate(time, delta) 
       {    
+        super.preUpdate(time,delta);
         if(this.slowdown===true){
     
           this.SlowTime += 1;
@@ -175,6 +177,8 @@ export default class Player extends Entity{
         }
         Spawn()
         {
+          this.slowdown = false;
+          this.poison = false;
           this.body.reset(this.Spawnx,this.Spawny);
           this.ResetHP();
         }
@@ -203,7 +207,9 @@ export default class Player extends Entity{
         {
           switch(this.currentMagic){
             case 0:
-              this.fireball=new Fireball(0,0,'fireball',5)
+              console.log(this.x);
+              console.log(this.y);
+              this.fireball=new Fireball(this.x,this.y,'fireball',5,5);
               break;
           }
         }

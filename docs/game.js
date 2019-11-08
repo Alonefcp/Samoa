@@ -12,17 +12,29 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
-    //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.image('meleeEnemy','Assets/star.png');
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
     this.load.image('hole','Assets/hoyo.jpg');
     this.load.image('spikes','Assets/pinchos.jpg');
+    this.load.tilemapTiledJSON('mapa_pruebas','Assets/mapa_pruebas.json')
+    this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
+    //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.spritesheet('fireball','Assets/fireball_spritesheet.png',{frameWidth:512, frameHeight:512});
   }
 
   create() {
+    this.map=this.make.tilemap({
+      key:'mapa_pruebas',
+      tileWidth:32,
+      tileHeight:32
+    });
+   this.webT= this.map.addTilesetImage('web','spiderWeb');
+   this.acidT=this.map.addTilesetImage('acido','acid');
+   this.holeT=this.map.addTilesetImage('hoyo','hole');
+  this.spikeT=this.map.addTilesetImage('pinchos','spikes');
+    this.trapslayer=this.map.createStaticLayer('prueba',[this.webT,this.acidT,this.holeT,this.spikeT]);
+    // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
     // this.date=new Date();
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
@@ -83,6 +95,14 @@ export default class Game extends Phaser.Scene {
       repeat: -1
 
     });
+    this.anims.create({
+      key:'fire',
+      frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 4 }),
+      frameRate: 10,
+      repeat: -1
+
+    });
+    
     //input
     this.cursors = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -93,46 +113,56 @@ export default class Game extends Phaser.Scene {
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
     //callbacks
-    this.input.on('pointerdown',event=>{this.player.Attack();});
+    this.input.on('pointerdown',pointer=>{
+      if(pointer.leftButtonDown())
+      this.player.Attack();
+      else if (pointer.rightButtonDown())
+      this.player.CastMagic();
+    });
+    // this.player.play('up');
     
   }
 
   update(time, delta) {
-   this.player.Stop()
-    this.player.anims.play('idle');
+  this.player.Stop()
+    // this.player.play('idle');
     if (this.cursors.up.isDown && this.cursors.right.isDown){
       this.player.MoveUpRight();
-      this.player.anims.play('up');
+      this.player.play('up');
     }
     else if (this.cursors.up.isDown && this.cursors.left.isDown){
       this.player.MoveUpLeft();
-      this.player.anims.play('up');
+      this.player.play('up');
     }
     else if (this.cursors.down.isDown && this.cursors.right.isDown){
       this.player.MoveDownRight();
-      this.player.anims.play('down');
+      this.player.play('down');
     }
     else if (this.cursors.down.isDown && this.cursors.left.isDown){
       this.player.MoveDownLeft();
-      this.player.anims.play('down');
+      this.player.play('down');
     }
     else if (this.cursors.up.isDown) {
       this.player.MoveUp();
-      this.player.anims.play('up');
+      this.player.play('up');
 
     } else if (this.cursors.down.isDown) {
       this.player.MoveDown();
-      this.player.anims.play('down');
+      this.player.play('down');
     }
    else  if (this.cursors.right.isDown)
       {
       this.player.MoveRight();
-    this.player.anims.play('right');
+    this.player.play('right');
     }
    else if (this.cursors.left.isDown)
       {
         this.player.MoveLeft();
-      this.player.anims.play('left');
+      this.player.play('left');
+      }
+      else {
+      // this.player.play('idle');
+
       }
   if(this.player.HP<=0)
   this.player.Spawn();
