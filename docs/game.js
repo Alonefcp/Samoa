@@ -126,6 +126,9 @@ export default class Game extends Phaser.Scene {
   update(time, delta) 
   {
     //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
+
+      this.player.Stop()
+
     if (this.cursors.up.isDown && this.cursors.right.isDown){
       this.player.MoveUpRight();
       this.player.play('up',true);
@@ -160,11 +163,10 @@ export default class Game extends Phaser.Scene {
       this.player.MoveLeft();
       this.player.play('left',true);
     }
-    else
-    {
-        this.player.Stop()
-        this.player.play('idle',true);
-    }
+    else this.player.play('idle',true);
+    
+        
+    
       
     if(this.player.HP<=0)
      this.player.Spawn();
