@@ -54,7 +54,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
     this.physics.add.collider(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
 
-  //animaciones
+  //animaciones el jugador
     this.anims.create({
       key:'melee',
       frames:this.anims.generateFrameNumbers('meleeEnemy',{start:82,end:89}),
@@ -123,52 +123,52 @@ export default class Game extends Phaser.Scene {
     
   }
 
-  update(time, delta) {
-  this.player.Stop()
-    // this.player.play('idle');
+  update(time, delta) 
+  {
+    //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
     if (this.cursors.up.isDown && this.cursors.right.isDown){
       this.player.MoveUpRight();
-      this.player.play('up');
+      this.player.play('up',true);
     }
     else if (this.cursors.up.isDown && this.cursors.left.isDown){
       this.player.MoveUpLeft();
-      this.player.play('up');
+      this.player.play('up',true);
     }
     else if (this.cursors.down.isDown && this.cursors.right.isDown){
       this.player.MoveDownRight();
-      this.player.play('down');
+      this.player.play('down',true);
     }
     else if (this.cursors.down.isDown && this.cursors.left.isDown){
       this.player.MoveDownLeft();
-      this.player.play('down');
+      this.player.play('down',true);
     }
     else if (this.cursors.up.isDown) {
       this.player.MoveUp();
-      this.player.play('up');
+      this.player.play('up',true);
 
     } else if (this.cursors.down.isDown) {
       this.player.MoveDown();
-      this.player.play('down');
+      this.player.play('down',true);
     }
    else  if (this.cursors.right.isDown)
-      {
+    {
       this.player.MoveRight();
-    this.player.play('right');
+      this.player.play('right',true);
     }
    else if (this.cursors.left.isDown)
-      {
-        this.player.MoveLeft();
-      this.player.play('left');
-      }
-      else {
-      // this.player.play('idle');
-
-      }
-  if(this.player.HP<=0)
-  this.player.Spawn();
-  
+    {
+      this.player.MoveLeft();
+      this.player.play('left',true);
+    }
+    else
+    {
+        this.player.Stop()
+        this.player.play('idle',true);
+    }
+      
+    if(this.player.HP<=0)
+     this.player.Spawn();
  
- 
-}
+ }
   
 }
