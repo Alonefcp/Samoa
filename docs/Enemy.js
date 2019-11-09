@@ -6,7 +6,7 @@ export default class Enemy extends Entity{
 
      
       scene.physics.add.existing(this);
-
+      this.damaged = false;
        
       }
       
@@ -22,7 +22,6 @@ export default class Enemy extends Entity{
       preupdate(time, delta) 
       {    
       }
-
         
       }
     

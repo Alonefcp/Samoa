@@ -28,14 +28,17 @@ export default class Player extends Entity{
       
       preload() 
       { 
+        
       }
     
       create() 
       {
+        
       }
     
       preUpdate(time, delta) 
       {    
+        
         super.preUpdate(time,delta);
         if(this.slowdown===true){
     
@@ -170,13 +173,14 @@ export default class Player extends Entity{
           this.module=Math.sqrt(Math.pow(this.AtkDirX,2)+Math.pow(this.AtkDirY,2));
           this.AtkDirX/=this.module;
           this.AtkDirY/=this.module;
-          console.log(this.AtkDirX);
-          console.log(this.AtkDirY);
+         // console.log(this.AtkDirX);
+         // console.log(this.AtkDirY);
           this.trigger = this.scene.add.zone(this.x + 20*this.AtkDirX, this.y+84*this.AtkDirY);
           if(this.dirX != 0)
             this.trigger.setSize(16,64);
           else if(this.dirY != 0)
             this.trigger.setSize(32,16);
+            
           this.scene.physics.world.enable(this.trigger);
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;
@@ -209,13 +213,14 @@ export default class Player extends Entity{
             this.cont=0;
           }
         }
+
         CastMagic()
         {
           switch(this.currentMagic){
             case 0:
               console.log(this.x);
               console.log(this.y);
-              this.fireball=new Fireball(this.x,this.y,'fireball',5,5);
+              this.fireball=new Fireball(this.scene,this.x,this.y,'fireball',5,5);
               break;
           }
         }

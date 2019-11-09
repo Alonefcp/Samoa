@@ -52,15 +52,17 @@ export default class Game extends Phaser.Scene {
     this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
     this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
+    //colision entre el enemigo y el jugador
     this.physics.add.collider(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
-
-  //animaciones el jugador
+     
     this.anims.create({
       key:'melee',
       frames:this.anims.generateFrameNumbers('meleeEnemy',{start:82,end:89}),
       frameRate:10,
       repeat:-1
     });
+
+    //animaciones el jugador
     this.anims.create({
       key: 'idle',
       frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
@@ -96,6 +98,14 @@ export default class Game extends Phaser.Scene {
 
     });
     this.anims.create({
+      key:'attackDown',
+      frames:this.anims.generateFrameNumbers('player',{start:26,end:28}),
+      frameRate:10,
+      repeat:0
+    });
+
+
+    this.anims.create({
       key:'fire',
       frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 4 }),
       frameRate: 10,
@@ -115,19 +125,35 @@ export default class Game extends Phaser.Scene {
     //callbacks
     this.input.on('pointerdown',pointer=>{
       if(pointer.leftButtonDown())
-      this.player.Attack();
+      {
+        this.player.Attack();        
+      }
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
     });
-    // this.player.play('up');
-    
+   
   }
 
   update(time, delta) 
   {
-    //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
+     
+    //comprbamos si el enemigo hace overlap con el trigger(ataque fisico) del jugador
+     if(this.physics.overlap(this.meleeEnemy,this.player.trigger) && !this.meleeEnemy.damaged)
+     {
+       this.meleeEnemy.ReceiveDamage(this.player.atk);
+       console.log('Enemey: '+this.meleeEnemy.HP);
+       this.meleeEnemy.damaged = true;
+       if(this.meleeEnemy.damaged)
+       {
+         this.player.trigger.destroy();
+         this.meleeEnemy.damaged = false;
+       }
+     }
+     else if(this.player.trigger != undefined && !this.meleeEnemy.damaged) this.player.trigger.destroy();
 
-      this.player.Stop()
+
+    //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
+      this.player.Stop();
 
     if (this.cursors.up.isDown && this.cursors.right.isDown){
       this.player.MoveUpRight();
@@ -164,13 +190,11 @@ export default class Game extends Phaser.Scene {
       this.player.play('left',true);
     }
     else this.player.play('idle',true);
-    
-        
-    
       
     if(this.player.HP<=0)
      this.player.Spawn();
  
+    if(this.meleeEnemy.HP<=0)this.meleeEnemy.destroy();
  }
   
 }
