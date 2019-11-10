@@ -98,11 +98,27 @@ export default class Game extends Phaser.Scene {
     this.anims.create({
       key:'attackDown',
       frames:this.anims.generateFrameNumbers('player',{start:26,end:28}),
-      frameRate:10,
+      frameRate:14,
+      repeat:0
+    });
+    this.anims.create({
+      key:'attackUp',
+      frames:this.anims.generateFrameNumbers('player',{start:29,end:31}),
+      frameRate:14,
+      repeat:0
+    });this.anims.create({
+      key:'attackRight',
+      frames:this.anims.generateFrameNumbers('player',{start:32,end:34}),
+      frameRate:14,
+      repeat:0
+    });this.anims.create({
+      key:'attackLeft',
+      frames:this.anims.generateFrameNumbers('player',{start:35,end:37}),
+      frameRate:14,
       repeat:0
     });
 
-
+    //animaciones de magias
     this.anims.create({
       key:'fire',
       frames: this.anims.generateFrameNumbers('fireball', { start:3, end: 7 }),
@@ -130,7 +146,8 @@ export default class Game extends Phaser.Scene {
     this.input.on('pointerdown',pointer=>{
       if(pointer.leftButtonDown())
       {
-        this.player.Attack();        
+        this.player.Attack(); 
+        this.player.isAttacking=true;      
       }
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
@@ -138,12 +155,10 @@ export default class Game extends Phaser.Scene {
     //grupos
     this.enemies=this.physics.add.group();
     this.enemies.create(new Enemy(this,100,200,'meleeEnemy'));
-   
   }
 
   update(time, delta) 
-  {
-     
+  { 
     //comprbamos si el enemigo hace overlap con el trigger(ataque fisico) del jugador
      if(this.physics.overlap(this.enemies,this.player.trigger) && !this.enemies.damaged)
      {
@@ -159,50 +174,78 @@ export default class Game extends Phaser.Scene {
      else if(this.player.trigger != undefined && !this.enemies.damaged) this.player.trigger.destroy();
      
 
+    //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
+     this.player.Stop();
 
-    //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
-      this.player.Stop();
-
-    if (this.cursors.up.isDown && this.cursors.right.isDown){
-      this.player.MoveUpRight();
-      this.player.play('up',true);
-    }
-    else if (this.cursors.up.isDown && this.cursors.left.isDown){
-      this.player.MoveUpLeft();
-      this.player.play('up',true);
-    }
-    else if (this.cursors.down.isDown && this.cursors.right.isDown){
-      this.player.MoveDownRight();
-      this.player.play('down',true);
-    }
-    else if (this.cursors.down.isDown && this.cursors.left.isDown){
-      this.player.MoveDownLeft();
-      this.player.play('down',true);
-    }
-    else if (this.cursors.up.isDown) {
-      this.player.MoveUp();
-      this.player.play('up',true);
-
-    } else if (this.cursors.down.isDown) {
-      this.player.MoveDown();
-      this.player.play('down',true);
-    }
-   else  if (this.cursors.right.isDown)
+    if (this.cursors.up.isDown && this.cursors.right.isDown)
     {
-      this.player.MoveRight();
-      this.player.play('right',true);
+       this.player.DiagonallyMoveRight(1,-1); 
+       if(this.player.isAttacking) this.player.play('attackUp',true);
+       else this.player.play('up',true);     
     }
-   else if (this.cursors.left.isDown)
+    else if (this.cursors.up.isDown && this.cursors.left.isDown)
     {
-      this.player.MoveLeft();
-      this.player.play('left',true);
+        this.player.DiagonallyMoveLeft(-1,-1);
+        if(this.player.isAttacking) this.player.play('attackUp',true);
+        else this.player.play('up',true);
     }
-    else this.player.play('idle',true);
-      
-    if(this.player.HP<=0)
-     this.player.Spawn();
- 
+    else if (this.cursors.down.isDown && this.cursors.right.isDown)
+    {
+      this.player.DiagonallyMoveRight(1,1);
+      if(this.player.isAttacking) this.player.play('attackDown',true);
+      else this.player.play('down',true);
+    }
+    else if (this.cursors.down.isDown && this.cursors.left.isDown)
+    {
+      this.player.DiagonallyMoveLeft(-1,1);
+      if(this.player.isAttacking) this.player.play('attackDown',true);
+      else this.player.play('down',true);
+    }
+    else if(this.cursors.right.isDown)
+    {
+       this.player.HorizontalMove(this.player.speedX);
+       if(this.player.isAttacking) this.player.play('attackRight',true);
+       else this.player.play('right',true);
+    }
+    else if(this.cursors.left.isDown)
+    {
+       this.player.HorizontalMove(-this.player.speedX);
+       if(this.player.isAttacking) this.player.play('attackLeft',true); 
+       else this.player.play('left',true);
+    }
+    else if (this.cursors.up.isDown) 
+    {
+       this.player.VerticalMove(-this.player.speedY);
+       if(this.player.isAttacking) this.player.play('attackUp',true);
+       else this.player.play('up',true);
+    } 
+    else if (this.cursors.down.isDown) 
+    {
+        this.player.VerticalMove(this.player.speedY);
+        if(this.player.isAttacking)this.player.play('attackDown',true); 
+        else this.player.play('down',true);
+    }
+    else
+    {
+      if(this.player.isAttacking && (this.player.AtkDirY>0 && (this.player.AtkDirX>0.90 && this.player.AtkDirX>-0.90)))this.player.play('attackRight',true); 
+      else if(this.player.isAttacking && this.player.AtkDirY<0)this.player.play('attackUp',true); 
+      else if(this.player.isAttacking && (this.player.AtkDirX<0 && (this.player.AtkDirY<0.90 && this.player.AtkDirY>-0.90))) this.player.play('attackLeft',true); 
+      else if(this.player.isAttacking && this.player.AtkDirY>0)this.player.play('attackDown',true); 
+      else this.player.play('idle',true); 
+    }
+
+    //Esperamos un pequeño tiempo y paramos la animacion del ataque fisico
+    if(this.player.isAttacking)this.player.atkTime++;
+    if(this.player.atkTime>13)
+    {
+      this.player.isAttacking=false;
+      this.player.atkTime=0;
+    }
+    
+    //Muerte del jugador
+    if(this.player.HP<=0)this.player.Spawn();
+     
+    //Muerte del enemigo
     if(this.enemies.HP<=0)this.enemies.destroy();
- }
-  
+ } 
 }

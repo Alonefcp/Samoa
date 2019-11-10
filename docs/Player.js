@@ -9,8 +9,6 @@ export default class Player extends Entity{
       scene.physics.add.existing(this);
       this.maxMana = 100;
       this.mana = this.maxMana;
-      this.dirX = 0;
-      this.dirY = 1;
       this.isAttacking = false;
       this.atkTime = 0;
       this.Spawnx = x;
@@ -58,110 +56,50 @@ export default class Player extends Entity{
                 console.log(this.HP);
                 this.poisonIntervals=0;
               }
-        } 
-        if (this.isAttacking){
-          if(this.atkTime>=25)
-          {
-            this.trigger.destroy();
-            this.atkTime=0;
-            this.isAttacking=false;
-          }
-          else this.atkTime++;
-        } 
+        }         
       }
 
-        MoveUp() 
+        DiagonallyMoveLeft(dirX,dirY)
         {
-          this.dirX = 0;
-          this.dirY = -1;
-          if(this.slowdown)
-          this.body.setVelocityY(-this.speedY * ( 1 - this.SpeedNerf));
-          else
-          this.body.setVelocityY(-this.speedY);
-        }
-        MoveUpRight(){
-          this.dirX = 1;
-          this.dirY = -1;
-          if(this.slowdown)
-          {this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
-          this.body.setVelocityX(Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
-          }
-            else
-          {
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
-            this.body.setVelocityX(Math.cos(this.dirX)*this.speedX);
-          }
-      }
-        MoveUpLeft(){
-          this.dirX = -1;
-          this.dirY = -1;
           if(this.slowdown)
           {
-          this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
-          this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
-          }
-           else
-         {
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
-            this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX);
-          }
-      }
-        MoveDown()
-        {
-          this.dirX = 0;
-          this.dirY = 1;
-          if(this.slowdown)
-          this.body.setVelocityY(this.speedY * (1 - this.SpeedNerf));
-          else
-          this.body.setVelocityY(this.speedY);
-        }
-        MoveDownRight(){
-          this.dirX = 1;
-          this.dirY = 1;
-          if(this.slowdown)
-          {
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
-            this.body.setVelocityX(Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
-          }
-            else
-          {
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
-            this.body.setVelocityX(Math.cos(this.dirX)*this.speedX);
-          }
-        }
-        MoveDownLeft(){
-          
-          this.dirX = -1;
-          this.dirY = 1;
-          if(this.slowdown)
-          {
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY * ( 1 - this.SpeedNerf));
-            this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX * ( 1 - this.SpeedNerf));
+            this.body.setVelocityY(Math.sin(dirY)*this.speedY * ( 1 - this.SpeedNerf));
+            this.body.setVelocityX(-Math.cos(dirX)*this.speedX * ( 1 - this.SpeedNerf));
           }
             else {
 
-            this.body.setVelocityY(Math.sin(this.dirY)*this.speedY);
-            this.body.setVelocityX(-Math.cos(this.dirX)*this.speedX);
+            this.body.setVelocityY(Math.sin(dirY)*this.speedY);
+            this.body.setVelocityX(-Math.cos(dirX)*this.speedX);
           }
-      }
-        MoveRight()
-        {
-          this.dirY = 0;
-          this.dirX = 1;
-          if(this.slowdown)
-          this.body.setVelocityX(this.speedX * (1 - this.SpeedNerf));
-          else
-          this.body.setVelocityX(this.speedX);
         }
 
-        MoveLeft()
+        DiagonallyMoveRight(dirX,dirY)
         {
-          this.dirX = -1;
-          this.dirY = 0;
           if(this.slowdown)
-          this.body.setVelocityX(-this.speedX * (1 - this.SpeedNerf));
+          {this.body.setVelocityY(Math.sin(dirY)*this.speedY * ( 1 - this.SpeedNerf));
+          this.body.setVelocityX(Math.cos(dirX)*this.speedX * ( 1 - this.SpeedNerf));
+          }
+            else
+          {
+            this.body.setVelocityY(Math.sin(dirY)*this.speedY);
+            this.body.setVelocityX(Math.cos(dirX)*this.speedX);
+          }
+        }
+
+        VerticalMove(speedY)
+        {
+          if(this.slowdown)
+          this.body.setVelocityY(speedY * (1 - this.SpeedNerf));
           else
-          this.body.setVelocityX(-this.speedX);
+          this.body.setVelocityY(speedY);
+        }
+
+        HorizontalMove(speedX)
+        {
+          if(this.slowdown)
+          this.body.setVelocityX(speedX * (1 - this.SpeedNerf));
+          else
+          this.body.setVelocityX(speedX);
         }
 
         Stop()
@@ -169,6 +107,7 @@ export default class Player extends Entity{
           this.body.setVelocityX(0);
           this.body.setVelocityY(0);
         }
+
         Attack()
         {
           this.AtkDirX=this.scene.pointer.worldX-this.body.center.x;
@@ -176,8 +115,8 @@ export default class Player extends Entity{
           this.module=Math.sqrt(Math.pow(this.AtkDirX,2)+Math.pow(this.AtkDirY,2));
           this.AtkDirX/=this.module;
           this.AtkDirY/=this.module;
-         // console.log(this.AtkDirX);
-         // console.log(this.AtkDirY);
+          //console.log('X: '+this.AtkDirX);
+         // console.log('Y:'+this.AtkDirY);
           this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+60*this.AtkDirY);
           this.trigger.setSize(64,64);  
           this.scene.physics.world.enable(this.trigger);
