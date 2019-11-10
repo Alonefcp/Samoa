@@ -6,24 +6,26 @@ export default class Fireball extends Magic{
         this.scene.physics.world.enable(this.trigger);
         this.trigger.body.setAllowGravity(false);
         this.trigger.body.moves = false;    
-        this.speedX=speed;
-        this.speedY=speed;
-    }
-      preload() 
-      { 
-      }
-    
-      create() 
-      {
-      }
+        this.dirX=this.x-this.scene.player.x;
+        this.dirY=this.y-this.scene.player.y;
+        this.module=Math.sqrt(Math.pow(this.dirX,2)+Math.pow(this.dirY,2));
+        this.dirX/=this.module;
+        this.dirY/=this.module;
+        this.speed=speed;
+        this.time=0;
+        }
     
       preUpdate(time, delta) 
       {    
         super.preUpdate(time,delta);
         this.Move();
+        this.time++;
+        if(this.time % 100 === 0)
+        this.destroy();
+
     }
     Move(){
-        this.body.setVelocityX(Math.cos(this.speedX));
-        this.body.setVelocityY(Math.sin(this.speedY));
+        this.body.setVelocityX(this.dirX*this.speed);
+        this.body.setVelocityY(this.dirY*this.speed);
     }
 }

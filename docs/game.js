@@ -20,7 +20,7 @@ export default class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('mapa_pruebas','Assets/mapa_pruebas.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
-    this.load.spritesheet('fireball','Assets/fireball_spritesheet.png',{frameWidth:512, frameHeight:512});
+    this.load.spritesheet('fireball','Assets/fireball_spritesheet32256.png',{frameWidth:32, frameHeight:32});
   }
 
   create() {

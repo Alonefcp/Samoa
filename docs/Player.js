@@ -11,6 +11,8 @@ export default class Player extends Entity{
       this.mana = this.maxMana;
       this.dirX = 0;
       this.dirY = 1;
+      this.isAttacking = false;
+      this.atkTime = 0;
       this.Spawnx = x;
       this.Spawny = y;
       this.SpeedNerf =.5;
@@ -26,15 +28,7 @@ export default class Player extends Entity{
       this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
     }
       
-      preload() 
-      { 
-        
-      }
-    
-      create() 
-      {
-        
-      }
+
     
       preUpdate(time, delta) 
       {    
@@ -64,7 +58,16 @@ export default class Player extends Entity{
                 console.log(this.HP);
                 this.poisonIntervals=0;
               }
-        }  
+        } 
+        if (this.isAttacking){
+          if(this.atkTime>=25)
+          {
+            this.trigger.destroy();
+            this.atkTime=0;
+            this.isAttacking=false;
+          }
+          else this.atkTime++;
+        } 
       }
 
         MoveUp() 
@@ -175,12 +178,8 @@ export default class Player extends Entity{
           this.AtkDirY/=this.module;
          // console.log(this.AtkDirX);
          // console.log(this.AtkDirY);
-          this.trigger = this.scene.add.zone(this.x + 20*this.AtkDirX, this.y+84*this.AtkDirY);
-          if(this.dirX != 0)
-            this.trigger.setSize(16,64);
-          else if(this.dirY != 0)
-            this.trigger.setSize(32,16);
-            
+          this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+42*this.AtkDirY);
+          this.trigger.setSize(64,64);  
           this.scene.physics.world.enable(this.trigger);
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;
@@ -218,9 +217,14 @@ export default class Player extends Entity{
         {
           switch(this.currentMagic){
             case 0:
-              console.log(this.x);
-              console.log(this.y);
-              this.fireball=new Fireball(this.scene,this.x,this.y,'fireball',5,5);
+              this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',5,50,100);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',5,50,100);
+              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',5,50,100);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',5,50,100);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,50,100);
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,50,100);
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,50,100);
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,50,100);
               break;
           }
         }
