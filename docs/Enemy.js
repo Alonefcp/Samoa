@@ -10,14 +10,7 @@ export default class Enemy extends Entity{
        
       }
       
-      preload() 
-      { 
-        
-      }
-    
-      create() 
-      {
-      }
+      
     
       preupdate(time, delta) 
       {    

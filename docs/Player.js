@@ -178,7 +178,7 @@ export default class Player extends Entity{
           this.AtkDirY/=this.module;
          // console.log(this.AtkDirX);
          // console.log(this.AtkDirY);
-          this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+42*this.AtkDirY);
+          this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+60*this.AtkDirY);
           this.trigger.setSize(64,64);  
           this.scene.physics.world.enable(this.trigger);
           this.trigger.body.setAllowGravity(false);
@@ -217,14 +217,14 @@ export default class Player extends Entity{
         {
           switch(this.currentMagic){
             case 0:
-              this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',5,50,100);
-              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',5,50,100);
-              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',5,50,100);
-              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',5,50,100);
-              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,50,100);
-              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,50,100);
-              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,50,100);
-              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,50,100);
+              this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',5,150);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',5,150);
+              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',5,150,);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',5,150);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,150);
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,150);
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
               break;
           }
         }

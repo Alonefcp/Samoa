@@ -11,12 +11,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
       
   }
   
-  preload() { 
-  }
-
-  create() {
-  }
-
+ 
   preupdate(time, delta) {    
   }
 
@@ -29,4 +24,5 @@ export default class Entity extends Phaser.GameObjects.Sprite {
   ResetHP(){
     this.HP=this.MaxHP;
   }
+  IsAlive(){return this.HP>0;}
 }

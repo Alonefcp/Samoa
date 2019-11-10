@@ -44,16 +44,14 @@ export default class Game extends Phaser.Scene {
     this.poison=new Trap(this,300,400,'acid',2);
     this.hole = new Trap(this,350,500,'hole',3);
     this.spikes = new Trap(this,600,500,'spikes',1);
-    this.meleeEnemy = new Enemy(this,100,200,'meleeEnemy');
-    this.meleeEnemy.body.setImmovable(true);
-    this.meleeEnemy.setDisplaySize(50,100);
+
     //this.meleeEnemy.body.setSize(45,95);
     this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
     this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
     this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
     //colision entre el enemigo y el jugador
-    this.physics.add.collider(this.player,this.meleeEnemy,this.player.PlayerGetDamage,null,this.player);
+    this.physics.add.collider(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player);
      
     this.anims.create({
       key:'melee',
@@ -107,12 +105,18 @@ export default class Game extends Phaser.Scene {
 
     this.anims.create({
       key:'fire',
-      frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 4 }),
+      frames: this.anims.generateFrameNumbers('fireball', { start:3, end: 7 }),
       frameRate: 10,
       repeat: -1
 
     });
-    
+    this.anims.create({
+      key:'explosion',
+      frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 2 }),
+      frameRate: 10,
+      repeat: 0
+
+    });    
     //input
     this.cursors = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -131,6 +135,9 @@ export default class Game extends Phaser.Scene {
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
     });
+    //grupos
+    this.enemies=this.physics.add.group();
+    this.enemies.create(new Enemy(this,100,200,'meleeEnemy'));
    
   }
 
@@ -138,18 +145,19 @@ export default class Game extends Phaser.Scene {
   {
      
     //comprbamos si el enemigo hace overlap con el trigger(ataque fisico) del jugador
-     if(this.physics.overlap(this.meleeEnemy,this.player.trigger) && !this.meleeEnemy.damaged)
+     if(this.physics.overlap(this.enemies,this.player.trigger) && !this.enemies.damaged)
      {
-       this.meleeEnemy.ReceiveDamage(this.player.atk);
+       this.enemies.ReceiveDamage(this.player.atk);
        console.log('Enemey: '+this.meleeEnemy.HP);
-       this.meleeEnemy.damaged = true;
-       if(this.meleeEnemy.damaged)
+       this.enemies.damaged = true;
+       if(this.enemies.damaged)
        {
          this.player.trigger.destroy();
-         this.meleeEnemy.damaged = false;
+         this.enemies.damaged = false;
        }
      }
-     else if(this.player.trigger != undefined && !this.meleeEnemy.damaged) this.player.trigger.destroy();
+     else if(this.player.trigger != undefined && !this.enemies.damaged) this.player.trigger.destroy();
+     
 
 
     //movemos el jugador y ejecutamos su animacion en funcion de la tecla que pulsemos
@@ -194,7 +202,7 @@ export default class Game extends Phaser.Scene {
     if(this.player.HP<=0)
      this.player.Spawn();
  
-    if(this.meleeEnemy.HP<=0)this.meleeEnemy.destroy();
+    if(this.enemies.HP<=0)this.enemies.destroy();
  }
   
 }
