@@ -6,8 +6,8 @@ export default class Player extends Entity{
     constructor(scene, x, y) {
       super(scene,x,y,'player');
 
-     
       scene.physics.add.existing(this);
+      
       this.maxMana = 100;
       this.mana = this.maxMana;
       this.isAttacking = false;
@@ -28,7 +28,6 @@ export default class Player extends Entity{
     }
       
 
-    
       preUpdate(time, delta) 
       {    
         
@@ -60,47 +59,17 @@ export default class Player extends Entity{
         }         
       }
 
-        DiagonallyMoveLeft(dirX,dirY)
+        Move(dirX,dirY)  
         {
           if(this.slowdown)
-          {
-            this.body.setVelocityY(Math.sin(dirY)*this.speedY * ( 1 - this.SpeedNerf));
-            this.body.setVelocityX(-Math.cos(dirX)*this.speedX * ( 1 - this.SpeedNerf));
+          {this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
+          this.body.setVelocityX(dirX*this.speedX * ( 1 - this.SpeedNerf));
           }
-            else {
-
-            this.body.setVelocityY(Math.sin(dirY)*this.speedY);
-            this.body.setVelocityX(-Math.cos(dirX)*this.speedX);
-          }
-        }
-
-        DiagonallyMoveRight(dirX,dirY)
-        {
-          if(this.slowdown)
-          {this.body.setVelocityY(Math.sin(dirY)*this.speedY * ( 1 - this.SpeedNerf));
-          this.body.setVelocityX(Math.cos(dirX)*this.speedX * ( 1 - this.SpeedNerf));
-          }
-            else
-          {
-            this.body.setVelocityY(Math.sin(dirY)*this.speedY);
-            this.body.setVelocityX(Math.cos(dirX)*this.speedX);
-          }
-        }
-
-        VerticalMove(speedY)
-        {
-          if(this.slowdown)
-          this.body.setVelocityY(speedY * (1 - this.SpeedNerf));
           else
-          this.body.setVelocityY(speedY);
-        }
-
-        HorizontalMove(speedX)
-        {
-          if(this.slowdown)
-          this.body.setVelocityX(speedX * (1 - this.SpeedNerf));
-          else
-          this.body.setVelocityX(speedX);
+          {
+            this.body.setVelocityY(dirY*this.speedY);
+            this.body.setVelocityX(dirX*this.speedX);
+          }
         }
 
         Stop()
