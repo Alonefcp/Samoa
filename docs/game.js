@@ -21,6 +21,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.spritesheet('fireball','Assets/fireball_spritesheet32256.png',{frameWidth:32, frameHeight:32});
+    this.load.spritesheet('waterray','Assets/Rayo32.png',{frameWidth:32,frameHeight:236});
   }
 
   create() {
@@ -130,6 +131,27 @@ export default class Game extends Phaser.Scene {
       key:'explosion',
       frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 2 }),
       frameRate: 10,
+      repeat: 0
+
+    });   
+    this.anims.create({
+      key:'waterStart',
+      frames: this.anims.generateFrameNumbers('waterray', { start:0, end: 2 }),
+      frameRate: 5,
+      repeat: 0
+
+    });
+    this.anims.create({
+      key:'water',
+      frames: this.anims.generateFrameNumbers('waterray', { start:3, end: 5 }),
+      frameRate: 5,
+      repeat: -1
+
+    }); 
+    this.anims.create({
+      key:'waterEnd',
+      frames: this.anims.generateFrameNumbers('waterray', { start:6, end: 8 }),
+      frameRate: 5,
       repeat: 0
 
     });    

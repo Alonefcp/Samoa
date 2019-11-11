@@ -3,7 +3,6 @@ import Enemy from './Enemy.js';
 export default class Fireball extends Magic{
     constructor(scene, x, y, sprite,damage,speed){
         super(scene,x,y,sprite,damage);
-       this.destroyed=false;
         this.trigger=this.scene.add.zone(this.x,this.y);
         this.scene.physics.world.enable(this.trigger);
         this.trigger.setSize(32,32);
@@ -16,16 +15,8 @@ export default class Fireball extends Magic{
         this.dirY/=this.module;
         this.speed=speed;
         this.time=0;
+        this.maxtime=66;
         this.scene.physics.add.overlap(this.scene.enemies,this,this.Harm);
-        this.on('animationcomplete',()=>{
-            
-            if(this.anims.getCurrentKey()==='explosion')
-            {
-                this.destroyed=true;
-                this.destroy();
-            
-            }
-        })
     }
              
     
@@ -35,11 +26,15 @@ export default class Fireball extends Magic{
             super.preUpdate(time,delta);
              this.Move();
               this.time++;
-             this.play('fire',true);
-            if(this.time % 66 === 0){
-                 this.play('explosion');
-        // this.destroy();
-        }
+             
+            if(this.time >= this.maxtime && this.time< this.maxtime + 30){
+                 this.play('explosion',true);
+                 this.body.setVelocityX(0);
+                 this.body.setVelocityY(0);
+            }
+            else if (this.time >= this.maxtime + 30)
+            this.destroy();
+            else this.play('fire',true);
     
 
     }
@@ -49,7 +44,8 @@ export default class Fireball extends Magic{
     }
     Harm(){
         this.scene.enemies.ReceiveDamage(this.damage);
-        // if(!this.enemies.IsAlive())
+        if(!this.enemies.IsAlive())
+        this.enemies.destroy();
         
         
     }

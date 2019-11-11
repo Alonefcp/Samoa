@@ -1,5 +1,6 @@
 import Entity from './Entity.js'; 
 import Fireball from './Fireball.js';
+import WaterRay from './WaterRay.js';
 export default class Player extends Entity{
     
     constructor(scene, x, y) {
@@ -23,7 +24,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 1; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
     }
       
 
@@ -110,13 +111,9 @@ export default class Player extends Entity{
 
         Attack()
         {
-          this.AtkDirX=this.scene.pointer.worldX-this.body.center.x;
-          this.AtkDirY=this.scene.pointer.worldY-this.body.center.y;
-          this.module=Math.sqrt(Math.pow(this.AtkDirX,2)+Math.pow(this.AtkDirY,2));
-          this.AtkDirX/=this.module;
-          this.AtkDirY/=this.module;
           //console.log('X: '+this.AtkDirX);
          // console.log('Y:'+this.AtkDirY);
+          this.CalcDir();
           this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+60*this.AtkDirY);
           this.trigger.setSize(64,64);  
           this.scene.physics.world.enable(this.trigger);
@@ -165,7 +162,18 @@ export default class Player extends Entity{
               this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
               this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
               break;
+              case 1:
+                this.CalcDir();
+                this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.AtkDirY/this.AtkDirX)+Math.PI/2);
+                break;
           }
+        }
+        CalcDir(){
+          this.AtkDirX=this.scene.pointer.worldX-this.x;
+          this.AtkDirY=this.scene.pointer.worldY-this.y;
+          this.module=Math.sqrt(Math.pow(this.AtkDirX,2)+Math.pow(this.AtkDirY,2));
+          this.AtkDirX/=this.module;
+          this.AtkDirY/=this.module;
         }
         
     }
