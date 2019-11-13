@@ -7,11 +7,8 @@ export default class Magic extends Phaser.GameObjects.Sprite{
         this.damage=damage;
         
     }
-    Harm(enemy,magic){
-        this.scene.enemies.kiillandHide(enemy);
-        magic.body.enable =false;
-       console.log(magic.damage);
-        enemy.getDamage(this.damage);
-        console.log(enemy.HP);
+    Harm(enemy){
+        enemy.ReceiveDamage(this.damage);
+        
     }
 }

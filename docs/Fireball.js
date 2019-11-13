@@ -1,5 +1,4 @@
 import Magic from './Magic.js'
-import Enemy from './Enemy.js';
 export default class Fireball extends Magic{
     constructor(scene, x, y, sprite,damage,speed){
         super(scene,x,y,sprite,damage);
@@ -11,7 +10,7 @@ export default class Fireball extends Magic{
         this.speed=speed;
         this.time=0;
         this.maxtime=66;
-        this.scene.physics.add.overlap(this.scene.enemies,this,this.Harm,null,this);
+        this.scene.physics.add.overlap(this.scene.enemies,this,this.OnOverlap,null,this);
         this.play('fire');
         this.on('animationcomplete',()=>{
             if(this.anims.getCurrentKey()==='explosion')
@@ -42,12 +41,11 @@ export default class Fireball extends Magic{
         this.body.setVelocityX(this.dirX*this.speed);
         this.body.setVelocityY(this.dirY*this.speed);
     }
-    Harm(fireball,enemy){
+    OnOverlap(fireball,enemy){
         this.Explode();
-        enemy.ReceiveDamage(this.damage);
-        //para que no haga daño mientras se reproduce la animación de explotar
+        this.Harm(enemy);
+        //así evito que dañe a los enemigos mientras se destruye
         this.damage=0;
-        console.log("enemyHP: "+enemy.HP);
         
               
     }

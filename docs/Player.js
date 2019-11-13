@@ -16,7 +16,8 @@ export default class Player extends Entity{
       this.Spawny = y;
       this.SpeedNerf =.5;
       this.speedX = 160;
-      this.speedY = 160;   
+      this.speedY = 160;  
+      this.canMove=true; 
       this.cont = 0; 
       this.SlowTime = 0;
       this.atkcont = 0;
@@ -24,7 +25,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 1; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
     }
       
 
@@ -61,15 +62,22 @@ export default class Player extends Entity{
 
         Move(dirX,dirY)  
         {
-          if(this.slowdown)
-          {this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
-          this.body.setVelocityX(dirX*this.speedX * ( 1 - this.SpeedNerf));
-          }
-          else
+          if(this.canMove)
           {
-            this.body.setVelocityY(dirY*this.speedY);
-            this.body.setVelocityX(dirX*this.speedX);
+            if(this.slowdown)
+              {
+                this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
+                this.body.setVelocityX(dirX*this.speedX * ( 1 - this.SpeedNerf));
+              }
+            else
+              {
+                this.body.setVelocityY(dirY*this.speedY);
+                this.body.setVelocityX(dirX*this.speedX);
+              }
           }
+          else {
+            this.Stop();
+               }
         }
 
         Stop()
@@ -133,16 +141,24 @@ export default class Player extends Entity{
               break;
               case 1:
                 this.CalcDir();
-                this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.AtkDirY/this.AtkDirX)+Math.PI/2);
+                if(this.nDX>0)
+                  this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
+                else
+                this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
+
+                this.canMove=false;
                 break;
           }
         }
         CalcDir(){
-          this.AtkDirX=this.scene.pointer.worldX-this.x;
-          this.AtkDirY=this.scene.pointer.worldY-this.y;
-          this.module=Math.sqrt(Math.pow(this.AtkDirX,2)+Math.pow(this.AtkDirY,2));
-          this.AtkDirX/=this.module;
-          this.AtkDirY/=this.module;
+          this.nDX=this.scene.pointer.worldX-this.x
+          this.nDY=this.scene.pointer.worldY-this.y;
+          this.module=Math.sqrt(Math.pow(this.nDX,2)+Math.pow(this.nDY,2));
+          this.AtkDirX=this.nDX/this.module;
+          this.AtkDirY=this.nDY/this.module;
+        }
+        setCanMove(value){
+          this.canMove=value;
         }
         
     }

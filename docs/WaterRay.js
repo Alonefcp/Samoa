@@ -5,27 +5,43 @@ export default class Fireball extends Magic{
 
         this.angle=angle;
         this.setOrigin(.5,1);
+        this.hasHit=false;
         this.setPosition(this.x+Math.cos(this.angle),this.y + Math.sin(this.angle));
         this.setRotation(this.angle);
         this.startTime=30;
         this.time=0;
         this.maxtime=50;
-        this.scene.physics.add.overlap(this.scene.enemies,this,this.Harm);
+        this.animPart=0;
+        this.scene.physics.add.overlap(this.scene.enemies,this,this.OnOverlap,null,this);
         this.play('waterStart',true);
+        this.on('animationcomplete',()=>{
+            this.key=this.anims.getCurrentKey();
+            if(this.key==='waterStart')
+                this.play('water',true);
+            else if(this.key==='water')
+                this.play('waterEnd');
+            else
+                {
+                    this.setActive(false);
+                    this.scene.player.setCanMove(true);
+                    
+            }
+            this.animPart++;
+        })
     }
     preUpdate(time, delta)
     {
-
           super.preUpdate(time,delta);
           this.time++;
+          if (this.animPart===1 && this.time >= this.maxtime)
+            {
+              this.anims.stop();
+            }
+          if(!this.active)
+            this.destroy();
 
-          if(this.time >= this.maxtime + this.startTime && this.time< this.maxtime + 30 + this.startTime){
-               this.play('waterEnd',true);
-
-          }
-          else if (this.time >= this.maxtime + 30 + this.startTime)
-          this.destroy();
-          else if (this.time >= this.startTime)this.play('water',true);
-
+    }
+    OnOverlap(waterray,enemy){
+       this.Harm(enemy);
     }
 }
