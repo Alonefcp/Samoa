@@ -25,6 +25,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+    //Tilemap de prueba
     this.map=this.make.tilemap({
       key:'mapa_pruebas',
       tileWidth:32,
@@ -33,27 +34,38 @@ export default class Game extends Phaser.Scene {
    this.webT= this.map.addTilesetImage('web','spiderWeb');
    this.acidT=this.map.addTilesetImage('acido','acid');
    this.holeT=this.map.addTilesetImage('hoyo','hole');
-  this.spikeT=this.map.addTilesetImage('pinchos','spikes');
-    this.trapslayer=this.map.createStaticLayer('prueba',[this.webT,this.acidT,this.holeT,this.spikeT]);
+   this.spikeT=this.map.addTilesetImage('pinchos','spikes');
+   this.trapslayer=this.map.createStaticLayer('prueba',[this.webT,this.acidT,this.holeT,this.spikeT]);
     // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
     // this.date=new Date();
+
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
-   //Ajustamos el collider
+    //Ajustamos el collider
     this.player.body.setSize(32,64);
+
+    //grupo de enemigos
+    this.enemies=this.physics.add.group();
+    this.enemies.add(new Enemy(this,100,200,'meleeEnemy'));
+    this.enemies.add(new Enemy(this,100,300,'meleeEnemy'));
+    this.enemies.add(new Enemy(this,200,300,'meleeEnemy'));
+    this.enemies.children.iterate(function(enemy){
+      enemy.body.setImmovable(true);
+    });
+    //Trampas del mapa
     this.web=new Trap(this,300,150,'spiderWeb',0);
     this.poison=new Trap(this,300,400,'acid',2);
     this.hole = new Trap(this,350,500,'hole',3);
     this.spikes = new Trap(this,600,500,'spikes',1);
 
-    //this.meleeEnemy.body.setSize(45,95);
+    //Overlap entre los obstaculos/trampas del mapa
     this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
     this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
     this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
-    //colision entre el enemigo y el jugador
-    this.physics.add.collider(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player);
-     
+    //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
+    this.physics.add.collider(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player); 
+
     this.anims.create({
       key:'melee',
       frames:this.anims.generateFrameNumbers('meleeEnemy',{start:82,end:89}),
@@ -174,27 +186,36 @@ export default class Game extends Phaser.Scene {
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
     });
-    //grupos
-    this.enemies=this.physics.add.group();
-    this.enemies.create(new Enemy(this,100,200,'meleeEnemy'));
   }
 
   update(time, delta) 
   { 
-    //comprbamos si el enemigo hace overlap con el trigger(ataque fisico) del jugador
-     if(this.physics.overlap(this.enemies,this.player.trigger) && !this.enemies.damaged)
-     {
-       this.enemies.ReceiveDamage(this.player.atk);
-       console.log('Enemey: '+this.meleeEnemy.HP);
-       this.enemies.damaged = true;
-       if(this.enemies.damaged)
-       {
-         this.player.trigger.destroy();
-         this.enemies.damaged = false;
-       }
-     }
-     else if(this.player.trigger != undefined && !this.enemies.damaged) this.player.trigger.destroy();
      
+    //Colisiones entre el trigger del jugdor y el enemigo(el jugador ataca fisicamente al enemigo)
+   if(this.player.trigger != undefined && !this.physics.overlap(this.enemies,this.player.trigger)) this.player.trigger.destroy();
+   else
+   {
+    this.enemies.getChildren().forEach(function(enemy){
+
+      if(this.physics.overlap(enemy,this.player.trigger))
+      {
+        enemy.ReceiveDamage(this.player.atk);
+        enemy.damaged = true;
+         //Eliminamos el trigger del jugador si shoca con un enemigo
+        if(enemy.damaged)
+        {
+          this.player.trigger.destroy();
+          enemy.damaged = false;
+        }
+        //Eliminamos al enemigo
+        if(enemy.HP<=0)
+        {
+          enemy.destroy();
+        } 
+      }
+     },this);
+   }
+
 
     //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
      this.player.Stop();
@@ -289,9 +310,6 @@ export default class Game extends Phaser.Scene {
     }
     
     //Muerte del jugador
-    if(this.player.HP<=0)this.player.Spawn();
-     
-    //Muerte del enemigo
-    if(this.enemies.HP<=0)this.enemies.destroy();
+    if(this.player.HP<=0)this.player.Spawn(); 
  } 
 }

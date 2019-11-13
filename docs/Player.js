@@ -106,7 +106,7 @@ export default class Player extends Entity{
          this.poison=true;
        }
         
-       PlayerGetDamage()
+       PlayerGetDamage(player,enemy)
        {
            this.cont+=2;
   
