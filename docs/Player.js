@@ -126,6 +126,9 @@ export default class Player extends Entity{
           }
         }
 
+
+        
+
         CastMagic()
         {
           switch(this.currentMagic){

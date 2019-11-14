@@ -1,6 +1,8 @@
 import Player from './Player.js';
 import Enemy from './Enemy.js';
 import Trap from './Trap.js';
+import DestructibleObject from './DestructibleObject.js';
+
 export default class Game extends Phaser.Scene {
   constructor() {
 
@@ -12,11 +14,14 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('meleeEnemy','Assets/star.png');
+    this.load.image('meleeEnemy','Assets/enemigo.png');
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
     this.load.image('hole','Assets/hoyo.jpg');
     this.load.image('spikes','Assets/pinchos.jpg');
+    this.load.image('chest','Assets/cofre.png');
+    this.load.image('coin','Assets/moneda.png');
+    this.load.image('mana','Assets/star.png');
     this.load.tilemapTiledJSON('mapa_pruebas','Assets/mapa_pruebas.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
@@ -39,10 +44,32 @@ export default class Game extends Phaser.Scene {
     // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
     // this.date=new Date();
 
+    //Trampas del mapa
+    this.web=new Trap(this,300,150,'spiderWeb',0);
+    this.poison=new Trap(this,300,400,'acid',2);
+    this.hole = new Trap(this,350,500,'hole',3);
+    this.spikes = new Trap(this,600,500,'spikes',1);
+
+    //grupo de objetos destructibles
+    this.destuctibleObjects = this.physics.add.group();
+    this.destuctibleObjects.add(new DestructibleObject(this,300,300,'chest'));
+    this.destuctibleObjects.add(new DestructibleObject(this,400,300,'chest'));
+    this.destuctibleObjects.add(new DestructibleObject(this,500,300,'chest'));
+    this.destuctibleObjects.add(new DestructibleObject(this,600,300,'chest'));
+    this.destuctibleObjects.children.iterate(function(object){
+      object.setScale(2);
+      object.body.setImmovable(true);
+    });
+
+   //Jugador
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
     //Ajustamos el collider
     this.player.body.setSize(32,64);
+
+    //Camara
+    this.cameras.main.startFollow(this.player);
+    //this.cameras.main.setViewport(0, 0, 900, 900);
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
@@ -50,19 +77,18 @@ export default class Game extends Phaser.Scene {
     this.enemies.add(new Enemy(this,100,300,'meleeEnemy'));
     this.enemies.add(new Enemy(this,200,300,'meleeEnemy'));
     this.enemies.children.iterate(function(enemy){
+      enemy.setScale(1.5);
       enemy.body.setImmovable(true);
     });
-    //Trampas del mapa
-    this.web=new Trap(this,300,150,'spiderWeb',0);
-    this.poison=new Trap(this,300,400,'acid',2);
-    this.hole = new Trap(this,350,500,'hole',3);
-    this.spikes = new Trap(this,600,500,'spikes',1);
-
+    
     //Overlap entre los obstaculos/trampas del mapa
     this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
     this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
     this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
     this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
+    //colision entre el jugador y entre los objetos destruibles(habra qu hacer que tambien colisionen con los enemigos)
+    this.physics.add.collider(this.player,this.destuctibleObjects);
+
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.collider(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player); 
 
@@ -191,31 +217,32 @@ export default class Game extends Phaser.Scene {
   update(time, delta) 
   { 
      
-    //Colisiones entre el trigger del jugdor y el enemigo(el jugador ataca fisicamente al enemigo)
-   if(this.player.trigger != undefined && !this.physics.overlap(this.enemies,this.player.trigger)) this.player.trigger.destroy();
-   else
+    //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
+    //objetos destructibles
+   if(this.physics.overlap(this.enemies,this.player.trigger))
    {
     this.enemies.getChildren().forEach(function(enemy){
 
       if(this.physics.overlap(enemy,this.player.trigger))
       {
-        enemy.ReceiveDamage(this.player.atk);
-        enemy.damaged = true;
-         //Eliminamos el trigger del jugador si shoca con un enemigo
-        if(enemy.damaged)
-        {
-          this.player.trigger.destroy();
-          enemy.damaged = false;
-        }
-        //Eliminamos al enemigo
-        if(enemy.HP<=0)
-        {
-          enemy.destroy();
-        } 
+        enemy.ReceiveDamage(this.player.atk);   
+        this.player.trigger.destroy();    
       }
      },this);
+   }  
+   else if(this.physics.overlap(this.destuctibleObjects,this.player.trigger))
+   {
+       this.destuctibleObjects.getChildren().forEach(function(object)
+      {
+       if(this.physics.overlap(object,this.player.trigger))
+       {
+         object.ReceiveDamage(50);
+         if(object.HP<=0) object.DropItem(this,object.x,object.y,'coin','mana');
+         this.player.trigger.destroy();
+       }   
+     },this);
    }
-
+   else if(this.player.trigger != undefined)this.player.trigger.destroy();
 
     //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
      this.player.Stop();
