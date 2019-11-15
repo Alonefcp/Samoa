@@ -7,7 +7,6 @@ export default class Game extends Phaser.Scene {
   constructor() {
 
     super({ key: 'main' });
-  //preguntar si son variables globales
     this.SlowTime = 100;
     this.PoisonedTime = 100;
     this.PoisonIntervals = 20;

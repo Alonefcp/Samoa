@@ -6,13 +6,19 @@ export default class Fireball extends Magic{
         this.angle=angle;
         this.setOrigin(.5,1);
         this.hasHit=false;
-        this.setPosition(this.x+Math.cos(this.angle),this.y + Math.sin(this.angle));
+        this.cos = Math.cos(this.angle);
+        this.sin = Math.sin(this.angle);
+        this.setPosition(this.x+this.cos,this.y +this.sin);
         this.setRotation(this.angle);
         this.startTime=30;
         this.time=0;
         this.maxtime=50;
         this.animPart=0;
-        this.scene.physics.add.overlap(this.scene.enemies,this,this.OnOverlap,null,this);
+        this.triggers=this.scene.physics.add.group();
+        this.z1=this.scene.add.zone(this.x+this.cos,this.y+this.sin,32,32);
+        this.z2=this.scene.add.zone(this.z1.x + 32,this.z1.y + 32,32,32);
+        this.triggers.add(this.z1);
+        this.scene.physics.add.overlap(this.scene.enemies,this.triggers,this.OnOverlap,null,this);
         this.play('waterStart',true);
         this.on('animationcomplete',()=>{
             this.key=this.anims.getCurrentKey();
@@ -21,7 +27,7 @@ export default class Fireball extends Magic{
             else if(this.key==='water')
                 this.play('waterEnd');
             else
-                {
+                {   this.triggers.clear(true,true);
                     this.setActive(false);
                     this.scene.player.setCanMove(true);
                     
