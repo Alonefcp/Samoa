@@ -10,7 +10,12 @@ export default class Wind extends Magic{
         this.speed=speed;
         this.play('wind');
         this.applyForce = true;
-        this.on('animationcomplete',()=>{          
+        this.on('animationcomplete',()=>{ 
+             
+            this.scene.enemies.getChildren().forEach(function(enemy){
+               enemy.ApplyForce(0,0);                          
+            },this);   
+
             this.destroy();
         });
     }
