@@ -26,6 +26,7 @@ export default class Game extends Phaser.Scene {
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.spritesheet('fireball','Assets/fireball_spritesheet32256.png',{frameWidth:32, frameHeight:32});
     this.load.spritesheet('waterray','Assets/Rayo32.png',{frameWidth:32,frameHeight:236});
+    this.load.spritesheet('wind','Assets/animV.png',{frameWidth:512,frameHeight:512});
   }
 
   create() {
@@ -63,8 +64,8 @@ export default class Game extends Phaser.Scene {
    //Jugador
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
-    //Ajustamos el collider
-    this.player.body.setSize(32,64);
+    this.player.body.setSize(32,64);//Ajustamos el collider
+    //this.player.body.setImmovable(true);
 
     //Camara
     this.cameras.main.startFollow(this.player);
@@ -191,7 +192,13 @@ export default class Game extends Phaser.Scene {
       frameRate: 5,
       repeat: 0
 
-    });    
+    });  
+    this.anims.create({
+      key:'wind',
+      frames: this.anims.generateFrameNumbers('wind',{start:0, end: 15}),
+      frameRate:15,
+      repeat:0
+    });  
     //input
     this.cursors = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,

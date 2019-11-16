@@ -1,6 +1,7 @@
 import Entity from './Entity.js'; 
 import Fireball from './Fireball.js';
 import WaterRay from './WaterRay.js';
+import Wind from './Wind.js';
 export default class Player extends Entity{
     
     constructor(scene, x, y) {
@@ -25,7 +26,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 1; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 2; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
     }
       
 
@@ -89,8 +90,6 @@ export default class Player extends Entity{
 
         Attack()
         {
-          //console.log('X: '+this.AtkDirX);
-         // console.log('Y:'+this.AtkDirY);
           this.CalcDir();
           this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+60*this.AtkDirY);
           this.trigger.setSize(64,64);  
@@ -145,9 +144,7 @@ export default class Player extends Entity{
                 if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
                 else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
  
-                console.log(this.scene.enemies.getChildren());
-               
-                
+                console.log(this.scene.enemies.getChildren());               
                   this.scene.enemies.getChildren().forEach(function(enemy){
 
                     if(this.AABB(enemy,this.water))
@@ -159,6 +156,15 @@ export default class Player extends Entity{
                     },this);
                    
                 this.canMove=false;
+                break;
+              case 2:
+                this.CalcDir();
+                this.wind = new Wind(this.scene,this.x-100,this.y,'wind',0,0);
+                this.wind.setScale(4.5);
+                this.wind.alpha = 0.3;     
+                         
+                this.wind.Push(this.scene.enemies,this.AtkDirX,this.AtkDirY);
+
                 break;
           }
         }

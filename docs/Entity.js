@@ -58,4 +58,11 @@ export default class Entity extends Phaser.GameObjects.Sprite {
   {
       this.item.destroy();
   }
+
+  ApplyForce(dirX,dirY)
+  {
+    this.body.setVelocityY(dirY*this.speedY);
+    this.body.setVelocityX(dirX*this.speedX);
+    console.log('fuerza aplicada');
+  }
 }

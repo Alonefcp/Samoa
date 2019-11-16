@@ -11,4 +11,11 @@ export default class Magic extends Phaser.GameObjects.Sprite{
         enemy.ReceiveDamage(this.damage);
         if(enemy.HP<=0)enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana');
     }
+
+    Push(enemies,dirX,dirY)
+    {
+      enemies.getChildren().forEach(function(enemy){
+       enemy.ApplyForce(dirX,dirY);
+      },this);      
+    }
 }
