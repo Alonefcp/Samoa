@@ -66,9 +66,11 @@ export default class Game extends Phaser.Scene {
     this.player.body.setCollideWorldBounds(true);
     this.player.body.setSize(32,64);//Ajustamos el collider
     //this.player.body.setImmovable(true);
-
+  
     //Camara
-    this.cameras.main.startFollow(this.player);
+    this.camera = this.cameras.main;
+    this.camera.startFollow(this.player);
+    //this.camera.setBounds(0, 0, 800, 1400);
     //this.cameras.main.setViewport(0, 0, 900, 900);
 
     //grupo de enemigos
@@ -217,6 +219,15 @@ export default class Game extends Phaser.Scene {
       }
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
+    });
+
+    this.input.on('wheel',pointer=>{
+
+      this.player.currentMagic+=(this.pointer.deltaY/100);
+      this.player.currentMagic = Phaser.Math.Clamp(this.player.currentMagic, 0, 2);
+      if(this.player.currentMagic>2)this.player.currentMagic=0;
+      console.log(this.player.currentMagic);
+      
     });
   }
 
