@@ -8,8 +8,9 @@ export default class Enemy extends Entity{
       }
       
     
-      preupdate(time, delta) 
-      {    
+      preUpdate(time, delta) 
+      {
+          
       }
     }
     

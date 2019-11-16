@@ -75,9 +75,10 @@ export default class Player extends Entity{
                 this.body.setVelocityX(dirX*this.speedX);
               }
           }
-          else {
+          else 
+          {
             this.Stop();
-               }
+          }
         }
 
         Stop()
@@ -126,9 +127,6 @@ export default class Player extends Entity{
           }
         }
 
-
-        
-
         CastMagic()
         {
           switch(this.currentMagic){
@@ -144,11 +142,22 @@ export default class Player extends Entity{
               break;
               case 1:
                 this.CalcDir();
-                if(this.nDX>0)
-                  this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
-                else
-                this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
+                if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
+                else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
+ 
+                console.log(this.scene.enemies.getChildren());
+               
+                
+                  this.scene.enemies.getChildren().forEach(function(enemy){
 
+                    if(this.AABB(enemy,this.water))
+                    {
+                       enemy.ReceiveDamage(this.water.damage);  
+                       if(enemy.HP<=0) enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana');               
+                    }             
+                     
+                    },this);
+                   
                 this.canMove=false;
                 break;
           }

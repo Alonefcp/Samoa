@@ -220,11 +220,13 @@ export default class Game extends Phaser.Scene {
     //objetos destructibles
    if(this.physics.overlap(this.enemies,this.player.trigger))
    {
+    
     this.enemies.getChildren().forEach(function(enemy){
 
       if(this.physics.overlap(enemy,this.player.trigger))
       {
-        enemy.ReceiveDamage(this.player.atk);   
+        enemy.ReceiveDamage(this.player.atk);
+        if(enemy.HP<=0) enemy.DropItem(this,enemy.x,enemy.y,'coin','mana');   
         this.player.trigger.destroy();    
       }
      },this);
