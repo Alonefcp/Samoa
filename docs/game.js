@@ -177,21 +177,21 @@ export default class Game extends Phaser.Scene {
     this.anims.create({
       key:'waterStart',
       frames: this.anims.generateFrameNumbers('waterray', { start:0, end: 2 }),
-      frameRate: 5,
+      frameRate: 10,
       repeat: 0
 
     });
     this.anims.create({
       key:'water',
       frames: this.anims.generateFrameNumbers('waterray', { start:3, end: 5 }),
-      frameRate: 5,
+      frameRate: 10,
       repeat: -1
 
     }); 
     this.anims.create({
       key:'waterEnd',
       frames: this.anims.generateFrameNumbers('waterray', { start:6, end: 8 }),
-      frameRate: 5,
+      frameRate: 10,
       repeat: 0
 
     });  

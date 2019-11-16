@@ -32,15 +32,14 @@ export default class Entity extends Phaser.GameObjects.Sprite {
   {
     this.bounds1 = sprite1.getBounds();
     this.bounds2 = sprite2.getBounds();
-
-    if(this.bounds1.x<this.bounds2.x+this.bounds2.width &&
-      this.bounds1.x+this.bounds1.width>this.bounds2.x &&
-      this.bounds1.y<this.bounds1.y+this.bounds2.height &&
-      this.bounds1.y + this.bounds1.height>this.bounds2.y)
-      {
-        return true;
-      }
+    this.rect1 = new Phaser.Geom.Rectangle(this.bounds1.x, this.bounds1.y, this.bounds1.width, this.bounds1.height);
+    this.rect2 = new Phaser.Geom.Rectangle(this.bounds2.x, this.bounds2.y, this.bounds2.width, this.bounds2.height);
    
+    if(Phaser.Geom.Rectangle.Overlaps(this.rect1, this.rect2))
+    {
+      console.log('dado');
+      return true; 
+    }
   }
 
   DropItem(scene,x,y,img1,img2)

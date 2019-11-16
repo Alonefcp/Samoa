@@ -144,13 +144,13 @@ export default class Player extends Entity{
                 if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
                 else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
  
-                console.log(this.scene.enemies.getChildren());               
+                //console.log(this.scene.enemies.getChildren());               
                   this.scene.enemies.getChildren().forEach(function(enemy){
-
-                    if(this.AABB(enemy,this.water))
+                    
+                    if(this.AABB(this.water,enemy))
                     {
-                       enemy.ReceiveDamage(this.water.damage);  
-                       if(enemy.HP<=0) enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana');               
+                      enemy.ReceiveDamage(this.water.damage);  
+                      if(enemy.HP<=0) enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana');               
                     }             
                      
                     },this);
