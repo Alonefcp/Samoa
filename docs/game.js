@@ -41,20 +41,15 @@ export default class Game extends Phaser.Scene {
       tileHeight:32
     });
    this.tiles= this.map.addTilesetImage('dungeons','tileset');
-  //  this.acidT=this.map.addTilesetImage('acido','acid');
-  //  this.holeT=this.map.addTilesetImage('hoyo','hole');
-  //  this.spikeT=this.map.addTilesetImage('pinchos','spikes');
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
-   // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
+   
    //Jugador
    this.player = new Player(this, 100, 100);
-   this.player.body.setCollideWorldBounds(true);
-   this.player.body.setSize(32,64);//Ajustamos el collider
+   //this.player.body.setCollideWorldBounds(true);
+   this.player.body.setSize(16,32);//Ajustamos el collider
+   this.player.setScale(0.5);
    this.physics.add.collider(this.player,this.paredes); 
-     
-   
-    // this.date=new Date();
 
     //Trampas del mapa
     this.traps=this.physics.add.group();
@@ -62,6 +57,9 @@ export default class Game extends Phaser.Scene {
     this.traps.add(new Trap(this,300,400,'acid',2));
     this.traps.add(new Trap(this,350,500,'hole',3));
     this.traps.add(new Trap(this,600,500,'spikes',1));
+    this.traps.children.iterate(function(trap){
+      trap.setScale(0.5);
+    });
     this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
     
     //grupo de objetos destructibles
@@ -71,15 +69,16 @@ export default class Game extends Phaser.Scene {
     this.destuctibleObjects.add(new DestructibleObject(this,500,300,'chest'));
     this.destuctibleObjects.add(new DestructibleObject(this,600,300,'chest'));
     this.destuctibleObjects.children.iterate(function(object){
-      object.setScale(2);
+      object.setScale(0.8);
       object.body.setImmovable(true);
     });
 
     //Camara
     this.camera = this.cameras.main;
     this.camera.startFollow(this.player);
+    this.camera.setZoom(2);
     //this.camera.setBounds(0, 0, 800, 1400);
-    //this.cameras.main.setViewport(0, 0, 900, 900);
+    //this.camera.setViewport(0, 0, 900, 900);
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
@@ -87,7 +86,7 @@ export default class Game extends Phaser.Scene {
     this.enemies.add(new Enemy(this,100,300,'meleeEnemy',15));
     this.enemies.add(new Enemy(this,200,300,'meleeEnemy',20));
     this.enemies.children.iterate(function(enemy){
-      enemy.setScale(1.5);
+      enemy.setScale(0.7);
     });
     
     
