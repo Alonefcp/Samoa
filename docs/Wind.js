@@ -11,9 +11,9 @@ export default class Wind extends Magic{
         this.play('wind');
         this.applyForce = true;
         this.on('animationcomplete',()=>{ 
-             
-            this.scene.enemies.getChildren().forEach(function(enemy){
-               enemy.ApplyForce(0,0);                          
+             //tras acabar la animacion dejamos de aplicar el empuje a los enemigos
+            this.scene.enemies.getChildren().forEach(function(enemy){  
+               enemy.windForce= false;                       
             },this);   
 
             this.destroy();

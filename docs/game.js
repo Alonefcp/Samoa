@@ -65,7 +65,7 @@ export default class Game extends Phaser.Scene {
     this.player = new Player(this, 100, 100);
     this.player.body.setCollideWorldBounds(true);
     this.player.body.setSize(32,64);//Ajustamos el collider
-    //this.player.body.setImmovable(true);
+    this.player.body.setImmovable(true);
   
     //Camara
     this.camera = this.cameras.main;
@@ -75,12 +75,11 @@ export default class Game extends Phaser.Scene {
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
-    this.enemies.add(new Enemy(this,100,200,'meleeEnemy'));
+    this.enemies.add(new Enemy(this,100,500,'meleeEnemy'));
     this.enemies.add(new Enemy(this,100,300,'meleeEnemy'));
     this.enemies.add(new Enemy(this,200,300,'meleeEnemy'));
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(1.5);
-      enemy.body.setImmovable(true);
     });
     
     //Overlap entre los obstaculos/trampas del mapa
@@ -92,7 +91,7 @@ export default class Game extends Phaser.Scene {
     this.physics.add.collider(this.player,this.destuctibleObjects);
 
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
-    this.physics.add.collider(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player); 
+    this.physics.add.overlap(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player); 
 
     this.anims.create({
       key:'melee',
@@ -233,18 +232,22 @@ export default class Game extends Phaser.Scene {
 
   update(time, delta) 
   { 
-     
-    //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
-    //objetos destructibles
-   if(this.physics.overlap(this.enemies,this.player.trigger))
-   {
+   
     
+         //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
+         //objetos destructibles
+    if(this.physics.overlap(this.enemies,this.player.trigger))
+   { 
     this.enemies.getChildren().forEach(function(enemy){
 
       if(this.physics.overlap(enemy,this.player.trigger))
       {
         enemy.ReceiveDamage(this.player.atk);
-        if(enemy.HP<=0) enemy.DropItem(this,enemy.x,enemy.y,'coin','mana');   
+        if(enemy.HP<=0)
+        {
+          enemy.DropItem(this,enemy.x,enemy.y,'coin','mana');
+          enemy.destroy();
+        }   
         this.player.trigger.destroy();    
       }
      },this);
@@ -256,7 +259,11 @@ export default class Game extends Phaser.Scene {
        if(this.physics.overlap(object,this.player.trigger))
        {
          object.ReceiveDamage(50);
-         if(object.HP<=0) object.DropItem(this,object.x,object.y,'coin','mana');
+         if(object.HP<=0) 
+         {
+           object.destroy();
+           object.DropItem(this,object.x,object.y,'coin','mana');
+         }
          this.player.trigger.destroy();
        }   
      },this);
@@ -264,8 +271,6 @@ export default class Game extends Phaser.Scene {
    else if(this.player.trigger != undefined)this.player.trigger.destroy();
 
     //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
-     this.player.Stop();
-
     if (this.cursors.up.isDown && this.cursors.right.isDown)
     {
       this.player.Move(Math.cos(1),Math.sin(-1)); 
@@ -340,6 +345,7 @@ export default class Game extends Phaser.Scene {
     }
     else
     {
+      this.player.Stop();
       if(this.player.isAttacking && (this.player.AtkDirY>0 && (this.player.AtkDirX>0.90 && this.player.AtkDirX>-0.90)))this.player.play('attackRight',true); 
       else if(this.player.isAttacking && this.player.AtkDirY<0)this.player.play('attackUp',true); 
       else if(this.player.isAttacking && (this.player.AtkDirX<0 && (this.player.AtkDirY<0.90 && this.player.AtkDirY>-0.90))) this.player.play('attackLeft',true); 
@@ -355,7 +361,10 @@ export default class Game extends Phaser.Scene {
       this.player.atkTime=0;
     }
     
-    //Muerte del jugador
-    if(this.player.HP<=0)this.player.Spawn(); 
+    
+    if(this.player.HP<=0)this.player.Spawn(); //Muerte del jugador
+    
+    
+   
  } 
 }

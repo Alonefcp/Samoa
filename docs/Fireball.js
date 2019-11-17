@@ -10,6 +10,7 @@ export default class Fireball extends Magic{
         this.speed=speed;
         this.time=0;
         this.maxtime=66;
+        //overlap entre la bola de fuego y los enemigos
         this.scene.physics.add.overlap(this.scene.enemies,this,this.OnOverlap,null,this);
         this.play('fire');
         this.on('animationcomplete',()=>{

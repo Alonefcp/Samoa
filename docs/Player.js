@@ -121,7 +121,7 @@ export default class Player extends Entity{
           if(this.cont >= 50)
           {
             this.ReceiveDamage(10);
-            console.log(this.HP);
+            console.log('Player hp :'+ this.HP);
             this.cont=0;
           }
         }
@@ -143,14 +143,18 @@ export default class Player extends Entity{
                 this.CalcDir();
                 if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
                 else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
- 
-                //console.log(this.scene.enemies.getChildren());               
+                
+                //colision entre el rayo y los enemigos
                   this.scene.enemies.getChildren().forEach(function(enemy){
                     
                     if(this.AABB(this.water,enemy))
                     {
                       enemy.ReceiveDamage(this.water.damage);  
-                      if(enemy.HP<=0) enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana');               
+                      if(enemy.HP<=0)
+                      {
+                        enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana'); 
+                        enemy.destroy();
+                      }               
                     }             
                      
                     },this);
@@ -161,10 +165,12 @@ export default class Player extends Entity{
                 this.CalcDir();
                 this.wind = new Wind(this.scene,this.x-100,this.y,'wind',0,0);
                 this.wind.setScale(4.5);
-                this.wind.alpha = 0.3;     
-                         
-                this.wind.Push(this.scene.enemies,this.AtkDirX,this.AtkDirY);
-
+                this.wind.alpha = 0.3; 
+                //hacemos que a los enemigos les afecte la magia de viento    
+                this.scene.enemies.getChildren().forEach(function(enemy){                     
+                  enemy.windForce = true;                       
+               },this);
+                
                 break;
           }
         }

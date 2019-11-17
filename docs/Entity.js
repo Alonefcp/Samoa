@@ -17,17 +17,14 @@ export default class Entity extends Phaser.GameObjects.Sprite {
 
   ReceiveDamage(damage)
   {
-      if(this.HP-damage >0)
-     this.HP=this.HP-damage;
-     else this.HP=0; 
-     if(this.HP<=0)
-     this.destroy(); 
+    if(this.HP-damage >0)this.HP=this.HP-damage;
+    else this.HP=0; 
   }
   ResetHP(){
     this.HP=this.MaxHP;
   }
   
-
+//Comprueba si dos objetos se superponen
   AABB(sprite1,sprite2)
   {
     this.bounds1 = sprite1.getBounds();
@@ -37,7 +34,6 @@ export default class Entity extends Phaser.GameObjects.Sprite {
    
     if(Phaser.Geom.Rectangle.Overlaps(this.rect1, this.rect2))
     {
-      console.log('dado');
       return true; 
     }
   }
