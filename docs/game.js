@@ -42,14 +42,22 @@ export default class Game extends Phaser.Scene {
    this.spikeT=this.map.addTilesetImage('pinchos','spikes');
    this.trapslayer=this.map.createStaticLayer('prueba',[this.webT,this.acidT,this.holeT,this.spikeT]);
     // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
+    //Jugador
+     this.player = new Player(this, 100, 100);
+     this.player.body.setCollideWorldBounds(true);
+     this.player.body.setSize(32,64);//Ajustamos el collider
+     this.player.body.setImmovable(true);
+   
     // this.date=new Date();
 
     //Trampas del mapa
-    this.web=new Trap(this,300,150,'spiderWeb',0);
-    this.poison=new Trap(this,300,400,'acid',2);
-    this.hole = new Trap(this,350,500,'hole',3);
-    this.spikes = new Trap(this,600,500,'spikes',1);
-
+    this.traps=this.physics.add.group();
+    this.traps.add(new Trap(this,300,150,'spiderWeb',0));
+    this.traps.add(new Trap(this,300,400,'acid',2));
+    this.traps.add(new Trap(this,350,500,'hole',3));
+    this.traps.add(new Trap(this,600,500,'spikes',1));
+    this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
+    
     //grupo de objetos destructibles
     this.destuctibleObjects = this.physics.add.group();
     this.destuctibleObjects.add(new DestructibleObject(this,300,300,'chest'));
@@ -61,12 +69,6 @@ export default class Game extends Phaser.Scene {
       object.body.setImmovable(true);
     });
 
-   //Jugador
-    this.player = new Player(this, 100, 100);
-    this.player.body.setCollideWorldBounds(true);
-    this.player.body.setSize(32,64);//Ajustamos el collider
-    this.player.body.setImmovable(true);
-  
     //Camara
     this.camera = this.cameras.main;
     this.camera.startFollow(this.player);
@@ -75,23 +77,20 @@ export default class Game extends Phaser.Scene {
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
-    this.enemies.add(new Enemy(this,100,500,'meleeEnemy'));
-    this.enemies.add(new Enemy(this,100,300,'meleeEnemy'));
-    this.enemies.add(new Enemy(this,200,300,'meleeEnemy'));
+    this.enemies.add(new Enemy(this,100,500,'meleeEnemy',10));
+    this.enemies.add(new Enemy(this,100,300,'meleeEnemy',15));
+    this.enemies.add(new Enemy(this,200,300,'meleeEnemy',20));
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(1.5);
     });
     
-    //Overlap entre los obstaculos/trampas del mapa
-    this.physics.add.overlap(this.player,this.web,this.web.ApplyEffect,null,this.web);
-    this.physics.add.overlap(this.player,this.poison,this.poison.ApplyEffect,null,this.poison);
-    this.physics.add.overlap(this.player,this.hole,this.hole.ApplyEffect,null,this.hole);
-    this.physics.add.overlap(this.player,this.spikes,this.spikes.ApplyEffect,null,this.spikes);
-    //colision entre el jugador y entre los objetos destruibles(habra qu hacer que tambien colisionen con los enemigos)
+    
+        //colision entre el jugador y entre los objetos destruibles(habra qu hacer que tambien colisionen con los enemigos)
+    this.physics.add.collider(this.enemies,this.destuctibleObjects);
     this.physics.add.collider(this.player,this.destuctibleObjects);
 
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
-    this.physics.add.overlap(this.player,this.enemies,this.player.PlayerGetDamage,null,this.player); 
+    this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
 
     this.anims.create({
       key:'melee',
@@ -234,6 +233,7 @@ export default class Game extends Phaser.Scene {
   { 
    
     
+    
          //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
          //objetos destructibles
     if(this.physics.overlap(this.enemies,this.player.trigger))
@@ -243,6 +243,7 @@ export default class Game extends Phaser.Scene {
       if(this.physics.overlap(enemy,this.player.trigger))
       {
         enemy.ReceiveDamage(this.player.atk);
+        
         if(enemy.HP<=0)
         {
           enemy.DropItem(this,enemy.x,enemy.y,'coin','mana');
@@ -367,4 +368,20 @@ export default class Game extends Phaser.Scene {
     
    
  } 
+ OnTrapOverlap(player,trap){
+
+  trap.ApplyEffect(player);
+
+}
+EnemyHitsPlayer(player,enemy){
+  player.ReceiveDamage(enemy.atk);
+  console.log(player.HP);
+  let dirX=player.x-enemy.x;
+  let dirY=player.y-enemy.y;
+  let module=Math.sqrt(Math.pow(dirX,2)+Math.pow(dirY,2));
+  dirX/=module;
+  dirY/=module;
+  player.setThrust(dirX,dirY);
+  
+}
 }

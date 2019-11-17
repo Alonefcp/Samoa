@@ -22,6 +22,10 @@ export default class Player extends Entity{
       this.cont = 0; 
       this.SlowTime = 0;
       this.atkcont = 0;
+      this.thrust=false;
+      this.thrustX=0;
+      this.thrustY=0;
+      this.thrustCont=0;
       this.poisonedTime = 0;
       this.poisonIntervals = 0;
       this.slowdown = false;
@@ -34,6 +38,16 @@ export default class Player extends Entity{
       {    
         
         super.preUpdate(time,delta);
+       if(this.thrust){
+         this.thrustCont++;
+         this.ApplyForce(this.thrustX,this.thrustY);
+         if(this.thrustCont>=25)
+          {
+            this.thrust=false;
+            this.thrustCont=0;
+          }
+       }
+       
         if(this.slowdown===true){
     
           this.SlowTime += 1;
@@ -63,8 +77,10 @@ export default class Player extends Entity{
 
         Move(dirX,dirY)  
         {
+          
           if(this.canMove)
           {
+            
             if(this.slowdown)
               {
                 this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
@@ -183,6 +199,11 @@ export default class Player extends Entity{
         }
         setCanMove(value){
           this.canMove=value;
+        }
+        setThrust(ntX,ntY){
+          this.thrust=true;
+          this.thrustX=ntX;
+          this.thrustY=ntY;
         }
         
     }

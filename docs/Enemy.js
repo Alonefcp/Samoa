@@ -1,10 +1,11 @@
 import Entity from './Entity.js'; 
 export default class Enemy extends Entity{
     
-    constructor(scene, x, y,img) {
+    constructor(scene, x, y,img,damage) {
       super(scene,x,y,img);
       scene.physics.add.existing(this);
       this.windForce=false;
+      this.atk=damage;
       }
       
     

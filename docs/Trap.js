@@ -10,16 +10,15 @@ export default class Trap extends Phaser.GameObjects.Sprite{
         this.Slowtime=100;
       
     }
-    ApplyEffect()
+    ApplyEffect(player)
     {
-       //preguntar cómo meterlo con colisiones en vez de buscar al player en la escena
         if (this.type === 0)
-           this.scene.player.SlowDown();
+           player.SlowDown();
         else if (this.type === 2)
-            this.scene.player.Poison();
+           player.Poison();
         else if(this.type === 1)
-          this.scene.player.PlayerGetDamage();         
+          player.PlayerGetDamage();         
         else if(this.type === 3)
-          this.scene.player.Spawn();
+          player.Spawn();
     }
 }
