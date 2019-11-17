@@ -15,6 +15,19 @@ export default class WaterRay extends Magic{
         this.maxtime=50;
         this.animPart=0;
         this.play('waterStart',true);
+        this.scene.enemies.getChildren().forEach(function(enemy){
+                    
+          if(this.AABB(this,enemy))
+          {
+            enemy.ReceiveDamage(this.damage);  
+            if(enemy.HP<=0)
+            {
+              enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana'); 
+              enemy.destroy();
+            }               
+          }             
+           
+          },this);
         this.on('animationcomplete',()=>{
             this.key=this.anims.getCurrentKey();
             if(this.key==='waterStart')
@@ -45,4 +58,13 @@ export default class WaterRay extends Magic{
     OnOverlap(waterray,enemy){
        this.Harm(enemy);
     }
+    AABB(sprite1,sprite2)
+  {
+    this.bounds1 = sprite1.getBounds();
+    this.bounds2 = sprite2.getBounds();
+    this.rect1 = new Phaser.Geom.Rectangle(this.bounds1.x, this.bounds1.y, this.bounds1.width, this.bounds1.height);
+    this.rect2 = new Phaser.Geom.Rectangle(this.bounds2.x, this.bounds2.y, this.bounds2.width, this.bounds2.height);
+    return Phaser.Geom.Rectangle.Overlaps(this.rect1, this.rect2); 
+    
+  }
 }

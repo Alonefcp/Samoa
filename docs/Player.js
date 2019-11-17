@@ -8,9 +8,15 @@ export default class Player extends Entity{
       super(scene,x,y,'player');
 
       scene.physics.add.existing(this);
-      
+      this.coins=0;
       this.maxMana = 100;
       this.mana = this.maxMana;
+      this.fireballCost=5;
+      this.waterrayCost=5;
+      this.windcost=5;
+      this.fireballDamage=5;
+      this.waterRayDamage=5;
+      this.fireballSpeed=150;
       this.isAttacking = false;
       this.atkTime = 0;
       this.Spawnx = x;
@@ -146,46 +152,41 @@ export default class Player extends Entity{
         {
           switch(this.currentMagic){
             case 0:
-              this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',5,150);
-              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',5,150);
-              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',5,150,);
-              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',5,150);
-              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,150);
-              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',5,150);
-              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
-              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',5,150);
-              break;
+              if(this.mana-this.fireballCost>=0)
+              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
+              this.mana-=this.fireballCost;  
+            }
+            
+            break;
               case 1:
-                this.CalcDir();
-                if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.nDY/this.nDX) + Math.PI/2);
-                else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.nDY/this.nDX) - Math.PI/2);
-                
-                //colision entre el rayo y los enemigos
-                  this.scene.enemies.getChildren().forEach(function(enemy){
-                    
-                    if(this.AABB(this.water,enemy))
-                    {
-                      enemy.ReceiveDamage(this.water.damage);  
-                      if(enemy.HP<=0)
-                      {
-                        enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana'); 
-                        enemy.destroy();
-                      }               
-                    }             
-                     
-                    },this);
-                   
-                this.canMove=false;
-                break;
+                if(this.mana - this.waterrayCost>=0)
+                {
+                  this.CalcDir();
+                  if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',this.waterRayDamage,Math.atan(this.nDY/this.nDX) + Math.PI/2);
+                  else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',this.waterRayDamage,Math.atan(this.nDY/this.nDX) - Math.PI/2);
+                  this.canMove=false;
+                  this.mana-=this.waterrayCost;
+                }break;
               case 2:
+                if(this.mana - this.windcost>=0)
+                {
                 this.CalcDir();
-                this.wind = new Wind(this.scene,this.x-100,this.y,'wind',0,0);
+                this.wind = new Wind(this.scene,this.x-100,this.y,'wind');
                 this.wind.setScale(4.5);
                 this.wind.alpha = 0.3; 
                 //hacemos que a los enemigos les afecte la magia de viento    
                 this.scene.enemies.getChildren().forEach(function(enemy){                     
                   enemy.windForce = true;                       
                },this);
+                this.mana-=this.windcost;
+              }
                 
                 break;
           }
@@ -205,7 +206,20 @@ export default class Player extends Entity{
           this.thrustX=ntX;
           this.thrustY=ntY;
         }
-        RotateMagic(){this.currentMagic=(this.currentMagic+1)%3;}
+        RotateMagic(){
+          this.currentMagic=(this.currentMagic+1)%3;
+        }
+        RecoverMana(mana){
+          if(mana > 0)
+          if(this.mana+mana<this.maxMana)
+          this.mana+=mana;
+          else this.mana=this.maxMana;
+        }
+        GetCoins(coins){
+          if(coins > 0)
+          this.coins+=coins;
+        }
+
         
     }
     

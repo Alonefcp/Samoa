@@ -1,4 +1,5 @@
 import Player from './Player.js';
+import Item from './Item.js';
 import Enemy from './Enemy.js';
 import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
@@ -10,6 +11,8 @@ export default class Game extends Phaser.Scene {
     this.SlowTime = 100;
     this.PoisonedTime = 100;
     this.PoisonIntervals = 20;
+    this.manaRecovery=5;
+    this.coinsDropped=5;
   }
 
   preload() {
@@ -42,7 +45,7 @@ export default class Game extends Phaser.Scene {
   //  this.holeT=this.map.addTilesetImage('hoyo','hole');
   //  this.spikeT=this.map.addTilesetImage('pinchos','spikes');
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
-   this.paredes=this.map.createStaticLayer('Paredes',this.tiles);
+   this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
    // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
    //Jugador
    this.player = new Player(this, 100, 100);
@@ -247,7 +250,7 @@ export default class Game extends Phaser.Scene {
         
         if(enemy.HP<=0)
         {
-          enemy.DropItem(this,enemy.x,enemy.y,'coin','mana');
+          enemy.DropItem();
           enemy.destroy();
         }   
         this.player.trigger.destroy();    
@@ -263,8 +266,8 @@ export default class Game extends Phaser.Scene {
          object.ReceiveDamage(50);
          if(object.HP<=0) 
          {
+           object.DropItem();
            object.destroy();
-           object.DropItem(this,object.x,object.y,'coin','mana');
          }
          this.player.trigger.destroy();
        }   
@@ -385,4 +388,13 @@ EnemyHitsPlayer(player,enemy){
   player.setThrust(dirX,dirY);
   
 }
+GenerateItem(item,x,y)
+    {
+     if (item===0)
+     this.item=new Item(this,x,y,'mana',0,this.manaRecovery);
+     else 
+     this.item=new Item(this,x,y,'coin',1,this.coinsDropped);
+    }
+
+
 }
