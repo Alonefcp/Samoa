@@ -1,5 +1,5 @@
 import Magic from './Magic.js'
-export default class Fireball extends Magic{
+export default class WaterRay extends Magic{
     constructor(scene, x, y, sprite,damage,angle){
         super(scene,x,y,sprite,damage);
 

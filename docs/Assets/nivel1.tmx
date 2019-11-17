@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="5" nextobjectid="1">
  <tileset firstgid="1" name="dungeons" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
-  <image source="Programas/GitHub/Samoa/docs/Assets/Dungeons.png" width="512" height="512"/>
+  <image source="Dungeons.png" width="512" height="512"/>
  </tileset>
  <layer id="2" name="Suelo" width="80" height="40" locked="1">
   <data encoding="base64">

@@ -157,8 +157,8 @@ export default class Player extends Entity{
               break;
               case 1:
                 this.CalcDir();
-                if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) + Math.PI/2);
-                else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',50,Math.atan(this.nDY/this.nDX) - Math.PI/2);
+                if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.nDY/this.nDX) + Math.PI/2);
+                else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',5,Math.atan(this.nDY/this.nDX) - Math.PI/2);
                 
                 //colision entre el rayo y los enemigos
                   this.scene.enemies.getChildren().forEach(function(enemy){
@@ -205,6 +205,7 @@ export default class Player extends Entity{
           this.thrustX=ntX;
           this.thrustY=ntY;
         }
+        RotateMagic(){this.currentMagic=(this.currentMagic+1)%3;}
         
     }
     

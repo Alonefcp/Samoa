@@ -21,8 +21,9 @@ export default class Game extends Phaser.Scene {
     this.load.image('chest','Assets/cofre.png');
     this.load.image('coin','Assets/moneda.png');
     this.load.image('mana','Assets/star.png');
-    this.load.tilemapTiledJSON('mapa_pruebas','Assets/mapa_pruebas.json')
+    this.load.tilemapTiledJSON('nivel1','Assets/nivel1.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
+    this.load.image('tileset','Assets/dungeons.png');
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.spritesheet('fireball','Assets/fireball_spritesheet32256.png',{frameWidth:32, frameHeight:32});
     this.load.spritesheet('waterray','Assets/Rayo32.png',{frameWidth:32,frameHeight:236});
@@ -32,21 +33,23 @@ export default class Game extends Phaser.Scene {
   create() {
     //Tilemap de prueba
     this.map=this.make.tilemap({
-      key:'mapa_pruebas',
+      key:'nivel1',
       tileWidth:32,
       tileHeight:32
     });
-   this.webT= this.map.addTilesetImage('web','spiderWeb');
-   this.acidT=this.map.addTilesetImage('acido','acid');
-   this.holeT=this.map.addTilesetImage('hoyo','hole');
-   this.spikeT=this.map.addTilesetImage('pinchos','spikes');
-   this.trapslayer=this.map.createStaticLayer('prueba',[this.webT,this.acidT,this.holeT,this.spikeT]);
-    // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
-    //Jugador
-     this.player = new Player(this, 100, 100);
-     this.player.body.setCollideWorldBounds(true);
-     this.player.body.setSize(32,64);//Ajustamos el collider
-     this.player.body.setImmovable(true);
+   this.tiles= this.map.addTilesetImage('dungeons','tileset');
+  //  this.acidT=this.map.addTilesetImage('acido','acid');
+  //  this.holeT=this.map.addTilesetImage('hoyo','hole');
+  //  this.spikeT=this.map.addTilesetImage('pinchos','spikes');
+   this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
+   this.paredes=this.map.createStaticLayer('Paredes',this.tiles);
+   // this.trapslayer=this.map.createStaticLayer('Traps',[this.webT,this.acidT,this.holeT,this.spikeT]);
+   //Jugador
+   this.player = new Player(this, 100, 100);
+   this.player.body.setCollideWorldBounds(true);
+   this.player.body.setSize(32,64);//Ajustamos el collider
+   this.physics.add.collider(this.player,this.paredes); 
+     
    
     // this.date=new Date();
 
@@ -206,6 +209,10 @@ export default class Game extends Phaser.Scene {
       left: Phaser.Input.Keyboard.KeyCodes.A,
       right: Phaser.Input.Keyboard.KeyCodes.D
     });
+    this.e = this.input.keyboard.addKey('E');
+    this.e.on('down',()=>{  
+      this.player.RotateMagic();
+    });
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
     //callbacks
@@ -217,16 +224,10 @@ export default class Game extends Phaser.Scene {
       }
       else if (pointer.rightButtonDown())
       this.player.CastMagic();
-    });
+      });
 
-    this.input.on('wheel',pointer=>{
-
-      this.player.currentMagic+=(this.pointer.deltaY/100);
-      this.player.currentMagic = Phaser.Math.Clamp(this.player.currentMagic, 0, 2);
-      if(this.player.currentMagic>2)this.player.currentMagic=0;
-      console.log(this.player.currentMagic);
       
-    });
+    
   }
 
   update(time, delta) 
