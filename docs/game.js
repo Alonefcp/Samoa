@@ -28,9 +28,9 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     this.load.image('tileset','Assets/dungeons.png');
     //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
-    this.load.spritesheet('fireball','Assets/fireball_spritesheet32256.png',{frameWidth:32, frameHeight:32});
-    this.load.spritesheet('waterray','Assets/Rayo32.png',{frameWidth:32,frameHeight:236});
-    this.load.spritesheet('wind','Assets/animV.png',{frameWidth:512,frameHeight:512});
+    this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
+    this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
+    this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
   }
 
   create() {

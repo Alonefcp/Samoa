@@ -113,8 +113,8 @@ export default class Player extends Entity{
         Attack()
         {
           this.CalcDir();
-          this.trigger = this.scene.add.zone(this.x + 42*this.AtkDirX, this.y+60*this.AtkDirY);
-          this.trigger.setSize(64,64);  
+          this.trigger = this.scene.add.zone(this.x + this.width/4*this.AtkDirX, this.y+this.height/4*this.AtkDirY);
+          this.trigger.setSize(32,32);  
           this.scene.physics.world.enable(this.trigger);
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;

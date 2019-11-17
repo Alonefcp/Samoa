@@ -27,7 +27,7 @@ export default class Enemy extends Entity{
         }
         else //sigue al jugador
         {
-          if(this.distanceToPlayer<=50000 && this.distanceToPlayer>=1600)
+          if(this.distanceToPlayer<=25000 && this.distanceToPlayer>=200)
           {
             this.body.setVelocityY(this.speedY*0.5*this.dirY*-1);
             this.body.setVelocityX(this.speedX*0.5*this.dirX*-1);
