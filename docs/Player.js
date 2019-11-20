@@ -24,7 +24,6 @@ export default class Player extends Entity{
       this.SpeedNerf =.5;
       this.speedX = 160;
       this.speedY = 160;  
-      this.canMove=true; 
       this.cont = 0; 
       this.SlowTime = 0;
       this.atkcont = 0;
@@ -84,8 +83,7 @@ export default class Player extends Entity{
         Move(dirX,dirY)  
         {
           
-          if(this.canMove)
-          {
+          
             
             if(this.slowdown)
               {
@@ -97,11 +95,8 @@ export default class Player extends Entity{
                 this.body.setVelocityY(dirY*this.speedY);
                 this.body.setVelocityX(dirX*this.speedX);
               }
-          }
-          else 
-          {
-            this.Stop();
-          }
+          
+          
         }
 
         Stop()
@@ -171,7 +166,6 @@ export default class Player extends Entity{
                   this.CalcDir();
                   if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',this.waterRayDamage,Math.atan(this.nDY/this.nDX) + Math.PI/2);
                   else this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',this.waterRayDamage,Math.atan(this.nDY/this.nDX) - Math.PI/2);
-                  this.canMove=false;
                   this.mana-=this.waterrayCost;
                 }break;
               case 2:
@@ -198,9 +192,7 @@ export default class Player extends Entity{
           this.AtkDirX=this.nDX/this.module;
           this.AtkDirY=this.nDY/this.module;
         }
-        setCanMove(value){
-          this.canMove=value;
-        }
+        
         setThrust(ntX,ntY){
           this.thrust=true;
           this.thrustX=ntX;

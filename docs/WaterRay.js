@@ -36,8 +36,7 @@ export default class WaterRay extends Magic{
                 this.play('waterEnd');
             else
             {   
-                    this.setActive(false);
-                    this.scene.player.setCanMove(true);             
+                    this.setActive(false);             
             }
             this.animPart++;
         })

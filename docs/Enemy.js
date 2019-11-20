@@ -6,6 +6,7 @@ export default class Enemy extends Entity{
       scene.physics.add.existing(this);
       this.windForce=false;
       this.atk=damage;
+      this.timeStopped=false;
       }
       
     
@@ -39,6 +40,9 @@ export default class Enemy extends Entity{
           }
         }
            
+      }
+      setTimeStopped(value){
+        this.timeStopped=value;
       }
     }
     
