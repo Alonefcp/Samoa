@@ -1,8 +1,9 @@
 import Player from './Player.js';
 import Item from './Item.js';
-import Enemy from './Enemy.js';
 import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
+import Melee from './Melee.js';
+import Wizard from './Wizard.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -27,7 +28,6 @@ export default class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('nivel1','Assets/nivel1.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     this.load.image('tileset','Assets/dungeons.png');
-    //this.load.spritesheet('meleeEnemy',  'Assets/Dungeons.png', { frameWidth: 72, frameHeight: 72 });
     this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
     this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
@@ -82,9 +82,10 @@ export default class Game extends Phaser.Scene {
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
-    this.enemies.add(new Enemy(this,100,500,'meleeEnemy',10));
-    this.enemies.add(new Enemy(this,100,300,'meleeEnemy',15));
-    this.enemies.add(new Enemy(this,200,300,'meleeEnemy',20));
+    //this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
+    //this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
+    this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
+    //this.enemies.add();
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(0.7);
     });

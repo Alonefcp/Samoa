@@ -148,14 +148,14 @@ export default class Player extends Entity{
           switch(this.currentMagic){
             case 0:
               if(this.mana-this.fireballCost>=0)
-              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
-              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed);
+              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
               this.mana-=this.fireballCost;  
             }
             
