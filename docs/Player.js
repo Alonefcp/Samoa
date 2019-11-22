@@ -2,6 +2,7 @@ import Entity from './Entity.js';
 import Fireball from './Fireball.js';
 import WaterRay from './WaterRay.js';
 import Wind from './Wind.js';
+import TimeStop from './TimeStop.js';
 export default class Player extends Entity{
     
     constructor(scene, x, y) {
@@ -35,7 +36,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 3; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
     }
       
 
@@ -99,11 +100,7 @@ export default class Player extends Entity{
           
         }
 
-        Stop()
-        {
-          this.body.setVelocityX(0);
-          this.body.setVelocityY(0);
-        }
+        
 
         Attack()
         {
@@ -183,6 +180,9 @@ export default class Player extends Entity{
               }
                 
                 break;
+              case 3:
+              this.timestop=new TimeStop(this.scene,this.x,this.y,'time',200,this.scene.enemies);   
+               break;  
           }
         }
         CalcDir(){

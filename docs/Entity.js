@@ -14,7 +14,10 @@ export default class Entity extends Phaser.GameObjects.Sprite {
  
   preupdate(time, delta) {    
   }
-
+  Stop(){
+    this.body.setVelocityY(0);
+    this.body.setVelocityX(0);
+  }
   ReceiveDamage(damage)
   {
     if(this.HP-damage >0)this.HP=this.HP-damage;

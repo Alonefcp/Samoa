@@ -11,16 +11,24 @@ export default class Wizard extends Enemy{
     {
         super.preUpdate(time,delta);
 
-        this.FollowPlayer(25000,10000);
+       if(this.timeStopped)
+       {
+        this.Stop();
+       }
+    else 
+    {
+       this.FollowPlayer(25000,10000);
 
-        if(this.distanceToPlayer<=10000)
-        {    this.frireRate++;
+            if(this.distanceToPlayer<=10000)
+            {    this.frireRate++;
             if(this.frireRate>=30)
             {
                this.fireball = new Fireball(this.scene,this.x,this.y,'fireball',this.atk,150,1);
                this.frireRate=0;
             }
             
-        } 
-    }
+        }
+        
+    } 
+  }
 }

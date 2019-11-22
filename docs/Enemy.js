@@ -32,8 +32,7 @@ export default class Enemy extends Entity{
         }
         else
         {
-          this.body.setVelocityY(0);
-          this.body.setVelocityX(0);
+          this.Stop();
         }
       }
     }

@@ -17,6 +17,8 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
+    this.load.image('greenbar','Assets/LifeBar.png');
+    this.load.image('redbar','Assets/redLifeBar.png')
     this.load.image('meleeEnemy','Assets/enemigo.png');
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
@@ -31,6 +33,8 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
     this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
+    this.load.spritesheet('time','Assets/reloj.png',{frameWidth:128,frameHeight:178});
+    this.load.spritesheet('tornado','Assets/tornadoAnim.png',{frameWidth:250,frameHeight:247});
   }
 
   create() {
@@ -43,6 +47,8 @@ export default class Game extends Phaser.Scene {
    this.tiles= this.map.addTilesetImage('dungeons','tileset');
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
+   //HUD
+  //  this.lifebar=this.add.sprite(0,0,'greenbar');
    
    //Jugador
    this.player = new Player(this, 100, 100);
@@ -82,8 +88,8 @@ export default class Game extends Phaser.Scene {
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
-    //this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
-    //this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
+    this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
+    this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
     this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
     //this.enemies.add();
     this.enemies.children.iterate(function(enemy){
@@ -204,6 +210,18 @@ export default class Game extends Phaser.Scene {
       frames: this.anims.generateFrameNumbers('wind',{start:0, end: 15}),
       frameRate:15,
       repeat:0
+    });  
+    this.anims.create({
+      key:'timeStop',
+      frames: this.anims.generateFrameNumbers('time',{start:0, end: 7}),
+      frameRate:10,
+      repeat:-1
+    });  
+    this.anims.create({
+      key:'tornado',
+      frames: this.anims.generateFrameNumbers('tornado',{start:0, end: 5}),
+      frameRate:10,
+      repeat:-1
     });  
     //input
     this.cursors = this.input.keyboard.addKeys({
