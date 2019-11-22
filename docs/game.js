@@ -47,6 +47,9 @@ export default class Game extends Phaser.Scene {
    this.tiles= this.map.addTilesetImage('dungeons','tileset');
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
+
+   this.paredes.setCollisionByProperty({colisiona:true});
+
    //HUD
   //  this.lifebar=this.add.sprite(0,0,'greenbar');
    
@@ -100,6 +103,9 @@ export default class Game extends Phaser.Scene {
         //colision entre el jugador y entre los objetos destruibles(habra qu hacer que tambien colisionen con los enemigos)
     this.physics.add.collider(this.enemies,this.destuctibleObjects);
     this.physics.add.collider(this.player,this.destuctibleObjects);
+
+    this.physics.add.collider(this.player,this.paredes);
+    this.physics.add.collider(this.enemies,this.paredes);
 
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
