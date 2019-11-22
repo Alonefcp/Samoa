@@ -5,8 +5,13 @@ export default class HUD extends Phaser.Scene {
         
     }
 
+    preload(){
+        this.load.image('greenbar','Assets/LifeBar.png');
+    }
     create()
     {
-        this.healthBar = this.add.text(100, 100, 'Health: 0', { fontSize: '32px', fill: '#FFF'});
+        
+        this.lifebar=this.add.sprite(135,25,'greenbar');
+  
     }
 }

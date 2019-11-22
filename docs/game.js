@@ -17,7 +17,7 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('greenbar','Assets/LifeBar.png');
+    
     this.load.image('redbar','Assets/redLifeBar.png')
     this.load.image('meleeEnemy','Assets/enemigo.png');
     this.load.image('spiderWeb','Assets/web.png');
@@ -34,7 +34,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
     this.load.spritesheet('time','Assets/reloj.png',{frameWidth:128,frameHeight:178});
-    this.load.spritesheet('tornado','Assets/tornadoAnim.png',{frameWidth:250,frameHeight:247});
+    this.load.spritesheet('tornado','Assets/tornadoAnim150.png',{frameWidth:50,frameHeight:49});
   }
 
   create() {
@@ -50,8 +50,7 @@ export default class Game extends Phaser.Scene {
 
    this.paredes.setCollisionByProperty({colisiona:true});
 
-   //HUD
-  //  this.lifebar=this.add.sprite(0,0,'greenbar');
+   
    
    //Jugador
    this.player = new Player(this, 100, 100);
@@ -226,7 +225,7 @@ export default class Game extends Phaser.Scene {
     this.anims.create({
       key:'tornado',
       frames: this.anims.generateFrameNumbers('tornado',{start:0, end: 5}),
-      frameRate:10,
+      frameRate:5,
       repeat:-1
     });  
     //input
@@ -261,6 +260,7 @@ export default class Game extends Phaser.Scene {
   { 
    
     
+    this.scene.launch('HUD');
     
          //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
          //objetos destructibles
