@@ -40,13 +40,17 @@ export default class Player extends Entity{
       this.slowdown = false;
       this.poison = false;
       this.currentMagic = 4; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      
+            
     }
       
 
       preUpdate(time, delta) 
-      {    
-        
+      {           
         super.preUpdate(time,delta);
+       
+        
+        //Aplica un empuje al jugador
        if(this.thrust){
          this.thrustCont++;
          this.ApplyForce(this.thrustX,this.thrustY);
@@ -57,6 +61,7 @@ export default class Player extends Entity{
           }
        }
        
+       //Ralentizamos al jugador un tiempo
         if(this.slowdown===true){
     
           this.SlowTime += 1;
@@ -64,46 +69,44 @@ export default class Player extends Entity{
             {
               this.slowdown=false; 
               this.SlowTime = 0;
-            }
-           
+            }          
         }
+       
+        //El veneno resta vida al jugador un tiempo
         if (this.poison === true){
           this.poisonDamage=this.MaxHP/20;  
           this.poisonedTime += 1;
           this.poisonIntervals += 1;
-           if (this.poisonedTime >= 250){
-                this.poison = false;
-                this.poisonedTime = 0;
-              }
-              else if (this.poisonIntervals >=75 && this.HP - this.poisonDamage > 0){
+           if (this.poisonedTime >= 250)
+           {
+              this.poison = false;
+              this.poisonedTime = 0;
+           }
+           else if (this.poisonIntervals >=75 && this.HP - this.poisonDamage > 0)
+           {
                 
-                this.ReceiveDamage(this.poisonDamage);
-                console.log(this.HP);
-                this.poisonIntervals=0;
-              }
+              this.ReceiveDamage(this.poisonDamage);
+              this.scene.HUDscene.ReduceHealthBar(this.HP,this.MaxHP);
+              console.log(this.HP);
+              this.poisonIntervals=0;
+            }
         }         
       }
 
         Move(dirX,dirY)  
         {
-          
-          
-            
             if(this.slowdown)
-              {
-                this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
-                this.body.setVelocityX(dirX*this.speedX * ( 1 - this.SpeedNerf));
-              }
+            {
+              this.body.setVelocityY(dirY*this.speedY * ( 1 - this.SpeedNerf));
+              this.body.setVelocityX(dirX*this.speedX * ( 1 - this.SpeedNerf));
+            }
             else
-              {
-                this.body.setVelocityY(dirY*this.speedY);
-                this.body.setVelocityX(dirX*this.speedX);
-              }
-          
-          
+            {
+              this.body.setVelocityY(dirY*this.speedY);
+              this.body.setVelocityX(dirX*this.speedX);
+            }
         }
 
-        
 
         Attack()
         {
@@ -120,28 +123,31 @@ export default class Player extends Entity{
           this.poison = false;
           this.body.reset(this.Spawnx,this.Spawny);
           this.ResetHP();
+          this.scene.HUDscene.lifebar.displayWidth = this.scene.HUDscene.initialWidth;
         }
         
+        //Activa la ralentizacion
        SlowDown()
        {
          this.slowdown=true;
        }
+       //Activa el veneno
        Poison()
        {
          this.poison=true;
        }
-        
-       PlayerGetDamage(player,enemy)
-       {
-           this.cont+=2;
+        //Activa los pinchos
+        Spikes()
+        {
+            this.cont+=2;
   
-          if(this.cont >= 50)
-          {
-            this.ReceiveDamage(10);
-            console.log('Player hp :'+ this.HP);
-            this.cont=0;
+           if(this.cont >= 50)
+           {
+             this.ReceiveDamage(10); 
+             this.scene.HUDscene.ReduceHealthBar(this.HP,this.MaxHP);          
+             this.cont=0;
           }
-        }
+         }
 
         CastMagic()
         {

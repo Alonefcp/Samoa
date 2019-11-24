@@ -15,7 +15,7 @@ export default class Fireball extends Magic{
         if(param==0) this.scene.physics.add.overlap(this.scene.enemies,this,this.OnOverlap,null,this);
         else
         {
-            this.scene.physics.add.overlap(this.scene.player,this,this.OnOverlapPlayer,null,this);
+            this.scene.physics.add.overlap(this.scene.player,this,this.OnOverlapPlayer,null,this);//overlap entre la bola de fuego y el jugador
             this.dirX*=-1;
             this.dirY*=-1;
         } 
@@ -69,6 +69,7 @@ export default class Fireball extends Magic{
     OnOverlapPlayer(player,fireball){
         this.Explode();
         player.ReceiveDamage(this.damage);
+        this.scene.HUDscene.ReduceHealthBar(player.HP,player.MaxHP);
         //así evito que dañe a los enemigos mientras se destruye
         this.damage=0;              
     }

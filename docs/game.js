@@ -17,8 +17,7 @@ export default class Game extends Phaser.Scene {
   }
 
   preload() {
-    
-    this.load.image('redbar','Assets/redLifeBar.png')
+    //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.image('meleeEnemy','Assets/enemigo.png');
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
@@ -51,13 +50,10 @@ export default class Game extends Phaser.Scene {
    this.paredes.setCollisionByProperty({colisiona:true});
 
    
-   
    //Jugador
    this.player = new Player(this, 100, 100);
-   //this.player.body.setCollideWorldBounds(true);
    this.player.body.setSize(16,32);//Ajustamos el collider
    this.player.setScale(0.5);
-   this.physics.add.collider(this.player,this.paredes); 
 
     //Trampas del mapa
     this.traps=this.physics.add.group();
@@ -93,16 +89,18 @@ export default class Game extends Phaser.Scene {
     this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
     this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
     this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
-    //this.enemies.add();
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(0.7);
     });
-    
-    
-        //colision entre el jugador y entre los objetos destruibles(habra qu hacer que tambien colisionen con los enemigos)
+
+    //Acceso a la escena del HUD
+    this.HUDscene = this.scene.get('HUD');
+
+    //colision entre el jugador y entre los objetos destruibles
     this.physics.add.collider(this.enemies,this.destuctibleObjects);
     this.physics.add.collider(this.player,this.destuctibleObjects);
 
+    //Colision entre las paredes y los enemigos y el jugador
     this.physics.add.collider(this.player,this.paredes);
     this.physics.add.collider(this.enemies,this.paredes);
 
@@ -228,7 +226,8 @@ export default class Game extends Phaser.Scene {
       frameRate:5,
       repeat:-1
     });  
-    //input
+
+    //input del teclado
     this.cursors = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
       down: Phaser.Input.Keyboard.KeyCodes.S,
@@ -239,9 +238,10 @@ export default class Game extends Phaser.Scene {
     this.e.on('down',()=>{  
       this.player.RotateMagic();
     });
+
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
-    //callbacks
+    //input del raton
     this.input.on('pointerdown',pointer=>{
       if(pointer.leftButtonDown())
       {
@@ -253,17 +253,15 @@ export default class Game extends Phaser.Scene {
       });
 
       
-    
+    //Hacemos que la escena del HUD corra en paralelo con esta
+    this.scene.launch('HUD');
+   
   }
 
   update(time, delta) 
-  { 
-   
-    
-    this.scene.launch('HUD');
-    
-         //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
-         //objetos destructibles
+  {  
+    //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
+    //objetos destructibles
     if(this.physics.overlap(this.enemies,this.player.trigger))
    { 
     this.enemies.getChildren().forEach(function(enemy){
@@ -389,20 +387,20 @@ export default class Game extends Phaser.Scene {
       this.player.isAttacking=false;
       this.player.atkTime=0;
     }
+        
+    if(this.player.HP<=0)this.player.Spawn();//Muerte del jugador
     
-    
-    if(this.player.HP<=0)this.player.Spawn(); //Muerte del jugador
-    
-    
-   
  } 
- OnTrapOverlap(player,trap){
 
+ OnTrapOverlap(player,trap)
+ {
   trap.ApplyEffect(player);
+ }
 
-}
-EnemyHitsPlayer(player,enemy){
+EnemyHitsPlayer(player,enemy)
+{
   player.ReceiveDamage(enemy.atk);
+  this.HUDscene.ReduceHealthBar(player.HP,player.MaxHP);
   console.log(player.HP);
   let dirX=player.x-enemy.x;
   let dirY=player.y-enemy.y;
@@ -413,12 +411,11 @@ EnemyHitsPlayer(player,enemy){
   
 }
 GenerateItem(item,x,y)
-    {
+{
      if (item===0)
      this.item=new Item(this,x,y,'mana',0,this.manaRecovery);
      else 
      this.item=new Item(this,x,y,'coin',1,this.coinsDropped);
-    }
-
+}
 
 }
