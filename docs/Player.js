@@ -10,9 +10,12 @@ export default class Player extends Entity{
       super(scene,x,y,'player');
 
       scene.physics.add.existing(this);
+
       this.coins=0;
+
       this.maxMana = 100;
       this.mana = this.maxMana;
+
       this.fireballCost=5;
       this.waterrayCost=5;
       this.windcost=5;
@@ -21,6 +24,7 @@ export default class Player extends Entity{
       this.tornadoDamage=5;
       this.fireballSpeed=150;
       this.TimeStopDuration=200;
+      
       this.isAttacking = false;
       this.atkTime = 0;
       this.Spawnx = x;
@@ -83,11 +87,9 @@ export default class Player extends Entity{
               this.poisonedTime = 0;
            }
            else if (this.poisonIntervals >=75 && this.HP - this.poisonDamage > 0)
-           {
-                
+           {               
               this.ReceiveDamage(this.poisonDamage);
               this.scene.HUDscene.ReduceHealthBar(this.HP,this.MaxHP);
-              console.log(this.HP);
               this.poisonIntervals=0;
             }
         }         
@@ -117,13 +119,18 @@ export default class Player extends Entity{
           this.trigger.body.setAllowGravity(false);
           this.trigger.body.moves = false;
         }
+
         Spawn()
         {
           this.slowdown = false;
           this.poison = false;
           this.body.reset(this.Spawnx,this.Spawny);
           this.ResetHP();
+          this.coins=0;
+          //Reseteamos las barras a 100 y las monedas a 0
           this.scene.HUDscene.lifebar.displayWidth = this.scene.HUDscene.initialWidth;
+          this.scene.HUDscene.manabar.displayWidth = this.scene.HUDscene.initialWidthMana;
+          this.scene.HUDscene.UpdateCoins(this.coins);
         }
         
         //Activa la ralentizacion
@@ -196,7 +203,11 @@ export default class Player extends Entity{
                  this.tornado=new Tornado(this.scene,this.x,this.y,'tornado',this.tornadoDamage);
                  break;
           }
+
+           //Actualizamos la barra de mana
+          this.scene.HUDscene.ReduceManaBar(this.mana,this.maxMana);
         }
+        
         CalcDir(){
           this.nDX=this.scene.pointer.worldX-this.x
           this.nDY=this.scene.pointer.worldY-this.y;
@@ -210,18 +221,25 @@ export default class Player extends Entity{
           this.thrustX=ntX;
           this.thrustY=ntY;
         }
+
         RotateMagic(){
           this.currentMagic=(this.currentMagic+1)%3;
         }
+
         RecoverMana(mana){
           if(mana > 0)
           if(this.mana+mana<this.maxMana)
           this.mana+=mana;
           else this.mana=this.maxMana;
+         //Actualizamos la barra de mana
+         this.scene.HUDscene.ReduceManaBar(this.mana,this.maxMana);
         }
+
         GetCoins(coins){
           if(coins > 0)
           this.coins+=coins;
+          this.scene.HUDscene.UpdateCoins(this.coins);
+
         }
 
         
