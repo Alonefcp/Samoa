@@ -21,6 +21,7 @@ export default class Player extends Entity{
       this.windcost=5;
       this.fireballDamage=5;
       this.waterRayDamage=5;
+      this.tornadoSpeed=10;
       this.tornadoDamage=5;
       this.fireballSpeed=150;
       this.TimeStopDuration=200;
@@ -161,14 +162,18 @@ export default class Player extends Entity{
           switch(this.currentMagic){
             case 0:
               if(this.mana-this.fireballCost>=0)
-              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
-              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,0);
+              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,1,0,0);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed,0,1,0);
+              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,-1,0,0);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed,0,-1,0);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              -Math.cos(Math.PI/4),-Math.sin(Math.PI/4),0);
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              Math.cos(Math.PI/4),-Math.sin(Math.PI/4),0);
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              -Math.cos(Math.PI/4),Math.sin(Math.PI/4),0);
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              Math.cos(Math.PI/4),Math.sin(Math.PI/4),0);
               this.mana-=this.fireballCost;  
             }
             
@@ -200,7 +205,9 @@ export default class Player extends Entity{
               this.timestop=new TimeStop(this.scene,this.x,this.y,'time',this.TimeStopDuration,this.scene.enemies);   
                break;  
                case 4:
-                 this.tornado=new Tornado(this.scene,this.x,this.y,'tornado',this.tornadoDamage);
+                 this.CalcDir();
+                 this.tornado=new Tornado(this.scene,this.x,this.y,'tornado',this.tornadoDamage,this.tornadoSpeed,this.fireballDamage,this.fireballSpeed,this.AtkDirX,
+                 this.AtkDirY,this.scene.enemies);
                  break;
           }
 

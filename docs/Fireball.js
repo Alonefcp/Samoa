@@ -1,12 +1,9 @@
 import Magic from './Magic.js'
 export default class Fireball extends Magic{
-    constructor(scene, x, y, sprite,damage,speed,param){
+    constructor(scene, x, y, sprite,damage,speed,dirX,dirY,param){
         super(scene,x,y,sprite,damage);
-        this.dirX=this.x-this.scene.player.x;
-        this.dirY=this.y-this.scene.player.y;
-        this.module=Math.sqrt(Math.pow(this.dirX,2)+Math.pow(this.dirY,2));
-        this.dirX/=this.module;
-        this.dirY/=this.module;
+        this.dirX=dirX;
+        this.dirY=dirY;
         this.speed=speed;
         this.time=0;
         this.timeStopped=false;
