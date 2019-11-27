@@ -26,7 +26,6 @@ export default class Wizard extends Enemy{
                this.fireball = new Fireball(this.scene,this.x,this.y,'fireball',this.atk,150,1);
                this.frireRate=0;
             }
-            
         }
         
     } 

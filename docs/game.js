@@ -4,6 +4,7 @@ import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
 import Melee from './Melee.js';
 import Wizard from './Wizard.js';
+import Tank from './Tank.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -48,12 +49,10 @@ export default class Game extends Phaser.Scene {
    this.paredes2=this.map.createStaticLayer('Paredes2',[this.tiles]);
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
    
-
    this.paredes.setCollisionByProperty({colisiona:true});
 
-   
    //Jugador
-   this.player = new Player(this, 100, 100);
+   this.player = new Player(this, 600, 600);
    this.player.body.setSize(16,32);//Ajustamos el collider
    this.player.setScale(0.5);
 
@@ -91,9 +90,12 @@ export default class Game extends Phaser.Scene {
     this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
     this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
     this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
+    this.enemies.add(new Tank(this,500,500,'meleeEnemy',15));
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(0.7);
     });
+
+    this.physics.add.collider(this.enemies,this.enemies);
 
     //Acceso a la escena del HUD
     this.HUDscene = this.scene.get('HUD');
@@ -395,6 +397,13 @@ export default class Game extends Phaser.Scene {
     if(this.player.HP<=0)this.player.Spawn();//Muerte del jugador
     
  } 
+
+ AddEnemies(enemy)
+ {
+    enemy.setScale(0.5);
+    this.enemies.add(enemy);
+     
+ }
 
  OnTrapOverlap(player,trap)
  {

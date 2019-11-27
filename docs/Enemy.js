@@ -37,6 +37,7 @@ export default class Enemy extends Entity{
       }
     }
       
+
       setTimeStopped(value)
       {
         this.timeStopped=value;
