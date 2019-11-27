@@ -25,6 +25,8 @@ export default class Player extends Entity{
       this.tornadoDamage=5;
       this.fireballSpeed=150;
       this.TimeStopDuration=200;
+      this.timestopCost=5;
+      this.tornadoCost=5
       
       this.isAttacking = false;
       this.atkTime = 0;
@@ -202,12 +204,19 @@ export default class Player extends Entity{
                 
                 break;
               case 3:
-              this.timestop=new TimeStop(this.scene,this.x,this.y,'time',this.TimeStopDuration,this.scene.enemies);   
-               break;  
+                  if(this.mana - this.timestopCost>=0){
+                    this.timestop=new TimeStop(this.scene,this.x,this.y,'time',this.TimeStopDuration,this.scene.enemies);   
+                    this.mana-=this.timestopCost;
+            }
+                  break;  
                case 4:
+            if(this.mana-this.tornadoCost)     
+               {
                  this.CalcDir();
                  this.tornado=new Tornado(this.scene,this.x,this.y,'tornado',this.tornadoDamage,this.tornadoSpeed,this.fireballDamage,this.fireballSpeed,this.AtkDirX,
                  this.AtkDirY,this.scene.enemies);
+                 this.mana-=this.tornadoCost;    
+               }
                  break;
           }
 
