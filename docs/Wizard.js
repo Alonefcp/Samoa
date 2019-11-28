@@ -23,7 +23,7 @@ export default class Wizard extends Enemy{
             {    this.frireRate++;
             if(this.frireRate>=30)
             {
-               this.fireball = new Fireball(this.scene,this.x,this.y,'fireball',this.atk,150,1);
+               this.fireball = new Fireball(this.scene,this.x,this.y,'fireball',this.atk,150,this.dirX,this.dirY,1);
                this.frireRate=0;
             }
         }

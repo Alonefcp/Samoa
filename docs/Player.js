@@ -129,6 +129,7 @@ export default class Player extends Entity{
           this.poison = false;
           this.body.reset(this.Spawnx,this.Spawny);
           this.ResetHP();
+          this.resetMana();
           this.coins=0;
           //Reseteamos las barras a 100 y las monedas a 0
           this.scene.HUDscene.lifebar.displayWidth = this.scene.HUDscene.initialWidth;
@@ -256,6 +257,9 @@ export default class Player extends Entity{
           this.coins+=coins;
           this.scene.HUDscene.UpdateCoins(this.coins);
 
+        }
+        resetMana(){
+          this.mana=this.maxMana;
         }
 
         
