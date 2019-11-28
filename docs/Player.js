@@ -4,6 +4,7 @@ import WaterRay from './WaterRay.js';
 import Wind from './Wind.js';
 import TimeStop from './TimeStop.js';
 import Tornado from './Tornado.js';
+import Whirlpool from './Whirlpool.js';
 export default class Player extends Entity{
     
     constructor(scene, x, y) {
@@ -27,6 +28,8 @@ export default class Player extends Entity{
       this.TimeStopDuration=200;
       this.timestopCost=5;
       this.tornadoCost=5
+      this.whirlpoolCost=5;
+      this.whirlpoolDamage=5;
       
       this.isAttacking = false;
       this.atkTime = 0;
@@ -46,7 +49,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 4; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 5; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
       
             
     }
@@ -219,6 +222,13 @@ export default class Player extends Entity{
                  this.mana-=this.tornadoCost;    
                }
                  break;
+                 case 5:
+                   if(this.mana-this.whirlpoolCost>0)
+                    {
+                      this.whirlpool=new Whirlpool(this.scene,this.x,this.y,'whirlpool',this.whirlpoolDamage,this.scene.enemies);
+                      this.mana-=this.whirlpoolCost;
+                    }
+                   break;
           }
 
            //Actualizamos la barra de mana

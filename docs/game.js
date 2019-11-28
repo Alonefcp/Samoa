@@ -35,6 +35,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
     this.load.spritesheet('time','Assets/reloj.png',{frameWidth:128,frameHeight:178});
     this.load.spritesheet('tornado','Assets/tornadoAnim150.png',{frameWidth:50,frameHeight:49});
+    this.load.spritesheet('whirlpool','Assets/whirlpool32.png',{frameWidth:32,frameHeight:32});
   }
 
   create() {
@@ -232,6 +233,12 @@ export default class Game extends Phaser.Scene {
       frameRate:5,
       repeat:-1
     });  
+    this.anims.create({
+      key:'whirlpool',
+      frames: this.anims.generateFrameNumbers('whirlpool',{start:0,end:7}),
+      frameRate:15,
+      repeat:-1
+    })
 
     //input del teclado
     this.cursors = this.input.keyboard.addKeys({
@@ -261,8 +268,8 @@ export default class Game extends Phaser.Scene {
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
-    this.scene.sleep('HUD');
-    this.scene.start('Shop');
+    // this.scene.sleep('HUD');
+    // this.scene.start('Shop');
    
   }
 
