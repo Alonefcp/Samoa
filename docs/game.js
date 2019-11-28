@@ -261,6 +261,8 @@ export default class Game extends Phaser.Scene {
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
+    this.scene.sleep('HUD');
+    this.scene.start('Shop');
    
   }
 
