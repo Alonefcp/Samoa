@@ -10,6 +10,8 @@ export default class HUD extends Phaser.Scene {
     }
     create()
     {        
+        this.mainScene = this.scene.get('main');
+
         //Barra de vida
         this.lifebar=this.add.sprite(135,25,'greenbar');
         this.initialWidth = this.lifebar.width;
@@ -20,7 +22,7 @@ export default class HUD extends Phaser.Scene {
         this.initialWidthMana = this.manabar.width;
         this.manabar.setOrigin(0,0.5);
 
-        this.coinsText = this.add.text(135, 125, 'COINS: 0', { fontSize: '64px', fill: '#FFF' });
+        this.coinsText = this.add.text(135, 125, 'COINS: '+this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
     }
 
 
