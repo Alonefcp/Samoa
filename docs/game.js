@@ -253,6 +253,13 @@ export default class Game extends Phaser.Scene {
     this.e.on('down',()=>{  
       this.player.RotateMagic();
     });
+    this.t=this.input.keyboard.addKey('T');
+    this.t.on('down',()=>{
+      this.scene.launch('Combinator');
+      this.scene.sleep('HUD');
+      this.scene.pause('main');
+
+    });
 
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
