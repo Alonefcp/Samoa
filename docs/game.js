@@ -88,13 +88,15 @@ export default class Game extends Phaser.Scene {
 
     //grupo de enemigos
     this.enemies=this.physics.add.group();
+    this.reduceLife = false;
     this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
     this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
     this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
     this.enemies.add(new Tank(this,500,500,'meleeEnemy',15));
     this.enemies.children.iterate(function(enemy){
       enemy.setScale(0.7);
-    });
+      if(this.reduceLife)enemy.HP-=10;
+    },this);
 
     this.physics.add.collider(this.enemies,this.enemies);
 
@@ -268,8 +270,9 @@ export default class Game extends Phaser.Scene {
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
-    // this.scene.sleep('HUD');
-    // this.scene.start('Shop');
+    this.scene.sleep('HUD');
+    //this.scene.sleep('main');
+    //this.scene.run('Shop');
    
   }
 

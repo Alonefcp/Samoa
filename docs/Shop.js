@@ -27,30 +27,73 @@ export default class Shop extends Phaser.Scene {
 
         this.maxHPText = this.add.text(100, 400, 'Buy MaxHP', { fontSize: '64px', fill: '#FFF' }).setInteractive();
        
-        this.maxHPText.on('pointerdown', function(){   
-            this.mainScene.player.MaxHP+=20;
-            console.log(this.mainScene.player.MaxHP);
-            this.price=10;
-            this.mainScene.player.coins-=this.price;
-            this.coinsText.setText('COINS: ' + this.mainScene.player.coins);
-            console.log(this.mainScene.player.coins);
+        this.maxHPText.on('pointerdown', function(){ 
+
+            this.priceMaxHP = 10;
+
+            if(this.mainScene.player.coins>=this.priceMaxHP)
+            {
+                this.mainScene.player.MaxHP+=20;
+                console.log(this.mainScene.player.MaxHP);
+                this.mainScene.player.coins-=this.priceMaxHP;
+                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
+                console.log(this.mainScene.player.coins);
+            }
+
 		},this);
 
         this.maxManaText = this.add.text(550, 400, 'Buy MaxMana', { fontSize: '64px', fill: '#FFF' }).setInteractive();
         
         this.maxManaText.on('pointerdown', function(){
-            this.mainScene.player.maxMana+=10;
-            console.log(this.mainScene.player.maxMana);
-            this.price=10;
-            
+
+            this.priceMaxMana = 10;
+
+            if(this.mainScene.player.coins>=this.priceMaxMana)
+            {
+                this.mainScene.player.maxMana+=10;
+                console.log(this.mainScene.player.maxMana);
+                this.mainScene.player.coins-=this.priceMaxMana;
+                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
+                console.log(this.mainScene.player.coins);
+            }
+
+
         },this);
-          
+
+
+        this.damageText = this.add.text(1000, 400, 'Buy damage', { fontSize: '64px', fill: '#FFF' }).setInteractive();
+
+        this.damageText.on('pointerdown', function(){
+
+            this.priceDamage = 10;
+
+            if(this.mainScene.player.coins>=this.priceDamage)
+            {
+                this.mainScene.reduceLife = true;
+
+                this.mainScene.player.coins-=this.priceDamage;
+                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
+                console.log(this.mainScene.player.coins);
+            }
+
+
+        },this);
+
+        this.continueText = this.add.text(1000, 700, 'Continue', { fontSize: '64px', fill: '#FFF' }).setInteractive();
+
+        this.continueText.on('pointerdown', function(){
+
+         this.scene.sleep('Shop');
+         this.scene.run('main');
+         this.scene.launch('HUD');
+
+        },this);
     }
 
 
     update(time,delta)
     {
-       if(this.powerUp1) this.mainScene.player.IncreaseMaxHP(20);
+       
     }
 
 }
