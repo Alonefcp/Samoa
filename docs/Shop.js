@@ -14,8 +14,7 @@ export default class Shop extends Phaser.Scene {
     create()
     {
         this.price =0;
-
-        this.mainScene = this.scene.get('main');
+        
         this.HUDscene = this.scene.get('HUD');
 
         this.mainScene.player.ResetHP();
@@ -84,16 +83,27 @@ export default class Shop extends Phaser.Scene {
         this.continueText.on('pointerdown', function(){
 
          this.scene.sleep('Shop');
-         this.scene.run('main');
+         switch(this.stage)
+         {
+             case 1:
+                 this.scene.run('level1');
+             break;
+         }
          this.scene.launch('HUD');
 
         },this);
     }
-
-
-    update(time,delta)
-    {
-       
-    }
-
+    UpdateStage(stage){
+        this.stage=stage;
+        switch(this.stage)
+        {
+            case 1:
+                this.mainScene=this.scene.get('main');
+                break;
+            case 2:
+                this.mainScene=this.scene.get('level1');
+                break;
+        }
+        this.player=this.mainScene.player;
+            }
 }

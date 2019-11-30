@@ -60,7 +60,7 @@ export default class Game extends Phaser.Scene {
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
    this.tankLayer = this.map.getObjectLayer('Tanque');
-
+   this.numEnemies=5;
     //Trampas del mapa
     this.traps=this.physics.add.group();
     
@@ -290,7 +290,7 @@ this.tankLayer.objects.forEach(object=>{
       this.player.RotateMagic();
     });
     this.t=this.input.keyboard.addKey('T');
-    this.t.on('down',()=>{
+    this.t.on('up',()=>{
       this.scene.launch('Combinator');
       this.scene.sleep('HUD');
       this.scene.pause('main');
@@ -313,10 +313,7 @@ this.tankLayer.objects.forEach(object=>{
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
-    //this.scene.sleep('HUD');
-    //this.scene.sleep('main');
-    //this.scene.run('Shop');
-   
+    
   }
 
   update(time, delta) 
@@ -333,6 +330,7 @@ this.tankLayer.objects.forEach(object=>{
         
         if(enemy.HP<=0)
         {
+          this.UpdateNumEnemies(-1);
           enemy.DropItem();
           enemy.destroy();
         }   
@@ -485,5 +483,22 @@ GenerateItem(item,x,y)
      else 
      this.item=new Item(this,x,y,'coin',1,this.coinsDropped);
 }
+UpdateNumEnemies(value){
+  this.numEnemies+=value;
+  if(this.numEnemies<=0)
+  {
+    this.exit=this.add.zone(200,200,64,64);
+    this.physics.world.enable(this.exit);
+    this.exit.moves=false;
+    this.physics.add.overlap(this.exit,this.player,()=>
+    {
+      this.player.NextStage();
+      this.scene.sleep('main');
+      this.scene.run('Shop');
+      this.shop=this.scene.get('Shop');
+      this.shop.UpdateStage(this.player.GetStage());
 
+    },null,this);
+  }
+}
 }

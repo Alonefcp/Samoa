@@ -19,12 +19,7 @@ export default class WaterRay extends Magic{
                     
           if(this.AABB(this,enemy))
           {
-            enemy.ReceiveDamage(this.damage);  
-            if(enemy.HP<=0)
-            {
-              enemy.DropItem(this.scene,enemy.x,enemy.y,'coin','mana'); 
-              enemy.destroy();
-            }               
+            this.Harm(enemy);               
           }             
            
           },this);

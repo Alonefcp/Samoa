@@ -13,6 +13,8 @@ export default class Player extends Entity{
       scene.physics.add.existing(this);
 
       this.coins=0;
+      this.stage=0;
+      this.numStages=3;
 
       this.maxMana = 100;
       this.mana = this.maxMana;
@@ -49,7 +51,7 @@ export default class Player extends Entity{
       this.poisonIntervals = 0;
       this.slowdown = false;
       this.poison = false;
-      this.currentMagic = 4; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
       
             
     }
@@ -275,6 +277,12 @@ export default class Player extends Entity{
         }
         resetMana(){
           this.mana=this.maxMana;
+        }
+        NextStage(){
+          this.stage++;
+        }
+        GetStage(){
+          return this.stage;
         }
 
         

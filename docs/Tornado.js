@@ -31,7 +31,7 @@ export default class Tornado extends Magic{
         this.destroy();
     }
     OnOverlap(tornado,enemy){
-        console.log(enemy.HP);
+        
         tornado.Harm(enemy);
     }
 }

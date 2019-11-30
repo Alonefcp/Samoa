@@ -31,6 +31,7 @@ export default class Tank extends Enemy{
                     this.scene.AddEnemies(new Melee(this.scene,this.x,this.y+100,'meleeEnemy',20));
                     this.scene.AddEnemies(new Melee(this.scene,this.x-100,this.y,'meleeEnemy',20));
                     this.scene.AddEnemies(new Melee(this.scene,this.x,this.y-100,'meleeEnemy',20));
+                    this.scene.UpdateNumEnemies(4);
 
                     this.timePerSpawn=0;
                 }

@@ -36,10 +36,9 @@ export default class Level1 extends Phaser.Scene {
     create() {
        
        //Jugador
-       this.player = new Player(this, 100, 100);
+       this.shop=this.scene.get('Shop');
+       this.player = this.shop.player;
        //this.player.body.setCollideWorldBounds(true);
-       this.player.body.setSize(16,32);//Ajustamos el collider
-       this.player.setScale(0.5);
        this.physics.add.collider(this.player,this.paredes); 
     
         //Trampas del mapa
