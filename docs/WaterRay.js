@@ -19,7 +19,8 @@ export default class WaterRay extends Magic{
                     
           if(this.AABB(this,enemy))
           {
-            this.Harm(enemy);               
+            this.Harm(enemy);    
+            if(enemy.receiveDamage != undefined)enemy.receiveDamage=true;           
           }             
            
           },this);

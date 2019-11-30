@@ -5,6 +5,7 @@ import DestructibleObject from './DestructibleObject.js';
 import Melee from './Melee.js';
 import Wizard from './Wizard.js';
 import Tank from './Tank.js';
+import Ghost from './Ghost.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -60,6 +61,8 @@ export default class Game extends Phaser.Scene {
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
    this.tankLayer = this.map.getObjectLayer('Tanque');
+   this.ghostLayer = this.map.getObjectLayer('Fantasma');
+   this.ghostPoints = this.map.getObjectLayer('GhostPoints');
    this.numEnemies=5;
     //Trampas del mapa
     this.traps=this.physics.add.group();
@@ -110,7 +113,7 @@ export default class Game extends Phaser.Scene {
     //Enemigos
     this.enemies=this.physics.add.group();
     this.reduceLife = false;
-    
+   
 this.meleeLayer.objects.forEach(object=>{
   this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
   if(this.reduceLife)this.melee.HP-=10;
@@ -127,6 +130,12 @@ this.tankLayer.objects.forEach(object=>{
   this.tank = new Tank(this,object.x,object.y,'meleeEnemy',15).setScale(1);
   if(this.reduceLife)this.tank.HP-=10;
   this.enemies.add(this.tank);
+},this);
+
+this.ghostLayer.objects.forEach(object=>{
+  this.ghost = new Ghost(this,object.x,object.y,'meleeEnemy',15).setScale(0.8);
+  if(this.reduceLife)this.ghost.HP-=10;
+  this.enemies.add(this.ghost);
 },this);
 
 
@@ -328,6 +337,8 @@ this.tankLayer.objects.forEach(object=>{
       {
         enemy.ReceiveDamage(this.player.atk);
         
+        if(enemy.receiveDamage != undefined)enemy.receiveDamage=true;
+
         if(enemy.HP<=0)
         {
           this.UpdateNumEnemies(-1);

@@ -33,5 +33,6 @@ export default class Tornado extends Magic{
     OnOverlap(tornado,enemy){
         
         tornado.Harm(enemy);
+        if(enemy.receiveDamage != undefined)enemy.receiveDamage=true;
     }
 }
