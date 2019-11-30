@@ -51,33 +51,54 @@ export default class Game extends Phaser.Scene {
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
    
    this.paredes.setCollisionByProperty({colisiona:true});
-
-   //Jugador
-   this.player = new Player(this, 600, 600);
-   this.player.body.setSize(16,32);//Ajustamos el collider
-   this.player.setScale(0.5);
+   
+   this.spikesLayer = this.map.getObjectLayer('Pinchos');
+   this.acidLayer = this.map.getObjectLayer('Veneno');
+   this.webLayer = this.map.getObjectLayer('Telaraña');
+   this.holeLayer = this.map.getObjectLayer('Hoyos');
+   this.destructibleObjectsLayer = this.map.getObjectLayer('ObjetosDestructibles');
+   this.meleeLayer = this.map.getObjectLayer('Melee');
+   this.wizardLayer = this.map.getObjectLayer('Mago');
+   this.tankLayer = this.map.getObjectLayer('Tanque');
 
     //Trampas del mapa
     this.traps=this.physics.add.group();
-    this.traps.add(new Trap(this,300,150,'spiderWeb',0));
-    this.traps.add(new Trap(this,300,400,'acid',2));
-    this.traps.add(new Trap(this,350,500,'hole',3));
-    this.traps.add(new Trap(this,600,500,'spikes',1));
-    this.traps.children.iterate(function(trap){
-      trap.setScale(0.5);
-    });
-    this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
     
-    //grupo de objetos destructibles
+    this.spikesLayer.objects.forEach(object => { 
+      this.spike = new Trap(this,object.x,object.y,'spikes',1).setScale(0.5);     
+      this.traps.add(this.spike);         
+    });
+
+    this.acidLayer.objects.forEach(object=>{
+      this.acid = new Trap(this,object.x,object.y,'acid',2).setScale(0.5);
+      this.traps.add(this.acid);
+    });
+
+    this.webLayer.objects.forEach(object=>{
+      this.web = new Trap(this,object.x,object.y,'spiderWeb',0).setScale(0.5);
+      this.traps.add(this.web);
+    });
+
+    this.holeLayer.objects.forEach(object=>{
+      this.hole = new Trap(this,object.x,object.y,'hole',3).setScale(0.5);
+      this.traps.add(this.hole);
+    });
+
+    //Objeto destructibles
     this.destuctibleObjects = this.physics.add.group();
-    this.destuctibleObjects.add(new DestructibleObject(this,300,300,'chest'));
-    this.destuctibleObjects.add(new DestructibleObject(this,400,300,'chest'));
-    this.destuctibleObjects.add(new DestructibleObject(this,500,300,'chest'));
-    this.destuctibleObjects.add(new DestructibleObject(this,600,300,'chest'));
+     
+    this.destructibleObjectsLayer.objects.forEach(object=>{
+      this.destObject = new DestructibleObject(this,object.x,object.y,'chest').setScale(1);
+      this.destuctibleObjects.add(this.destObject);
+    });
     this.destuctibleObjects.children.iterate(function(object){
-      object.setScale(0.8);
       object.body.setImmovable(true);
     });
+      
+     //Jugador
+     this.player = new Player(this, 600, 600);
+     this.player.body.setSize(16,32);//Ajustamos el collider
+     this.player.setScale(0.5);
 
     //Camara
     this.camera = this.cameras.main;
@@ -86,19 +107,34 @@ export default class Game extends Phaser.Scene {
     //this.camera.setBounds(0, 0, 800, 1400);
     //this.camera.setViewport(0, 0, 900, 900);
 
-    //grupo de enemigos
+    //Enemigos
     this.enemies=this.physics.add.group();
     this.reduceLife = false;
-    this.enemies.add(new Melee(this,100,500,'meleeEnemy',20));
-    this.enemies.add(new Melee(this,100,300,'meleeEnemy',20));
-    this.enemies.add(new Wizard(this,200,300,'meleeEnemy',30));
-    this.enemies.add(new Tank(this,500,500,'meleeEnemy',15));
-    this.enemies.children.iterate(function(enemy){
-      enemy.setScale(0.7);
-      if(this.reduceLife)enemy.HP-=10;
-    },this);
+    
+this.meleeLayer.objects.forEach(object=>{
+  this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
+  if(this.reduceLife)this.melee.HP-=10;
+  this.enemies.add(this.melee);
+},this);
 
+this.wizardLayer.objects.forEach(object=>{
+  this.wizard = new Wizard(this,object.x,object.y,'meleeEnemy',30).setScale(0.8);
+  if(this.reduceLife)this.wizard.HP-=10;
+  this.enemies.add(this.wizard);
+},this);
+
+this.tankLayer.objects.forEach(object=>{
+  this.tank = new Tank(this,object.x,object.y,'meleeEnemy',15).setScale(1);
+  if(this.reduceLife)this.tank.HP-=10;
+  this.enemies.add(this.tank);
+},this);
+
+
+    //Colisiones
     this.physics.add.collider(this.enemies,this.enemies);
+
+    //Overlap entre el jugador y las trampas
+    this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
 
     //Acceso a la escena del HUD
     this.HUDscene = this.scene.get('HUD');
@@ -277,7 +313,7 @@ export default class Game extends Phaser.Scene {
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
-    this.scene.sleep('HUD');
+    //this.scene.sleep('HUD');
     //this.scene.sleep('main');
     //this.scene.run('Shop');
    
