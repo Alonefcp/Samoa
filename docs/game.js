@@ -50,8 +50,11 @@ export default class Game extends Phaser.Scene {
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
    this.paredes2=this.map.createStaticLayer('Paredes2',[this.tiles]);
    this.paredes=this.map.createStaticLayer('Paredes',[this.tiles]);
-   
+   this.decoracion=this.map.createStaticLayer('Decoracion',[this.tiles]);
+   this.suelo2 = this.map.createStaticLayer('Suelo2',[this.tiles]);
+
    this.paredes.setCollisionByProperty({colisiona:true});
+   this.decoracion.setCollisionByProperty({colisiona:true});
    
    this.spikesLayer = this.map.getObjectLayer('Pinchos');
    this.acidLayer = this.map.getObjectLayer('Veneno');
@@ -158,6 +161,9 @@ this.ghostLayer.objects.forEach(object=>{
     this.physics.add.collider(this.enemies,this.paredes);
     this.physics.add.collider(this.player,this.paredes2);
     this.physics.add.collider(this.enemies,this.paredes2);
+    this.physics.add.collider(this.player,this.decoracion);
+    this.physics.add.collider(this.enemies,this.decoracion);
+
 
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 

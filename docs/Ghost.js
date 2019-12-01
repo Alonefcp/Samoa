@@ -12,9 +12,6 @@ export default class Ghost extends Enemy{
     {
         super.preUpdate(time,delta);
 
-        
-
-
        if(this.timeStopped)
        {
         this.Stop();
