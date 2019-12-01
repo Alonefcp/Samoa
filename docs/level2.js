@@ -8,7 +8,7 @@ import Wizard from './Wizard.js';
 export default class Level1 extends Phaser.Scene {
     constructor() {
 
-        super({ key: 'level1' });
+        super({ key: 'level2' });
         this.SlowTime = 100;
         this.PoisonedTime = 100;
         this.PoisonIntervals = 20;

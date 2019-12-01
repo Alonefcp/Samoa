@@ -86,7 +86,7 @@ export default class Shop extends Phaser.Scene {
          switch(this.stage)
          {
              case 1:
-                 this.scene.run('level1');
+                 this.scene.run('level2');
              break;
          }
          this.scene.launch('HUD');

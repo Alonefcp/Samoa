@@ -63,7 +63,8 @@ export default class Game extends Phaser.Scene {
    this.tankLayer = this.map.getObjectLayer('Tanque');
    this.ghostLayer = this.map.getObjectLayer('Fantasma');
    this.ghostPoints = this.map.getObjectLayer('GhostPoints');
-   this.numEnemies=5;
+   this.numEnemies=this.meleeLayer.objects.length+this.wizardLayer.objects.length+this.tankLayer.objects.length+this.ghostLayer.objects.length;
+
     //Trampas del mapa
     this.traps=this.physics.add.group();
     
