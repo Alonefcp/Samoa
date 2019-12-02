@@ -46,6 +46,7 @@ export default class Game extends Phaser.Scene {
       tileWidth:32,
       tileHeight:32
     });
+    //Capas estaticas
    this.tiles= this.map.addTilesetImage('dungeons','tileset');
    this.suelo=this.map.createStaticLayer('Suelo',[this.tiles]);
    this.paredes2=this.map.createStaticLayer('Paredes2',[this.tiles]);
@@ -55,7 +56,7 @@ export default class Game extends Phaser.Scene {
 
    this.paredes.setCollisionByProperty({colisiona:true});
    this.decoracion.setCollisionByProperty({colisiona:true});
-   
+   //Capas de objetos
    this.spikesLayer = this.map.getObjectLayer('Pinchos');
    this.acidLayer = this.map.getObjectLayer('Veneno');
    this.webLayer = this.map.getObjectLayer('Telaraña');
@@ -104,7 +105,7 @@ export default class Game extends Phaser.Scene {
       
      //Jugador
      this.player = new Player(this, 600, 600);
-     this.player.body.setSize(16,32);//Ajustamos el collider
+     this.player.body.setSize(16,60);//Ajustamos el collider
      this.player.setScale(0.5);
 
     //Camara

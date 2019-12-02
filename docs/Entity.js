@@ -28,9 +28,8 @@ export default class Entity extends Phaser.GameObjects.Sprite {
   }
   
   DropItem(){
-    this.value = Phaser.Math.Between(0, 1);
-      this.scene.GenerateItem(this.value,this.x,this.y);
-    
+    this.value = Phaser.Math.Between(0, 2);
+    if(this.value<2) this.scene.GenerateItem(this.value,this.x,this.y);
   }
 
   ApplyForce(dirX,dirY)
