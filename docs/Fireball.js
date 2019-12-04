@@ -67,7 +67,8 @@ export default class Fireball extends Magic{
     OnOverlapPlayer(player,fireball){
         this.Explode();
         player.ReceiveDamage(this.damage);
-        this.scene.HUDscene.ReduceHealthBar(player.HP,player.MaxHP);
+        this.HUDscene=this.scene.scene.get('HUD');
+        this.HUDscene.ReduceHealthBar(player.HP,player.MaxHP);
         //así evito que dañe a los enemigos mientras se destruye
         this.damage=0;              
     }

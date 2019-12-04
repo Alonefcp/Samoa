@@ -313,6 +313,8 @@ this.ghostLayer.objects.forEach(object=>{
       this.scene.pause('main');
 
     });
+    this.n=this.input.keyboard.addKey('N');
+    this.n.on('down',()=>{this.UpdateNumEnemies(-this.numEnemies);},null,this);
 
     this.pointer=this.input.activePointer;
     this.input.mouse.disableContextMenu();
@@ -516,7 +518,7 @@ UpdateNumEnemies(value){
       this.scene.run('Shop');
       this.shop=this.scene.get('Shop');
       this.shop.UpdateStage(this.player.GetStage());
-
+      this.exit.destroy();
     },null,this);
   }
 }
