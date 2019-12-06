@@ -32,7 +32,15 @@ export default class Player extends Entity{
       this.tornadoCost=5
       this.whirlpoolCost=5;
       this.whirlpoolDamage=5;
-      
+      this.fireballCoolDown = 110;
+      this.waterRayCoolDown = 80;
+      this.windCoolDown = 150;
+      this.tornadoCoolDown = 150;
+      this.timestopCoolDown = 120;
+      this.whirlpoolCoolDown = 110;
+      this.coolDown =0;
+      this.canCastMagic = true;
+
       this.isAttacking = false;
       this.atkTime = 0;
       this.Spawnx = x;
@@ -61,6 +69,14 @@ export default class Player extends Entity{
       {           
         super.preUpdate(time,delta);
        
+        this.coolDown++;
+        if(this.coolDown>=this.fireballCoolDown || this.coolDown>=this.waterRayCoolDown || this.coolDown>=this.waterRayCoolDown ||
+          this.coolDown>=this.windCoolDown || this.coolDown>=this.tornadoCoolDown || this.coolDown>=this.timestopCoolDown || this.coolDown>=this.whirlpoolCoolDown)
+        {
+          this.canCastMagic=true;
+          this.coolDown=0;
+        }
+        
         
         //Aplica un empuje al jugador
        if(this.thrust){
@@ -169,25 +185,26 @@ export default class Player extends Entity{
         {
           switch(this.currentMagic){
             case 0:
-              if(this.mana-this.fireballCost>=0)
-              {this.fireball=new Fireball(this.scene,this.x + 80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,1,0,0);
-              this.fireball2=new Fireball(this.scene,this.x,this.y +80,'fireball',this.fireballDamage,this.fireballSpeed,0,1,0);
-              this.fireball3=new Fireball(this.scene,this.x-80,this.y,'fireball',this.fireballDamage,this.fireballSpeed,-1,0,0);
-              this.fireball4=new Fireball(this.scene,this.x,this.y -80,'fireball',this.fireballDamage,this.fireballSpeed,0,-1,0);
-              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              if(this.mana-this.fireballCost>=0 && this.canCastMagic)
+              {            
+              this.fireball=new Fireball(this.scene,this.x + 40,this.y,'fireball',this.fireballDamage,this.fireballSpeed,1,0,0);
+              this.fireball2=new Fireball(this.scene,this.x,this.y +40,'fireball',this.fireballDamage,this.fireballSpeed,0,1,0);
+              this.fireball3=new Fireball(this.scene,this.x-40,this.y,'fireball',this.fireballDamage,this.fireballSpeed,-1,0,0);
+              this.fireball4=new Fireball(this.scene,this.x,this.y -40,'fireball',this.fireballDamage,this.fireballSpeed,0,-1,0);
+              this.fireball5=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*40,this.y-Math.sin(Math.PI/4)*40,'fireball',this.fireballDamage,this.fireballSpeed,
               -Math.cos(Math.PI/4),-Math.sin(Math.PI/4),0);
-              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y-Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              this.fireball6=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*40,this.y-Math.sin(Math.PI/4)*40,'fireball',this.fireballDamage,this.fireballSpeed,
               Math.cos(Math.PI/4),-Math.sin(Math.PI/4),0);
-              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              this.fireball7=new Fireball(this.scene,this.x-Math.cos(Math.PI/4)*40,this.y+Math.sin(Math.PI/4)*40,'fireball',this.fireballDamage,this.fireballSpeed,
               -Math.cos(Math.PI/4),Math.sin(Math.PI/4),0);
-              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*80,this.y+Math.sin(Math.PI/4)*80,'fireball',this.fireballDamage,this.fireballSpeed,
+              this.fireball8=new Fireball(this.scene,this.x+Math.cos(Math.PI/4)*40,this.y+Math.sin(Math.PI/4)*40,'fireball',this.fireballDamage,this.fireballSpeed,
               Math.cos(Math.PI/4),Math.sin(Math.PI/4),0);
               this.mana-=this.fireballCost;  
             }
             
             break;
               case 1:
-                if(this.mana - this.waterrayCost>=0)
+                if(this.mana - this.waterrayCost>=0 && this.canCastMagic)
                 {
                   this.CalcDir();
                   if(this.nDX>0)this.water=new WaterRay(this.scene,this.x  + this.AtkDirX,this.y + this.AtkDirY,'waterray',this.waterRayDamage,Math.atan(this.nDY/this.nDX) + Math.PI/2);
@@ -195,7 +212,7 @@ export default class Player extends Entity{
                   this.mana-=this.waterrayCost;
                 }break;
               case 2:
-                if(this.mana - this.windcost>=0)
+                if(this.mana - this.windcost>=0 && this.canCastMagic)
                 {
                 this.CalcDir();
                 this.wind = new Wind(this.scene,this.x-100,this.y,'wind');
@@ -210,13 +227,13 @@ export default class Player extends Entity{
                 
                 break;
               case 3:
-                  if(this.mana - this.timestopCost>=0){
+                  if(this.mana - this.timestopCost>=0 && this.canCastMagic){
                     this.timestop=new TimeStop(this.scene,this.x,this.y,'time',this.TimeStopDuration,this.scene.enemies);   
                     this.mana-=this.timestopCost;
             }
                   break;  
                case 4:
-            if(this.mana-this.tornadoCost)     
+            if(this.mana-this.tornadoCost && this.canCastMagic)     
                {
                  this.CalcDir();
                  this.tornado=new Tornado(this.scene,this.x,this.y,'tornado',this.tornadoDamage,this.tornadoSpeed,this.fireballDamage,this.fireballSpeed,this.AtkDirX,
@@ -225,7 +242,7 @@ export default class Player extends Entity{
                }
                  break;
                  case 5:
-                   if(this.mana-this.whirlpoolCost>0)
+                   if(this.mana-this.whirlpoolCost>0 && this.canCastMagic)
                     {
                       this.whirlpool=new Whirlpool(this.scene,this.x,this.y,'whirlpool',this.whirlpoolDamage,this.scene.enemies);
                       this.mana-=this.whirlpoolCost;
@@ -233,6 +250,7 @@ export default class Player extends Entity{
                    break;
           }
 
+          this.canCastMagic=false;
            //Actualizamos la barra de mana
           this.scene.HUDscene.ReduceManaBar(this.mana,this.maxMana);
         }
