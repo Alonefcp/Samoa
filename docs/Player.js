@@ -273,6 +273,8 @@ export default class Player extends Entity{
           if(this.currentMagic<3)
            this.currentMagic=(this.currentMagic+1)%3;
            else this.currentMagic=0;
+
+           this.scene.HUDscene.ChangeMagicIcon(this.currentMagic);
         }
         setMagic(magic){
           this.currentMagic=magic;
