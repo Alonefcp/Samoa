@@ -5,11 +5,13 @@ export default class Wizard extends Enemy{
     constructor(scene, x, y,img,damage){
         super(scene,x,y,img,damage);
        this.frireRate=0;
+     
     }
 
     preUpdate(time,delta)
     {
         super.preUpdate(time,delta);
+        this.play('wizardIdle',true);
 
        if(this.timeStopped)
        {

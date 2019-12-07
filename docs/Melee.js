@@ -9,8 +9,8 @@ export default class Melee extends Enemy{
     preUpdate(time,delta)
     {
         super.preUpdate(time,delta);
-        if(!this.timeStopped)
-        this.FollowPlayer(25000,200);
+        this.play('meleeRun',true);
+        if(!this.timeStopped) this.FollowPlayer(25000,200); 
         else this.Stop();
     }
 }
