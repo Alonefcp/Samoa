@@ -30,7 +30,7 @@ export default class Game extends Phaser.Scene {
     this.load.image('mana','Assets/star.png');
     this.load.tilemapTiledJSON('nivel1','Assets/nivel1.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
-    this.load.image('tileset','Assets/dungeons.png');
+    this.load.image('tileset','Assets/Dungeons.png');
     this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
     this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
@@ -331,8 +331,7 @@ this.ghostLayer.objects.forEach(object=>{
 
       
     //Hacemos que la escena del HUD corra en paralelo con esta
-    this.scene.launch('HUD');
-    
+    this.scene.launch('HUD');   
   }
 
   update(time, delta) 

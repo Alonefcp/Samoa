@@ -28,9 +28,9 @@ export default class level2 extends Phaser.Scene {
     this.load.image('chest','Assets/cofre.png');
     this.load.image('coin','Assets/moneda.png');
     this.load.image('mana','Assets/star.png');
-    this.load.tilemapTiledJSON('nivel1','Assets/nivel2.json')
+    this.load.tilemapTiledJSON('nivel2','Assets/nivel2.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
-    this.load.image('tileset','Assets/LEVEL2TILES.png');
+    this.load.image('tilesetLevel2','Assets/LEVEL2TILES.png');
     this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
     this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
     this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
@@ -46,13 +46,15 @@ export default class level2 extends Phaser.Scene {
       tileWidth:32,
       tileHeight:32
     });
-   this.tiles= this.map.addTilesetImage('dungeons','tileset');
+
+   this.tiles= this.map.addTilesetImage('LEVEL2TILES','tilesetLevel2');
    this.suelo=this.map.createStaticLayer('suelo',[this.tiles]);
-  //  this.paredes2=this.map.createStaticLayer('Paredes2',[this.tiles]);
+   this.paredes2=this.map.createStaticLayer('paredes2',[this.tiles]);
    this.paredes=this.map.createStaticLayer('paredes',[this.tiles]);
    
    this.paredes.setCollisionByProperty({colisiona:true});
-   
+   this.paredes2.setCollisionByProperty({colisiona:true});
+
    this.spikesLayer = this.map.getObjectLayer('Pinchos');
    this.acidLayer = this.map.getObjectLayer('Veneno');
    this.webLayer = this.map.getObjectLayer('Telaraña');
@@ -63,7 +65,7 @@ export default class level2 extends Phaser.Scene {
    this.tankLayer = this.map.getObjectLayer('Tanque');
    this.ghostLayer = this.map.getObjectLayer('Fantasma');
    this.ghostPoints = this.map.getObjectLayer('GhostPoints');
-   this.numEnemies=this.meleeLayer.objects.length+this.wizardLayer.objects.length+this.tankLayer.objects.length+this.ghostLayer.objects.length;
+   //this.numEnemies=this.meleeLayer.objects.length+this.wizardLayer.objects.length+this.tankLayer.objects.length+this.ghostLayer.objects.length;
 
     //Trampas del mapa
     // this.traps=this.physics.add.group();
@@ -99,10 +101,12 @@ export default class level2 extends Phaser.Scene {
     //   object.body.setImmovable(true);
     // });
      
+    /*
     this.shop=this.scene.get('Shop');
-     //Jugador
-      this.player = this.shop.player;
-      this.player.scene=this;
+     //Jugador*/
+     this.player = new Player(this, 600, 600);
+     this.player.body.setSize(16,60);//Ajustamos el collider
+     this.player.setScale(0.5);
 
     //Camara
     this.camera = this.cameras.main;
