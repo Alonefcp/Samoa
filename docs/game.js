@@ -539,6 +539,7 @@ UpdateNumEnemies(value){
     {
       this.player.NextStage();
       this.scene.sleep('main');
+      this.scene.sleep('HUD');
       this.scene.run('Shop');
       this.shop=this.scene.get('Shop');
       this.shop.UpdateStage(this.player.GetStage());

@@ -75,8 +75,7 @@ export default class level2 extends Phaser.Scene {
       this.spike=new Trap(this,element.x,element.y,'spikes',1).setScale(.5);
       this.traps.add(this.spike);
     });
-    
-    
+      
 
     this.acidLayer.objects.forEach(object=>{
       this.acid = new Trap(this,object.x,object.y,'acid',2).setScale(0.5);
@@ -129,19 +128,19 @@ this.meleeLayer.objects.forEach(object=>{
 },this);
 
 this.wizardLayer.objects.forEach(object=>{
-  this.wizard = new Wizard(this,object.x,object.y,'meleeEnemy',30).setScale(1.1);
+  this.wizard = new Wizard(this,object.x,object.y,'wizard',30).setScale(1.1);
   if(this.reduceLife)this.wizard.HP-=10;
   this.enemies.add(this.wizard);
 },this);
 
 this.tankLayer.objects.forEach(object=>{
-  this.tank = new Tank(this,object.x,object.y,'meleeEnemy',15).setScale(1.2);
+  this.tank = new Tank(this,object.x,object.y,'tank',15).setScale(1.2);
   if(this.reduceLife)this.tank.HP-=10;
   this.enemies.add(this.tank);
 },this);
 
 this.ghostLayer.objects.forEach(object=>{
-  this.ghost = new Ghost(this,object.x,object.y,'meleeEnemy',15).setScale(1.1);
+  this.ghost = new Ghost(this,object.x,object.y,'ghost',15).setScale(1.1);
   if(this.reduceLife)this.ghost.HP-=10;
   this.enemies.add(this.ghost);
 },this);
