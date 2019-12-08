@@ -20,9 +20,7 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
-    this.load.spritesheet('meleeEnemy','Assets/melee.png',{ frameWidth: 32, frameHeight: 36 });
-    this.load.spritesheet('wizard','Assets/wizard.png',{ frameWidth: 16, frameHeight: 21 });
-    this.load.spritesheet('ghost','Assets/ghost.png',{ frameWidth: 16, frameHeight: 17 });
+    this.load.image('meleeEnemy','Assets/enemigo.png');
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
     this.load.image('hole','Assets/hoyo.jpg');
@@ -128,7 +126,7 @@ this.meleeLayer.objects.forEach(object=>{
 },this);
 
 this.wizardLayer.objects.forEach(object=>{
-  this.wizard = new Wizard(this,object.x,object.y,'wizard',30).setScale(1);
+  this.wizard = new Wizard(this,object.x,object.y,'meleeEnemy',30).setScale(0.8);
   if(this.reduceLife)this.wizard.HP-=10;
   this.enemies.add(this.wizard);
 },this);
@@ -140,7 +138,7 @@ this.tankLayer.objects.forEach(object=>{
 },this);
 
 this.ghostLayer.objects.forEach(object=>{
-  this.ghost = new Ghost(this,object.x,object.y,'ghost',15).setScale(1);
+  this.ghost = new Ghost(this,object.x,object.y,'meleeEnemy',15).setScale(0.8);
   if(this.reduceLife)this.ghost.HP-=10;
   this.enemies.add(this.ghost);
 },this);
@@ -171,31 +169,9 @@ this.ghostLayer.objects.forEach(object=>{
     //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
 
-    //Animaciones de los enemigos
     this.anims.create({
-      key:'wizardIdle',
-      frames:this.anims.generateFrameNumbers('wizard',{start:0,end:3}),
-      frameRate:10,
-      repeat:-1
-    });
-
-    this.anims.create({
-      key:'ghostIdle',
-      frames:this.anims.generateFrameNumbers('ghost',{start:0,end:3}),
-      frameRate:10,
-      repeat:-1
-    });
-
-    this.anims.create({
-      key:'meleeIdle',
-      frames:this.anims.generateFrameNumbers('meleeEnemy',{start:0,end:3}),
-      frameRate:10,
-      repeat:-1
-    });
-
-    this.anims.create({
-      key:'meleeRun',
-      frames:this.anims.generateFrameNumbers('meleeEnemy',{start:4,end:7}),
+      key:'melee',
+      frames:this.anims.generateFrameNumbers('meleeEnemy',{start:82,end:89}),
       frameRate:10,
       repeat:-1
     });
