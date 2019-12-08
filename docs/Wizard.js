@@ -10,7 +10,7 @@ export default class Wizard extends Enemy{
     preUpdate(time,delta)
     {
         super.preUpdate(time,delta);
-
+        this.play('wizardIdle',true);
        if(this.timeStopped)
        {
         this.Stop();

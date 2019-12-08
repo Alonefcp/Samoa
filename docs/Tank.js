@@ -16,7 +16,7 @@ export default class Tank extends Enemy{
     preUpdate(time,delta)
     {
         super.preUpdate(time,delta);
-
+        this.play('tankIdle',true);
         this.distanceToPlayer = Phaser.Math.Distance.Squared(this.x, this.y,this.scene.player.x , this.scene.player.y);
         if(!this.timeStopped)
         {

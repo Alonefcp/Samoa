@@ -11,7 +11,7 @@ export default class Ghost extends Enemy{
     preUpdate(time,delta)
     {
         super.preUpdate(time,delta);
-
+        this.play('ghostIdle',true);
        if(this.timeStopped)
        {
         this.Stop();
