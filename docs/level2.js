@@ -51,59 +51,62 @@ export default class level2 extends Phaser.Scene {
    this.suelo=this.map.createStaticLayer('suelo',[this.tiles]);
    this.paredes2=this.map.createStaticLayer('paredes2',[this.tiles]);
    this.paredes=this.map.createStaticLayer('paredes',[this.tiles]);
+   this.deco=this.map.createStaticLayer('Decoracion',[this.tiles]);
    
    this.paredes.setCollisionByProperty({colisiona:true});
    this.paredes2.setCollisionByProperty({colisiona:true});
+   this.deco.setCollisionByProperty({colisiona:true});
 
    this.spikesLayer = this.map.getObjectLayer('Pinchos');
    this.acidLayer = this.map.getObjectLayer('Veneno');
-   this.webLayer = this.map.getObjectLayer('Telaraña');
+   this.webLayer = this.map.getObjectLayer('Telarañas');
    this.holeLayer = this.map.getObjectLayer('Hoyos');
-   this.destructibleObjectsLayer = this.map.getObjectLayer('ObjetosDestructibles');
+   this.destructibleObjectsLayer = this.map.getObjectLayer('Destructibles');
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
    this.tankLayer = this.map.getObjectLayer('Tanque');
    this.ghostLayer = this.map.getObjectLayer('Fantasma');
    this.ghostPoints = this.map.getObjectLayer('GhostPoints');
-   //this.numEnemies=this.meleeLayer.objects.length+this.wizardLayer.objects.length+this.tankLayer.objects.length+this.ghostLayer.objects.length;
+   this.numEnemies=this.meleeLayer.objects.length+this.wizardLayer.objects.length+this.tankLayer.objects.length+this.ghostLayer.objects.length;
 
     //Trampas del mapa
-    // this.traps=this.physics.add.group();
+    this.traps=this.physics.add.group();
+    this.spikesLayer.objects.forEach(element => {
+      this.spike=new Trap(this,element.x,element.y,'spikes',1).setScale(.5);
+      this.traps.add(this.spike);
+    });
     
-    // this.spikesLayer.objects.forEach(object => { 
-    //   this.spike = new Trap(this,object.x,object.y,'spikes',1).setScale(0.5);     
-    //   this.traps.add(this.spike);         
-    // });
+    
 
-    // this.acidLayer.objects.forEach(object=>{
-    //   this.acid = new Trap(this,object.x,object.y,'acid',2).setScale(0.5);
-    //   this.traps.add(this.acid);
-    // });
+    this.acidLayer.objects.forEach(object=>{
+      this.acid = new Trap(this,object.x,object.y,'acid',2).setScale(0.5);
+      this.traps.add(this.acid);
+    });
 
-    // this.webLayer.objects.forEach(object=>{
-    //   this.web = new Trap(this,object.x,object.y,'spiderWeb',0).setScale(0.5);
-    //   this.traps.add(this.web);
-    // });
+    this.webLayer.objects.forEach(object=>{
+      this.web = new Trap(this,object.x,object.y,'spiderWeb',0).setScale(0.5);
+      this.traps.add(this.web);
+    });
 
-    // this.holeLayer.objects.forEach(object=>{
-    //   this.hole = new Trap(this,object.x,object.y,'hole',3).setScale(0.5);
-    //   this.traps.add(this.hole);
-    // });
+    this.holeLayer.objects.forEach(object=>{
+      this.hole = new Trap(this,object.x,object.y,'hole',3).setScale(0.5);
+      this.traps.add(this.hole);
+    });
 
-    // //Objeto destructibles
-    // this.destuctibleObjects = this.physics.add.group();
+    //Objeto destructibles
+    this.destuctibleObjects = this.physics.add.group();
      
-    // this.destructibleObjectsLayer.objects.forEach(object=>{
-    //   this.destObject = new DestructibleObject(this,object.x,object.y,'chest').setScale(1);
-    //   this.destuctibleObjects.add(this.destObject);
-    // });
-    // this.destuctibleObjects.children.iterate(function(object){
-    //   object.body.setImmovable(true);
-    // });
+    this.destructibleObjectsLayer.objects.forEach(object=>{
+      this.destObject = new DestructibleObject(this,object.x,object.y,'chest').setScale(1);
+      this.destuctibleObjects.add(this.destObject);
+    });
+    this.destuctibleObjects.children.iterate(function(object){
+      object.body.setImmovable(true);
+    });
      
-    /*
+    
     this.shop=this.scene.get('Shop');
-     //Jugador*/
+     //Jugador
      this.player = new Player(this, 600, 600);
      this.player.body.setSize(16,60);//Ajustamos el collider
      this.player.setScale(0.5);
@@ -116,55 +119,57 @@ export default class level2 extends Phaser.Scene {
     //this.camera.setViewport(0, 0, 900, 900);
 
     //Enemigos
-//     this.enemies=this.physics.add.group();
-//     this.reduceLife = false;
+    this.enemies=this.physics.add.group();
+    this.reduceLife = false;
    
-// this.meleeLayer.objects.forEach(object=>{
-//   this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
-//   if(this.reduceLife)this.melee.HP-=10;
-//   this.enemies.add(this.melee);
-// },this);
+this.meleeLayer.objects.forEach(object=>{
+  this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
+  if(this.reduceLife)this.melee.HP-=10;
+  this.enemies.add(this.melee);
+},this);
 
-// this.wizardLayer.objects.forEach(object=>{
-//   this.wizard = new Wizard(this,object.x,object.y,'meleeEnemy',30).setScale(0.8);
-//   if(this.reduceLife)this.wizard.HP-=10;
-//   this.enemies.add(this.wizard);
-// },this);
+this.wizardLayer.objects.forEach(object=>{
+  this.wizard = new Wizard(this,object.x,object.y,'meleeEnemy',30).setScale(1.1);
+  if(this.reduceLife)this.wizard.HP-=10;
+  this.enemies.add(this.wizard);
+},this);
 
-// this.tankLayer.objects.forEach(object=>{
-//   this.tank = new Tank(this,object.x,object.y,'meleeEnemy',15).setScale(1);
-//   if(this.reduceLife)this.tank.HP-=10;
-//   this.enemies.add(this.tank);
-// },this);
+this.tankLayer.objects.forEach(object=>{
+  this.tank = new Tank(this,object.x,object.y,'meleeEnemy',15).setScale(1.2);
+  if(this.reduceLife)this.tank.HP-=10;
+  this.enemies.add(this.tank);
+},this);
 
-// this.ghostLayer.objects.forEach(object=>{
-//   this.ghost = new Ghost(this,object.x,object.y,'meleeEnemy',15).setScale(0.8);
-//   if(this.reduceLife)this.ghost.HP-=10;
-//   this.enemies.add(this.ghost);
-// },this);
+this.ghostLayer.objects.forEach(object=>{
+  this.ghost = new Ghost(this,object.x,object.y,'meleeEnemy',15).setScale(1.1);
+  if(this.reduceLife)this.ghost.HP-=10;
+  this.enemies.add(this.ghost);
+},this);
 
 
-    //Colisiones
-    // this.physics.add.collider(this.enemies,this.enemies);
+    // Colisiones
+    this.physics.add.collider(this.enemies,this.enemies);
 
     // //Overlap entre el jugador y las trampas
-    // this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
+    this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
 
     // //Acceso a la escena del HUD
     this.HUDscene = this.scene.get('HUD');
 
     //colision entre el jugador y entre los objetos destruibles
-    // this.physics.add.collider(this.enemies,this.destuctibleObjects);
-    // this.physics.add.collider(this.player,this.destuctibleObjects);
+    this.physics.add.collider(this.enemies,this.destuctibleObjects);
+    this.physics.add.collider(this.player,this.destuctibleObjects);
 
     //Colision entre las paredes y los enemigos y el jugador
     this.physics.add.collider(this.player,this.paredes);
-    // this.physics.add.collider(this.enemies,this.paredes);
-    // this.physics.add.collider(this.player,this.paredes2);
-    // this.physics.add.collider(this.enemies,this.paredes2);
+    this.physics.add.collider(this.enemies,this.paredes);
+    this.physics.add.collider(this.player,this.paredes2);
+    this.physics.add.collider(this.enemies,this.paredes2);
+    this.physics.add.collider(this.enemies,this.deco);
+    this.physics.add.collider(this.player,this.deco);
 
     // //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
-    // this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
+    this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
 
     this.anims.create({
       key:'melee',
@@ -336,43 +341,43 @@ export default class level2 extends Phaser.Scene {
   {  
     //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
     //objetos destructibles
-  //   if(this.physics.overlap(this.enemies,this.player.trigger))
-  //  { 
-  //   this.enemies.getChildren().forEach(function(enemy){
+    if(this.physics.overlap(this.enemies,this.player.trigger))
+   { 
+    this.enemies.getChildren().forEach(function(enemy){
 
-  //     if(this.physics.overlap(enemy,this.player.trigger))
-  //     {
-  //       enemy.ReceiveDamage(this.player.atk);
+      if(this.physics.overlap(enemy,this.player.trigger))
+      {
+        enemy.ReceiveDamage(this.player.atk);
         
-  //       if(enemy.receiveDamage != undefined)enemy.receiveDamage=true;
+        if(enemy.receiveDamage != undefined)enemy.receiveDamage=true;
 
-  //       if(enemy.HP<=0)
-  //       {
-  //         this.UpdateNumEnemies(-1);
-  //         enemy.DropItem();
-  //         enemy.destroy();
-  //       }   
-  //       this.player.trigger.destroy();    
-  //     }
-  //    },this);
-  //  }  
-  //  else if(this.physics.overlap(this.destuctibleObjects,this.player.trigger))
-  //  {
-  //      this.destuctibleObjects.getChildren().forEach(function(object)
-  //     {
-  //      if(this.physics.overlap(object,this.player.trigger))
-  //      {
-  //        object.ReceiveDamage(50);
-  //        if(object.HP<=0) 
-  //        {
-  //          object.DropItem();
-  //          object.destroy();
-  //        }
-  //        this.player.trigger.destroy();
-  //      }   
-  //    },this);
-  //  }
-  //  else if(this.player.trigger != undefined)this.player.trigger.destroy();
+        if(enemy.HP<=0)
+        {
+          this.UpdateNumEnemies(-1);
+          enemy.DropItem();
+          enemy.destroy();
+        }   
+        this.player.trigger.destroy();    
+      }
+     },this);
+   }  
+   else if(this.physics.overlap(this.destuctibleObjects,this.player.trigger))
+   {
+       this.destuctibleObjects.getChildren().forEach(function(object)
+      {
+       if(this.physics.overlap(object,this.player.trigger))
+       {
+         object.ReceiveDamage(50);
+         if(object.HP<=0) 
+         {
+           object.DropItem();
+           object.destroy();
+         }
+         this.player.trigger.destroy();
+       }   
+     },this);
+   }
+   else if(this.player.trigger != undefined)this.player.trigger.destroy();
 
     //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
     if (this.cursors.up.isDown && this.cursors.right.isDown)
