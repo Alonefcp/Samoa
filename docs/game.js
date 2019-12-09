@@ -6,6 +6,8 @@ import Melee from './Melee.js';
 import Wizard from './Wizard.js';
 import Tank from './Tank.js';
 import Ghost from './Ghost.js';
+import Book from './book.js';
+import Portal from './Portal.js';
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -41,6 +43,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('time','Assets/reloj.png',{frameWidth:128,frameHeight:178});
     this.load.spritesheet('tornado','Assets/tornadoAnim150.png',{frameWidth:50,frameHeight:49});
     this.load.spritesheet('whirlpool','Assets/whirlpool32.png',{frameWidth:32,frameHeight:32});
+    this.load.spritesheet('portal','Assets/portal.png',{frameWidth:26,frameHeight:64});
   }
 
   create() {
@@ -66,7 +69,7 @@ export default class Game extends Phaser.Scene {
    this.webLayer = this.map.getObjectLayer('Telaraña');
    this.holeLayer = this.map.getObjectLayer('Hoyos');
    this.bookLayer=this.map.getObjectLayer('Libro');
-   this.physics.add.overlap(this.bookLayer.objects[0],this.player);
+   this.portalLayer=this.map.getObjectLayer('SigNivel');
    this.destructibleObjectsLayer = this.map.getObjectLayer('ObjetosDestructibles');
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
@@ -124,6 +127,9 @@ export default class Game extends Phaser.Scene {
     //Enemigos
     this.enemies=this.physics.add.group();
     this.reduceLife = false;
+    //libro
+    this.book=new Book(this,this.bookLayer.objects[0].x,this.bookLayer.objects[0].y,'book',this.player);
+    
    
 this.meleeLayer.objects.forEach(object=>{
   this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
@@ -333,6 +339,12 @@ this.ghostLayer.objects.forEach(object=>{
       frames:this.anims.generateFrameNumbers('book',{start:1,end:1}),
       frameRate:1,
       repeat:0
+    });
+    this.anims.create({
+      key:'portalDoor',
+      frames:this.anims.generateFrameNumbers('portal',{start:0,end:3}),
+      frameRate:15,
+      repeat:-1
     });
 
     //input del teclado
@@ -547,19 +559,14 @@ UpdateNumEnemies(value){
   this.numEnemies+=value;
   if(this.numEnemies<=0)
   {
-    this.exit=this.add.zone(200,200,64,64);
-    this.physics.world.enable(this.exit);
-    this.exit.moves=false;
-    this.physics.add.overlap(this.exit,this.player,()=>
-    {
-      this.player.NextStage();
-      this.scene.sleep('main');
-      this.scene.sleep('HUD');
-      this.scene.run('Shop');
-      this.shop=this.scene.get('Shop');
-      this.shop.UpdateStage(this.player.GetStage());
-      this.exit.destroy();
-    },null,this);
+    this.book.UnlockBook();
   }
+}
+AllEnemiesDead(){
+  return this.numEnemies<=0;
+}
+CreateExit(){
+  this.portal=new Portal(this,this.portalLayer.objects[0].x,this.portalLayer.objects[0].y,'portal',this.player);
+  
 }
 }

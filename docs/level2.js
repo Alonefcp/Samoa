@@ -6,7 +6,8 @@ import Melee from './Melee.js';
 import Wizard from './Wizard.js';
 import Tank from './Tank.js';
 import Ghost from './Ghost.js';
-
+import Book from './book.js';
+import Portal from './Portal.js';
 export default class level2 extends Phaser.Scene {
   constructor() {
 
@@ -20,24 +21,9 @@ export default class level2 extends Phaser.Scene {
 
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
-    this.load.image('meleeEnemy','Assets/enemigo.png');
-    this.load.image('spiderWeb','Assets/web.png');
-    this.load.image('acid','Assets/acido.jpg');
-    this.load.image('hole','Assets/hoyo.jpg');
-    this.load.image('spikes','Assets/pinchos.jpg');
-    this.load.image('chest','Assets/cofre.png');
-    this.load.image('coin','Assets/moneda.png');
-    this.load.image('mana','Assets/star.png');
     this.load.tilemapTiledJSON('nivel2','Assets/nivel2.json')
-    this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });
     this.load.image('tilesetLevel2','Assets/LEVEL2TILES.png');
-    this.load.spritesheet('fireball','Assets/fireball_spritesheet16128.png',{frameWidth:16, frameHeight:16});
-    this.load.spritesheet('waterray','Assets/Rayo16.png',{frameWidth:16,frameHeight:118});
-    this.load.spritesheet('wind','Assets/animV256.png',{frameWidth:256,frameHeight:256});
-    this.load.spritesheet('time','Assets/reloj.png',{frameWidth:128,frameHeight:178});
-    this.load.spritesheet('tornado','Assets/tornadoAnim150.png',{frameWidth:50,frameHeight:49});
-    this.load.spritesheet('whirlpool','Assets/whirlpool32.png',{frameWidth:32,frameHeight:32});
-  }
+      }
 
   create() {
     //Tilemap de prueba
@@ -61,6 +47,8 @@ export default class level2 extends Phaser.Scene {
    this.acidLayer = this.map.getObjectLayer('Veneno');
    this.webLayer = this.map.getObjectLayer('Telarañas');
    this.holeLayer = this.map.getObjectLayer('Hoyos');
+   this.bookLayer=this.map.getObjectLayer('Libro');
+   this.portalLayer=this.map.getObjectLayer('SigNivel');
    this.destructibleObjectsLayer = this.map.getObjectLayer('Destructibles');
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
@@ -106,9 +94,10 @@ export default class level2 extends Phaser.Scene {
     
     this.shop=this.scene.get('Shop');
      //Jugador
-     this.player = new Player(this, 600, 600);
-     this.player.body.setSize(16,60);//Ajustamos el collider
-     this.player.setScale(0.5);
+     this.player = this.shop.player;
+     this.player.Spawn();
+    //  this.player.body.setSize(16,60);//Ajustamos el collider
+    //  this.player.setScale(0.5);
 
     //Camara
     this.camera = this.cameras.main;
@@ -120,6 +109,8 @@ export default class level2 extends Phaser.Scene {
     //Enemigos
     this.enemies=this.physics.add.group();
     this.reduceLife = false;
+    //libro
+    this.book=new Book(this,this.bookLayer.objects[0].x,this.bookLayer.objects[0].y,'book',this.player);
    
 this.meleeLayer.objects.forEach(object=>{
   this.melee = new Melee(this,object.x,object.y,'meleeEnemy',20).setScale(0.8);
@@ -170,131 +161,7 @@ this.ghostLayer.objects.forEach(object=>{
     // //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.overlap(this.player,this.enemies,this.EnemyHitsPlayer,null,this); 
 
-    this.anims.create({
-      key:'melee',
-      frames:this.anims.generateFrameNumbers('meleeEnemy',{start:82,end:89}),
-      frameRate:10,
-      repeat:-1
-    });
-
-    //animaciones el jugador
-    this.anims.create({
-      key: 'idle',
-      frames: this.anims.generateFrameNumbers('player', { start: 0, end: 3 }),
-      frameRate: 10,
-      repeat: -1
-    });
-
-    this.anims.create({
-      key: 'down',
-      frames: this.anims.generateFrameNumbers('player', { start: 4, end: 8 }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.anims.create({
-      key:'up',
-      frames: this.anims.generateFrameNumbers('player', { start: 9, end: 13 }),
-      frameRate: 10,
-      repeat: -1
-
-    });
-    this.anims.create({
-      key:'right',
-      frames: this.anims.generateFrameNumbers('player', { start: 14, end: 19 }),
-      frameRate: 10,
-      repeat: -1
-
-    });
-    this.anims.create({
-      key:'left',
-      frames: this.anims.generateFrameNumbers('player', { start:20, end: 25 }),
-      frameRate: 10,
-      repeat: -1
-
-    });
-    this.anims.create({
-      key:'attackDown',
-      frames:this.anims.generateFrameNumbers('player',{start:26,end:28}),
-      frameRate:10,
-      repeat:0
-    });
-    this.anims.create({
-      key:'attackUp',
-      frames:this.anims.generateFrameNumbers('player',{start:29,end:31}),
-      frameRate:10,
-      repeat:0
-    });this.anims.create({
-      key:'attackRight',
-      frames:this.anims.generateFrameNumbers('player',{start:32,end:34}),
-      frameRate:10,
-      repeat:0
-    });this.anims.create({
-      key:'attackLeft',
-      frames:this.anims.generateFrameNumbers('player',{start:35,end:37}),
-      frameRate:10,
-      repeat:0
-    });
-
-    //animaciones de magias
-    this.anims.create({
-      key:'fire',
-      frames: this.anims.generateFrameNumbers('fireball', { start:3, end: 7 }),
-      frameRate: 10,
-      repeat: -1
-
-    });
-    this.anims.create({
-      key:'explosion',
-      frames: this.anims.generateFrameNumbers('fireball', { start:0, end: 2 }),
-      frameRate: 10,
-      repeat: 0
-
-    });   
-    this.anims.create({
-      key:'waterStart',
-      frames: this.anims.generateFrameNumbers('waterray', { start:0, end: 2 }),
-      frameRate: 10,
-      repeat: 0
-
-    });
-    this.anims.create({
-      key:'water',
-      frames: this.anims.generateFrameNumbers('waterray', { start:3, end: 5 }),
-      frameRate: 10,
-      repeat: -1
-
-    }); 
-    this.anims.create({
-      key:'waterEnd',
-      frames: this.anims.generateFrameNumbers('waterray', { start:6, end: 8 }),
-      frameRate: 10,
-      repeat: 0
-
-    });  
-    this.anims.create({
-      key:'wind',
-      frames: this.anims.generateFrameNumbers('wind',{start:0, end: 15}),
-      frameRate:15,
-      repeat:0
-    });  
-    this.anims.create({
-      key:'timeStop',
-      frames: this.anims.generateFrameNumbers('time',{start:0, end: 7}),
-      frameRate:10,
-      repeat:-1
-    });  
-    this.anims.create({
-      key:'tornado',
-      frames: this.anims.generateFrameNumbers('tornado',{start:0, end: 5}),
-      frameRate:5,
-      repeat:-1
-    });  
-    this.anims.create({
-      key:'whirlpool',
-      frames: this.anims.generateFrameNumbers('whirlpool',{start:0,end:7}),
-      frameRate:15,
-      repeat:-1
-    })
+   
 
     //input del teclado
     this.cursors = this.input.keyboard.addKeys({
@@ -509,18 +376,14 @@ UpdateNumEnemies(value){
   this.numEnemies+=value;
   if(this.numEnemies<=0)
   {
-    this.exit=this.add.zone(200,200,64,64);
-    this.physics.world.enable(this.exit);
-    this.exit.moves=false;
-    this.physics.add.overlap(this.exit,this.player,()=>
-    {
-      this.player.NextStage();
-      this.scene.sleep('main');
-      this.scene.run('Shop');
-      this.shop=this.scene.get('Shop');
-      this.shop.UpdateStage(this.player.GetStage());
-
-    },null,this);
+    this.book.UnlockBook();
   }
+}
+AllEnemiesDead(){
+  return this.numEnemies<=0;
+}
+CreateExit(){
+  this.portal=new Portal(this,this.portalLayer.objects[0].x,this.portalLayer.objects[0].y,'portal',this.player);
+  
 }
 }
