@@ -24,6 +24,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('wizard','Assets/wizard.png',{ frameWidth: 16, frameHeight: 21 });
     this.load.spritesheet('ghost','Assets/ghost.png',{ frameWidth: 16, frameHeight: 17 });
     this.load.spritesheet('tank','Assets/tank.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('book','Assets/waterbook.png',{frameWidth:17,frameHeight:26});
     this.load.image('spiderWeb','Assets/web.png');
     this.load.image('acid','Assets/acido.jpg');
     this.load.image('hole','Assets/hoyo.jpg');
@@ -64,6 +65,8 @@ export default class Game extends Phaser.Scene {
    this.acidLayer = this.map.getObjectLayer('Veneno');
    this.webLayer = this.map.getObjectLayer('Telaraña');
    this.holeLayer = this.map.getObjectLayer('Hoyos');
+   this.bookLayer=this.map.getObjectLayer('Libro');
+   this.physics.add.overlap(this.bookLayer.objects[0],this.player);
    this.destructibleObjectsLayer = this.map.getObjectLayer('ObjetosDestructibles');
    this.meleeLayer = this.map.getObjectLayer('Melee');
    this.wizardLayer = this.map.getObjectLayer('Mago');
@@ -318,7 +321,19 @@ this.ghostLayer.objects.forEach(object=>{
       frames: this.anims.generateFrameNumbers('whirlpool',{start:0,end:7}),
       frameRate:15,
       repeat:-1
-    })
+    });
+    this.anims.create({
+      key:'lockedbook',
+      frames:this.anims.generateFrameNumbers('book',{start:0,end:0}),
+      frameRate:1,
+      repeat:0
+    });
+    this.anims.create({
+      key:'unlockedbook',
+      frames:this.anims.generateFrameNumbers('book',{start:1,end:1}),
+      frameRate:1,
+      repeat:0
+    });
 
     //input del teclado
     this.cursors = this.input.keyboard.addKeys({

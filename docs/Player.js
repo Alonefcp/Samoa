@@ -39,6 +39,7 @@ export default class Player extends Entity{
       this.timestopCoolDown = 120;
       this.whirlpoolCoolDown = 110;
       this.coolDown =0;
+      this.unlockedMagic=1;
       this.canCastMagic = true;
 
       this.isAttacking = false;
@@ -270,8 +271,8 @@ export default class Player extends Entity{
         }
 
         RotateMagic(){
-          if(this.currentMagic<3)
-           this.currentMagic=(this.currentMagic+1)%3;
+          if(this.currentMagic<this.unlockedMagic)
+           this.currentMagic=(this.currentMagic+1)%this.unlockedMagic;
            else this.currentMagic=0;
 
            this.scene.HUDscene.ChangeMagicIcon(this.currentMagic);
@@ -288,7 +289,11 @@ export default class Player extends Entity{
          //Actualizamos la barra de mana
          this.scene.HUDscene.ReduceManaBar(this.mana,this.maxMana);
         }
-
+        UnlockMagic(){
+          this.unlockedMagic++;
+          if(this.unlockedMagic>3)
+            this.unlockedMagic=3;
+        }
         GetCoins(coins){
           if(coins > 0)
           this.coins+=coins;
