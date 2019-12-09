@@ -21,9 +21,9 @@ export default class level2 extends Phaser.Scene {
 
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
-    this.load.tilemapTiledJSON('nivel2','Assets/nivel2.json')
+    this.load.tilemapTiledJSON('nivel2','Assets/nivel2.json');
     this.load.image('tilesetLevel2','Assets/LEVEL2TILES.png');
-      }
+  }
 
   create() {
     //Tilemap de prueba

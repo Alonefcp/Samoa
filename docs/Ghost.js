@@ -18,7 +18,7 @@ export default class Ghost extends Enemy{
        }
        else if(this.receiveDamage)
        {
-           this.value = Phaser.Math.Between(0, 2);
+           this.value = Phaser.Math.Between(0, this.scene.ghostPoints.objects.length-1);
            this.x = this.scene.ghostPoints.objects[this.value].x;
            this.y = this.scene.ghostPoints.objects[this.value].y;
            this.receiveDamage=false;
