@@ -15,6 +15,8 @@ EndLevel(){
         {
             this.player.UnlockMagic();
             this.scene.CreateExit();
+            this.combinator = this.scene.scene.get('Combinator');
+            this.combinator.unlockMagic();
             this.destroy();
         }   
 }

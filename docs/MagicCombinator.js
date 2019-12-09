@@ -5,6 +5,7 @@ export default class MagicCombinator extends Phaser.Scene{
         this.wind = false;
         this.fire = false;
         this.water = false;
+        this.unlockedMagics=1;
     }
     preload(){
         this.load.spritesheet('windB','Assets/AnimViento.png',{frameWidth:128,frameHeight:128});
@@ -68,7 +69,29 @@ export default class MagicCombinator extends Phaser.Scene{
             frames: this.anims.generateFrameNumbers('windB', { start: 0, end: 12 }),
             frameRate: 10,
             repeat: -1
+          });this.anims.create({
+            key: 'windNeutral',
+            frames: this.anims.generateFrameNumbers('windB', { start: 13, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+          });this.anims.create({
+            key: 'fireNeutral',
+            frames: this.anims.generateFrameNumbers('fireB', { start: 13, end: 13 }),
+            frameRate: 10,
+            repeat: -1
+          });this.anims.create({
+            key: 'waterNeutral',
+            frames: this.anims.generateFrameNumbers('waterB', { start: 13, end: 13 }),
+            frameRate: 10,
+            repeat: -1
           });
+          if(this.unlockedMagics==1)
+            {
+                this.waterB.play('waterNeutral');
+                this.windB.play('windNeutral');
+            }
+            else if(this.unlockedMagics==2)
+                this.windB.play('windNeutral');
         //callbacks
         this.close.on('pointerdown',()=>{
             this.scene.sleep('Combinator');
@@ -109,13 +132,16 @@ export default class MagicCombinator extends Phaser.Scene{
 
         });
         this.windB.on('pointerdown',()=>{
-            if(!(this.fire && this.water))
-                this.wind =! this.wind;
-            if(this.wind)
-                this.windB.play('windB');
-            else    
-                this.stopPlaying(this.windB);
-        });
+           if(this.windB.anims.getCurrentKey()!=='windNeutral')
+                {
+                    if(!(this.fire && this.water))
+                    this.wind =! this.wind;
+                    if(this.wind)
+                        this.windB.play('windB');
+                    else    
+                        this.stopPlaying(this.windB);
+                }       
+            });
         this.fireB.on('pointerdown',()=>{
             if(!(this.wind && this.water))
                 this.fire =! this.fire;
@@ -127,18 +153,26 @@ export default class MagicCombinator extends Phaser.Scene{
                     }
         });
         this.waterB.on('pointerdown',()=>{
-            if(!(this.fire && this.wind))
-                this.water =! this.water;
-            if(this.water)
-                this.waterB.play('waterB');
-            else 
+            if(this.waterB.anims.getCurrentKey()!=='waterNeutral')
                 {
-                    this.stopPlaying(this.waterB);
-                }
+                if(!(this.fire && this.wind))
+                    this.water =! this.water;
+                if(this.water)
+                    this.waterB.play('waterB');
+                else 
+                    {
+                        this.stopPlaying(this.waterB);
+                    }
+                }        
         });
     }
     stopPlaying(animObj){
         animObj.anims.restart();
         animObj.anims.stop();
+    }
+    unlockMagic(){
+        this.unlockedMagics++;
+        if(this.unlockedMagics>3)
+            this.unlockedMagics=3;
     }
 }
