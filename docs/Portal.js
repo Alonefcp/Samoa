@@ -13,6 +13,8 @@ constructor(scene,x,y,img,player){
       this.scene.scene.run('Shop');
       this.shop=this.scene.scene.get('Shop');
       this.shop.UpdateStage(this.player.GetStage());
+      this.pause=this.scene.scene.get('Pause');
+      this.pause.changeMainScene();
       this.destroy();
     },null,this);
 }

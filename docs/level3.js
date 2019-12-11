@@ -183,6 +183,12 @@ this.ghostLayer.objects.forEach(object=>{
       this.scene.pause('main');
 
     });
+    this.escape=this.input.keyboard.addKey('ESC');
+    this.escape.on('up',()=>{
+      this.player.Stop();
+      this.scene.launch('Pause');
+      this.scene.pause('level3');
+    });
     this.n=this.input.keyboard.addKey('N');
     this.n.on('down',()=>{this.UpdateNumEnemies(-this.numEnemies);},null,this);
 
