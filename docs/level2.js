@@ -90,15 +90,13 @@ export default class level2 extends Phaser.Scene {
     this.destuctibleObjects.children.iterate(function(object){
       object.body.setImmovable(true);
     });
-     
-    
+        
     this.shop=this.scene.get('Shop');
-     //Jugador
-     this.player = this.shop.player;
-     this.player.Spawn();
-    //  this.player.body.setSize(16,60);//Ajustamos el collider
-    //  this.player.setScale(0.5);
 
+    //Jugador
+    this.player = this.shop.player;
+    this.player.Spawn();
+    
     //Camara
     this.camera = this.cameras.main;
     this.camera.startFollow(this.player);
