@@ -390,7 +390,6 @@ this.ghostLayer.objects.forEach(object=>{
       
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD');
-      
   }
 
   update(time, delta) 
