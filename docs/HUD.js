@@ -30,7 +30,7 @@ export default class HUD extends Phaser.Scene {
 
         this.coinsText = this.add.text(135, 125, 'COINS: '+this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
 
-        this.magicIcon = this.add.image(180,230,'fireB').setScale(0.5);;
+        this.ChangeMagicIcon(this.mainScene.player.GetCurrentMagic());
         
 
     }
@@ -53,7 +53,8 @@ export default class HUD extends Phaser.Scene {
 
     ChangeMagicIcon(currentMagic)
     {    
-        this.magicIcon.destroy();
+        if(this.magicIcon!==undefined)
+            this.magicIcon.destroy();
 
           switch(currentMagic)
           {

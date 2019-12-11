@@ -274,8 +274,8 @@ export default class Player extends Entity{
           if(this.currentMagic<this.unlockedMagic)
            this.currentMagic=(this.currentMagic+1)%this.unlockedMagic;
            else this.currentMagic=0;
+           this.UpdateMagicIcon();
 
-           this.scene.HUDscene.ChangeMagicIcon(this.currentMagic);
         }
         setMagic(magic){
           this.currentMagic=magic;
@@ -309,8 +309,12 @@ export default class Player extends Entity{
         GetStage(){
           return this.stage;
         }
-
-        
+        GetCurrentMagic(){
+          return this.currentMagic;
+        }
+        UpdateMagicIcon(){
+          this.scene.HUDscene.ChangeMagicIcon(this.currentMagic);
+        }
     }
     
     

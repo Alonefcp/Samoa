@@ -102,14 +102,16 @@ export default class MagicCombinator extends Phaser.Scene{
                 
                 case 'mistB':
                     this.mainScene.player.setMagic(3);
-                break;
+                    break;
                 case 'tornadoB':
                     this.mainScene.player.setMagic(4);
-                break;
+                    break;
                 case 'whirlpoolB':
                     this.mainScene.player.setMagic(5);
-                break;
-            }
+                    break;
+                }
+                
+            
         });
         this.combine.on('pointerdown',()=>{
             if(this.fire && this.water)
