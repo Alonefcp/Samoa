@@ -18,6 +18,10 @@ export default class level2 extends Phaser.Scene {
     this.manaRecovery=5;
     this.coinsDropped=5;
   }
+  Init(data){
+    this.player.setMoney(data.money);
+    this.player.setUnlockedMagic(data.magic);
+  }
 
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')

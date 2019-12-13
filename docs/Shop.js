@@ -10,17 +10,21 @@ export default class Shop extends Phaser.Scene {
     {
 
     }
+    init(data){
+        this.player=data.player;
+        this.stage=data.stage;
+    }
 
     create()
     {
         this.price =0;
-        
+        this.reduceLife=false;
         this.HUDscene = this.scene.get('HUD');
 
-        this.mainScene.player.ResetHP();
-        this.mainScene.player.resetMana();
+        this.player.ResetHP();
+        this.player.resetMana();
 
-        this.coinsText = this.add.text(135, 125, 'COINS: '+ this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
+        this.coinsText = this.add.text(135, 125, 'COINS: '+ this.player.coins, { fontSize: '64px', fill: '#FFF' });
 
         this.shopText = this.add.text(500, 50, 'SHOP', { fontSize: '128px', fill: '#FFF' });
 
@@ -30,13 +34,13 @@ export default class Shop extends Phaser.Scene {
 
             this.priceMaxHP = 10;
 
-            if(this.mainScene.player.coins>=this.priceMaxHP)
+            if(this.player.coins>=this.priceMaxHP)
             {
-                this.mainScene.player.MaxHP+=20;
-                console.log(this.mainScene.player.MaxHP);
-                this.mainScene.player.coins-=this.priceMaxHP;
-                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
-                console.log(this.mainScene.player.coins);
+                this.player.MaxHP+=20;
+                console.log(this.player.MaxHP);
+                this.player.coins-=this.priceMaxHP;
+                this.coinsText.setText('COINS: ' + (this.player.coins));
+                console.log(this.player.coins);
             }
 
 		},this);
@@ -47,13 +51,13 @@ export default class Shop extends Phaser.Scene {
 
             this.priceMaxMana = 10;
 
-            if(this.mainScene.player.coins>=this.priceMaxMana)
+            if(this.player.coins>=this.priceMaxMana)
             {
-                this.mainScene.player.maxMana+=10;
-                console.log(this.mainScene.player.maxMana);
-                this.mainScene.player.coins-=this.priceMaxMana;
-                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
-                console.log(this.mainScene.player.coins);
+                this.player.maxMana+=10;
+                console.log(this.player.maxMana);
+                this.player.coins-=this.priceMaxMana;
+                this.coinsText.setText('COINS: ' + (this.player.coins));
+                console.log(this.player.coins);
             }
 
 
@@ -66,13 +70,13 @@ export default class Shop extends Phaser.Scene {
 
             this.priceDamage = 10;
 
-            if(this.mainScene.player.coins>=this.priceDamage)
+            if(this.player.coins>=this.priceDamage)
             {
-                this.mainScene.reduceLife = true;
+                this.reduceLife = true;
 
-                this.mainScene.player.coins-=this.priceDamage;
-                this.coinsText.setText('COINS: ' + (this.mainScene.player.coins));
-                console.log(this.mainScene.player.coins);
+                this.player.coins-=this.priceDamage;
+                this.coinsText.setText('COINS: ' + (this.player.coins));
+                console.log(this.player.coins);
             }
 
 
@@ -86,7 +90,7 @@ export default class Shop extends Phaser.Scene {
          switch(this.stage)
          {
              case 1:
-                 this.scene.run('level2');
+                 this.scene.run('level2',{player:this.player,reducelife:this.reduceLife});
                  
              break;
          }
@@ -94,17 +98,5 @@ export default class Shop extends Phaser.Scene {
 
         },this);
     }
-    UpdateStage(stage){
-        this.stage=stage;
-        switch(this.stage)
-        {
-            case 1:
-                this.mainScene=this.scene.get('main');
-                break;
-            case 2:
-                this.mainScene=this.scene.get('level1');
-                break;
-        }
-        this.player=this.mainScene.player;
-            }
+    
 }

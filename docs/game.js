@@ -572,7 +572,7 @@ AllEnemiesDead(){
   return this.numEnemies<=0;
 }
 CreateExit(){
-  this.portal=new Portal(this,this.portalLayer.objects[0].x,this.portalLayer.objects[0].y,'portal',this.player);
+  this.portal=new Portal(this,this.portalLayer.objects[0].x,this.portalLayer.objects[0].y,'portal',this.player,1);
   
 }
 }

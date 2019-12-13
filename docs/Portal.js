@@ -1,7 +1,8 @@
 export default class Portal extends Phaser.GameObjects.Sprite{
-constructor(scene,x,y,img,player){
+constructor(scene,x,y,img,player,NextStage){
     super(scene,x,y,img);
     this.player=player;
+    this.NextStage=NextStage;
     scene.add.existing(this);
     scene.physics.add.existing(this);
     this.play('portalDoor');
@@ -10,9 +11,7 @@ constructor(scene,x,y,img,player){
       this.player.NextStage();
       this.scene.scene.sleep('main');
       this.scene.scene.sleep('HUD');
-      this.scene.scene.run('Shop');
-      this.shop=this.scene.scene.get('Shop');
-      this.shop.UpdateStage(this.player.GetStage());
+      this.scene.scene.run('Shop',{player:this.player,stage:this.NextStage});
       this.pause=this.scene.scene.get('Pause');
       this.pause.changeMainScene();
       this.destroy();

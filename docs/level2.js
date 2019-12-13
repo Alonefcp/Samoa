@@ -8,9 +8,8 @@ import Tank from './Tank.js';
 import Ghost from './Ghost.js';
 import Book from './book.js';
 import Portal from './Portal.js';
-export default class level2 extends Phaser.Scene {
+export default class level2 extends SorcererScene {
   constructor() {
-
     super({ key: 'level2' });
     this.SlowTime = 100;
     this.PoisonedTime = 100;
@@ -18,7 +17,10 @@ export default class level2 extends Phaser.Scene {
     this.manaRecovery=5;
     this.coinsDropped=5;
   }
-
+init(data){
+  this.player=data.player;
+  this.reduceLife=data.reducelife
+}
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.tilemapTiledJSON('nivel2','Assets/nivel2.json');
@@ -92,9 +94,10 @@ export default class level2 extends Phaser.Scene {
     });
         
     this.shop=this.scene.get('Shop');
-
+    this.HUDscene = this.scene.get('HUD');
+    
     //Jugador
-    this.player = this.shop.player;
+    // this.player = new Player(this,10,10);
     this.player.Spawn();
     
     //Camara
@@ -142,7 +145,6 @@ this.ghostLayer.objects.forEach(object=>{
     this.physics.add.overlap(this.traps,this.player,this.OnTrapOverlap,null,this);
 
     // //Acceso a la escena del HUD
-    this.HUDscene = this.scene.get('HUD');
 
     //colision entre el jugador y entre los objetos destruibles
     this.physics.add.collider(this.enemies,this.destuctibleObjects);
