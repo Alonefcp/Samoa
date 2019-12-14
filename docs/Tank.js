@@ -44,7 +44,7 @@ export default class Tank extends Enemy {
         this.body.setVelocityY(this.speedY * this.dirY);
         this.body.setVelocityX(this.speedX * this.dirY);
 
-        if (this.timeMoving >= 20) {
+        if (this.timeMoving >= 10) {
             this.dirX = Phaser.Math.Between(-1, 1);
             this.dirY = Phaser.Math.Between(-1, 1);
             this.timeMoving = 0;

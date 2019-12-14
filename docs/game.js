@@ -403,7 +403,7 @@ export default class Game extends Phaser.Scene {
           enemy.ReceiveDamage(this.player.atk);
 
           if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
-
+          enemy.knockback = true;
           if (enemy.HP <= 0) {
             this.UpdateNumEnemies(-1);
             enemy.DropItem();

@@ -5,6 +5,8 @@ export default class Enemy extends Entity {
     super(scene, x, y, img);
     scene.physics.add.existing(this);
     this.windForce = false;
+    this.knockback=false;
+    this.knockbackTime = 0;
     this.reducedLife = 20;
     if (hasReducedLife)
       this.HP -= this.reducedLife;
@@ -25,6 +27,10 @@ export default class Enemy extends Entity {
     {
       this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
     }
+    else if(this.knockback) // es empujado por el ataque fisico del jugador
+    {
+      this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
+    }
     else //sigue al jugador
     {
       if (this.distanceToPlayer <= maxDist && this.distanceToPlayer >= minDist) {
@@ -34,6 +40,16 @@ export default class Enemy extends Entity {
       else {
         this.Stop();
       }
+    }
+
+    if(this.knockback)
+    {
+      this.knockbackTime++;
+    }
+    if(this.knockbackTime>4)
+    {
+      this.knockbackTime=0;
+      this.knockback=false;
     }
   }
 
