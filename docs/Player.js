@@ -189,6 +189,7 @@ export default class Player extends Entity {
     switch (this.currentMagic) {
       case 0:
         if (this.mana - this.fireballCost >= 0 && this.canCastMagic) {
+          this.scene.fireballfx.play();
           this.fireball = new Fireball(this.scene, this.x + 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, 1, 0, 0);
           this.fireball2 = new Fireball(this.scene, this.x, this.y + 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, 1, 0);
           this.fireball3 = new Fireball(this.scene, this.x - 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, -1, 0, 0);
@@ -207,6 +208,7 @@ export default class Player extends Entity {
         break;
       case 1:
         if (this.mana - this.waterrayCost >= 0 && this.canCastMagic) {
+          this.scene.laserfx.play();
           this.CalcDir();
           if (this.nDX > 0) this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) + Math.PI / 2);
           else this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) - Math.PI / 2);

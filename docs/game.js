@@ -22,6 +22,10 @@ export default class Game extends Phaser.Scene {
 
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
+    this.load.audio('musiclv1','Assets/audio/level1.mp3');
+    this.load.audio('fireballfx','Assets/audio/fireball.mp3');
+    this.load.audio('laserfx','Assets/audio/laser.mp3');
+    this.load.audio('meleefx','Assets/audio/melee.mp3');
     this.load.spritesheet('meleeEnemy', 'Assets/melee.png', { frameWidth: 32, frameHeight: 36 });
     this.load.spritesheet('wizard', 'Assets/wizard.png', { frameWidth: 16, frameHeight: 21 });
     this.load.spritesheet('ghost', 'Assets/ghost.png', { frameWidth: 16, frameHeight: 17 });
@@ -47,6 +51,16 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
+
+    //musica de fondo
+    this.musiclv1 = this.sound.add('musiclv1');
+    this.musiclv1.loop = true;
+    this.musiclv1.volume = 0.2;
+    this.musiclv1.play();
+    //efectos de sonido
+    this.fireballfx = this.sound.add('fireballfx');
+    this.laserfx = this.sound.add('laserfx');
+    this.meleefx = this.sound.add('meleefx');
     //Tilemap de prueba
     this.map = this.make.tilemap({
       key: 'nivel1',
@@ -382,6 +396,7 @@ export default class Game extends Phaser.Scene {
     this.input.on('pointerdown', pointer => {
       if (pointer.leftButtonDown()) {
         this.player.Attack();
+        this.meleefx.play();
         this.player.isAttacking = true;
       }
       else if (pointer.rightButtonDown())
