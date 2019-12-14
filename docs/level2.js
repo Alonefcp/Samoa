@@ -1,4 +1,4 @@
-import Player from './Player.js';
+
 import SorcererScene from './SorcererScene.js';
 import Item from './Item.js';
 import Portal from './Portal.js';
@@ -11,10 +11,7 @@ export default class level2 extends SorcererScene {
     this.manaRecovery = 5;
     this.coinsDropped = 5;
   }
-  init(data) {
-    this.coins = data.money;
-    this.unlockedMagic = data.magic;
-  }
+  
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.tilemapTiledJSON('nivel2', 'Assets/nivel2.json');

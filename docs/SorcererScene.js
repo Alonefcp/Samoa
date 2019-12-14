@@ -12,6 +12,10 @@ export default class SorcererScene extends Phaser.Scene {
   }
   init(data) {
     this.coins = data.money;
+    this.unlockedMagic = data.magic;
+    this.playerExtraMana = data.extraMana;
+    this.playerExtraHP = data.extraHP;
+    this.reduceLife = data.reduceLife;
     this.stage = data.stage;
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
@@ -78,10 +82,9 @@ export default class SorcererScene extends Phaser.Scene {
     this.shop = this.scene.get('Shop');
     this.HUDscene = this.scene.get('HUD');
     //Jugador
-    this.player = new Player(this, 10, 10);
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana);
     this.player.Spawn();
-    this.player.x = playerSpawnLayer.objects[0].x;
-    this.player.y = playerSpawnLayer.objects[0].y;
+  
 
     //Camara
     this.camera = this.cameras.main;
@@ -92,7 +95,6 @@ export default class SorcererScene extends Phaser.Scene {
 
     //Enemigos
     this.enemies = this.physics.add.group();
-    this.reduceLife = false;
     //libro
     this.book = new Book(this, this.bookLayer.objects[0].x, this.bookLayer.objects[0].y, 'book', this.player);
 
@@ -161,7 +163,7 @@ export default class SorcererScene extends Phaser.Scene {
     this.t.on('up', () => {
       this.scene.launch('Combinator');
       this.scene.sleep('HUD');
-      this.scene.pause('main');
+      this.scene.pause('level' + this.stage);
 
     });
     this.escape = this.input.keyboard.addKey('ESC');
@@ -312,7 +314,7 @@ export default class SorcererScene extends Phaser.Scene {
     return this.numEnemies <= 0;
   }
   CreateExit() {
-    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, 1);
+    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, this.stage + 1);
 
 
   }

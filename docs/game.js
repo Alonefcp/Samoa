@@ -114,11 +114,10 @@ export default class Game extends Phaser.Scene {
     });
 
     //Jugador
-    this.player = new Player(this, 600, 600);
+    this.player = new Player(this, this.playerSpawnLayer.objects[0].x,this.playerSpawnLayer.objects[0].y);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
-    this.player.x = this.playerSpawnLayer.objects[0].x;
-    this.player.y = this.playerSpawnLayer.objects[0].y;
+    
 
     //Camara
     this.camera = this.cameras.main;
@@ -391,7 +390,7 @@ export default class Game extends Phaser.Scene {
 
 
     //Hacemos que la escena del HUD corra en paralelo con esta
-    this.scene.launch('HUD',{coins: this.coins});
+    this.scene.launch('HUD');
   }
 
   update(time, delta) {
@@ -515,7 +514,7 @@ export default class Game extends Phaser.Scene {
     return this.numEnemies <= 0;
   }
   CreateExit() {
-    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, 1);
+    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, 2);
 
   }
 }

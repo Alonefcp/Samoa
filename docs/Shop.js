@@ -12,6 +12,7 @@ export default class Shop extends Phaser.Scene {
     init(data) {
         this.coins = data.money;
         this.stage = data.stage;
+        this.unlockedMagic = data.unlockedMagic;
     }
 
     create() {
@@ -78,7 +79,10 @@ export default class Shop extends Phaser.Scene {
         this.continueText.on('pointerdown', function () {
 
             this.scene.sleep('Shop');
-            this.scene.launch('level' + this.stage);
+            this.scene.launch('level' + this.stage, {
+                money: this.coins, magic: this.unlockedMagic, extraMana: this.playermaxMana, extraHP: this.playerMaxHP,
+                reduceLife: this.reduceLife
+            });
             this.scene.launch('HUD');
 
         }, this);

@@ -8,7 +8,7 @@ export default class Portal extends Phaser.GameObjects.Sprite {
     this.play('portalDoor');
     this.scene.physics.add.overlap(this, this.player, () => {
       this.player.NextStage();
-      this.scene.scene.sleep('main');
+      this.scene.scene.sleep('level'+this.NextStage-1);
       this.scene.scene.sleep('HUD');
       this.scene.scene.run('Shop', { money: this.player.getMoney(), stage: this.NextStage });
       this.destroy();
