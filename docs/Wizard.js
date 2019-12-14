@@ -14,7 +14,7 @@ export default class Wizard extends Enemy {
             this.Stop();
         }
         else {
-            this.FollowPlayer(25000, 10000);
+            this.FollowPlayer(25000, 10000,true);
 
             if (this.distanceToPlayer <= 10000) {
             this.frireRate++;

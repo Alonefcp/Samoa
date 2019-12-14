@@ -14,7 +14,7 @@ export default class Enemy extends Entity {
     this.timeStopped = false;
   }
 
-  FollowPlayer(maxDist, minDist) {
+  FollowPlayer(maxDist, minDist,isWizard) {
     this.dirX = this.x - this.scene.player.x;
     this.dirY = this.y - this.scene.player.y;
     this.module = Math.sqrt(Math.pow(this.dirX, 2) + Math.pow(this.dirY, 2));
@@ -27,7 +27,7 @@ export default class Enemy extends Entity {
     {
       this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
     }
-    else if(this.knockback) // es empujado por el ataque fisico del jugador
+    else if(this.knockback && !isWizard) // es empujado por el ataque fisico del jugador
     {
       this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
     }
