@@ -86,8 +86,8 @@ export default class SorcererScene extends Phaser.Scene {
     this.HUDscene = this.scene.get('HUD');
     //Jugador
     this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana);
+    this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
-    this.player.Spawn();
 
 
     //Camara
