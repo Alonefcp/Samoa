@@ -6,8 +6,9 @@ export default class Trap extends Phaser.GameObjects.Sprite {
 
         scene.add.existing(this);
         scene.physics.add.existing(this);
-        this.type = type;//0 = spiderWeb, 1 = spikes, 2 = Poison, 3 = Hole, 4 = CoveredHole
-
+        this.type = type;//0 = spiderWeb, 1 = spikes, 2 = Poison, 3 = Hole
+        this.cont = 0;   
+        this.firstTime=true;  
     }
     ApplyEffect(player) {
         if (this.type === 0)
@@ -17,6 +18,15 @@ export default class Trap extends Phaser.GameObjects.Sprite {
         else if (this.type === 1)
             player.Spikes();
         else if (this.type === 3)
-            player.Spawn();
+        {    
+            this.setFrame(1);
+            if(this.firstTime)this.cont++;
+            if(this.cont>20)
+            {            
+                player.Spawn();
+                this.firstTime=false;
+            }   
+        }
+            
     }
 }

@@ -29,7 +29,7 @@ export default class Game extends Phaser.Scene {
     this.load.spritesheet('book', 'Assets/waterbook.png', { frameWidth: 17, frameHeight: 26 });
     this.load.image('spiderWeb', 'Assets/web.png');
     this.load.image('acid', 'Assets/acido.png');
-    this.load.image('hole', 'Assets/hoyo.jpg');
+    this.load.spritesheet('hole', 'Assets/hoyolv1.png',{ frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes', 'Assets/pinchoslv1.png');
     this.load.image('chest', 'Assets/cofre.png');
     this.load.image('coin', 'Assets/moneda.png');

@@ -28,6 +28,8 @@ export default class level2 extends SorcererScene {
     //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.tilemapTiledJSON('nivel3', 'Assets/nivel3.json');
     this.load.image('tilesetLevel3', 'Assets/Nivel3Tiles.png');
+    this.load.spritesheet('hole3', 'Assets/hoyolv3.png',{ frameWidth: 32, frameHeight: 32 });
+    this.load.image('spikes3', 'Assets/pinchoslv3.png');
   }
 
   create() {
@@ -64,7 +66,7 @@ export default class level2 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer,
-      this.ghostPoints,this.playerSpawnLayer ,this.numEnemies);
+      this.ghostPoints,this.playerSpawnLayer ,this.numEnemies,'spikes3','hole3');
 
   }
 
