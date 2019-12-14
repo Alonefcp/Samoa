@@ -90,7 +90,7 @@ export default class Shop extends Phaser.Scene {
          switch(this.stage)
          {
              case 1:
-                 this.scene.run('level2',{player:this.player,reducelife:this.reduceLife});
+                 this.scene.run('level2');
                  
              break;
          }
