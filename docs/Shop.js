@@ -79,7 +79,7 @@ export default class Shop extends Phaser.Scene {
         this.continueText.on('pointerdown', function () {
 
             this.scene.sleep('Shop');
-            this.scene.launch('level' + this.stage, {
+            this.scene.launch('level' + (this.stage).toString(), {
                 money: this.coins, magic: this.unlockedMagic, extraMana: this.playermaxMana, extraHP: this.playerMaxHP,
                 reduceLife: this.reduceLife
             });

@@ -1,3 +1,5 @@
+import Portal from './Portal.js';
+import Player from './Player.js';
 import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
 import Melee from './Melee.js';
@@ -8,6 +10,7 @@ import Book from './book.js';
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
     super(data);
+    this.stage=0;
 
   }
   init(data) {
@@ -20,7 +23,7 @@ export default class SorcererScene extends Phaser.Scene {
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
-    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined,playerSpawnLayer=undefined, numEnemies) {
+    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies) {
     this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;
     this.suelo = groundlayer;
@@ -83,8 +86,9 @@ export default class SorcererScene extends Phaser.Scene {
     this.HUDscene = this.scene.get('HUD');
     //Jugador
     this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana);
+    this.player.setScale(0.5);
     this.player.Spawn();
-  
+
 
     //Camara
     this.camera = this.cameras.main;
@@ -163,14 +167,14 @@ export default class SorcererScene extends Phaser.Scene {
     this.t.on('up', () => {
       this.scene.launch('Combinator');
       this.scene.sleep('HUD');
-      this.scene.pause('level' + this.stage);
+      this.scene.pause('level' + (this.stage).toString());
 
     });
     this.escape = this.input.keyboard.addKey('ESC');
     this.escape.on('up', () => {
       this.player.Stop();
       this.scene.launch('Pause', this.stage);
-      this.scene.pause('level' + this.stage);
+      this.scene.pause('level' + (this.stage).toString());
     });
     this.n = this.input.keyboard.addKey('N');
     this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);

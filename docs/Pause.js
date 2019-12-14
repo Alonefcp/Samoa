@@ -10,7 +10,8 @@ export default class Pause extends Phaser.Scene {
         this.resume = this.add.text(700, 400, "Resume", { fontsize: "1024px", fill: "#FFF" }).setInteractive();
         this.resume.on('pointerdown', () => {
             this.scene.sleep('Pause');
-            this.scene.resume('level' + this.mainscene);
+            
+            this.scene.resume('level' + (this.mainscene +0).toString());
         });
     }
 }
