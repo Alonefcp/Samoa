@@ -27,7 +27,7 @@ export default class HUD extends Phaser.Scene {
         this.initialWidthMana = this.manabar.width;
         this.manabar.setOrigin(0, 0.5);
 
-        this.coinsText = this.add.text(135, 125, 'COINS: ' + this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
+        //this.coinsText = this.add.text(135, 125, 'COINS: ' + this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
 
         this.ChangeMagicIcon(this.mainScene.player.GetCurrentMagic());
 
@@ -35,6 +35,7 @@ export default class HUD extends Phaser.Scene {
     }
 
 
+    
     UpdateCoins(coins) {
         this.coinsText.setText('COINS: ' + coins);
     }
@@ -72,4 +73,5 @@ export default class HUD extends Phaser.Scene {
                 break;
         }
     }
+    
 }

@@ -1984,9 +1984,32 @@
          "visible":true,
          "x":0,
          "y":0
+        }, 
+        {
+         "draworder":"topdown",
+         "id":20,
+         "name":"playerSpawn",
+         "objects":[
+                {
+                 "height":0,
+                 "id":215,
+                 "name":"",
+                 "point":true,
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":0,
+                 "x":1080,
+                 "y":744
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "x":0,
+         "y":0
         }],
- "nextlayerid":20,
- "nextobjectid":215,
+ "nextlayerid":21,
+ "nextobjectid":216,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.2.5",

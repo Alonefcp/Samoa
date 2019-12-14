@@ -142,6 +142,18 @@ export default class Player extends Entity {
     this.trigger.body.moves = false;
   }
 
+  PlayAnimation(anim)
+  {
+
+    this.CalcDir();
+    if(this.isAttacking && (this.AtkDirY>0 && (this.AtkDirX>0.90 && this.AtkDirX>-0.90)))this.play('attackRight',true); 
+    else if(this.isAttacking && this.AtkDirY<0)this.play('attackUp',true); 
+    else if(this.isAttacking && (this.AtkDirX<0 && (this.AtkDirY<0.90 && this.AtkDirY>-0.90))) this.play('attackLeft',true); 
+    else if(this.isAttacking && this.AtkDirY>0)this.play('attackDown',true);
+    else this.play(anim,true);
+    
+  }
+
   Spawn() {
     this.slowdown = false;
     this.poison = false;

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="150" height="70" tilewidth="16" tileheight="16" infinite="0" nextlayerid="26" nextobjectid="452">
+<map version="1.2" tiledversion="1.2.5" orientation="orthogonal" renderorder="right-down" width="150" height="70" tilewidth="16" tileheight="16" infinite="0" nextlayerid="27" nextobjectid="453">
  <tileset firstgid="1" name="dungeons" tilewidth="16" tileheight="16" tilecount="1024" columns="32">
   <image source="Dungeons.png" width="512" height="512"/>
   <tile id="1">
@@ -356,6 +356,11 @@
    <point/>
   </object>
   <object id="449" x="1368" y="1036.33">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="26" name="playerSpawn">
+  <object id="452" x="586.667" y="588">
    <point/>
   </object>
  </objectgroup>

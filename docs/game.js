@@ -76,6 +76,7 @@ export default class Game extends Phaser.Scene {
     this.tankLayer = this.map.getObjectLayer('Tanque');
     this.ghostLayer = this.map.getObjectLayer('Fantasma');
     this.ghostPoints = this.map.getObjectLayer('GhostPoints');
+    this.playerSpawnLayer = this.map.getObjectLayer('playerSpawn');
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
 
     //Trampas del mapa
@@ -116,6 +117,8 @@ export default class Game extends Phaser.Scene {
     this.player = new Player(this, 600, 600);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
+    this.player.x = this.playerSpawnLayer.objects[0].x;
+    this.player.y = this.playerSpawnLayer.objects[0].y;
 
     //Camara
     this.camera = this.cameras.main;
@@ -388,7 +391,7 @@ export default class Game extends Phaser.Scene {
 
 
     //Hacemos que la escena del HUD corra en paralelo con esta
-    this.scene.launch('HUD');
+    this.scene.launch('HUD',{coins: this.coins});
   }
 
   update(time, delta) {
@@ -428,75 +431,39 @@ export default class Game extends Phaser.Scene {
     //Movimiento del jugador y ejecucion de sus animaciones(movimiento y ataque fisico)
     if (this.cursors.up.isDown && this.cursors.right.isDown) {
       this.player.Move(Math.cos(1), Math.sin(-1));
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('up', true);
+      this.player.PlayAnimation('up');
     }
     else if (this.cursors.up.isDown && this.cursors.left.isDown) {
       this.player.Move(-Math.cos(-1), Math.sin(-1));
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('up', true);
+      this.player.PlayAnimation('up');
     }
     else if (this.cursors.down.isDown && this.cursors.right.isDown) {
       this.player.Move(Math.cos(1), Math.sin(1));
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('down', true);
+      this.player.PlayAnimation('down');
     }
     else if (this.cursors.down.isDown && this.cursors.left.isDown) {
       this.player.Move(-Math.cos(-1), Math.sin(1));
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('down', true);
+      this.player.PlayAnimation('down');
     }
     else if (this.cursors.right.isDown) {
       this.player.Move(1, 0);
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('right', true);
+      this.player.PlayAnimation('right');
     }
     else if (this.cursors.left.isDown) {
       this.player.Move(-1, 0);
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('left', true);
+      this.player.PlayAnimation('left');
     }
     else if (this.cursors.up.isDown) {
       this.player.Move(0, -1);
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('up', true);
+      this.player.PlayAnimation('up');
     }
     else if (this.cursors.down.isDown) {
       this.player.Move(0, 1);
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('down', true);
+      this.player.PlayAnimation('down');
     }
     else {
       this.player.Stop();
-      if (this.player.isAttacking && (this.player.AtkDirY > 0 && (this.player.AtkDirX > 0.90 && this.player.AtkDirX > -0.90))) this.player.play('attackRight', true);
-      else if (this.player.isAttacking && this.player.AtkDirY < 0) this.player.play('attackUp', true);
-      else if (this.player.isAttacking && (this.player.AtkDirX < 0 && (this.player.AtkDirY < 0.90 && this.player.AtkDirY > -0.90))) this.player.play('attackLeft', true);
-      else if (this.player.isAttacking && this.player.AtkDirY > 0) this.player.play('attackDown', true);
-      else this.player.play('idle', true);
+      this.player.PlayAnimation('idle');
     }
 
     //Esperamos un pequeño tiempo y paramos la animacion del ataque fisico
