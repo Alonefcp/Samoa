@@ -1,5 +1,5 @@
 export default class Portal extends Phaser.GameObjects.Sprite {
-  constructor(scene, x, y, img, player, NextStage) {
+  constructor(scene, x, y, img, player, NextStage,music) {
     super(scene, x, y, img);
     this.player = player;
     this.NextStage = NextStage;
@@ -12,6 +12,7 @@ export default class Portal extends Phaser.GameObjects.Sprite {
       this.scene.scene.sleep('HUD');
       this.scene.scene.get('Combinator').NextStage();
       this.scene.scene.run('Shop', { money: this.player.getMoney(), stage: this.NextStage, unlockedMagic: this.player.getUnlockedMagic() });
+      this.scene.music.stop();
       this.destroy();
     }, null, this);
   }

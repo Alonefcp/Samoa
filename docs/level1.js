@@ -15,6 +15,8 @@ export default class level1 extends SorcererScene {
   preload() {
     //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.audio('musiclv1', 'Assets/audio/level1.mp3');
+    this.load.audio('musiclv2', 'Assets/audio/level2.mp3');
+    this.load.audio('musiclv2', 'Assets/audio/level3.mp3');
     this.load.audio('fireballfx', 'Assets/audio/fireball.mp3');
     this.load.audio('laserfx', 'Assets/audio/laser.mp3');
     this.load.audio('meleefx', 'Assets/audio/melee.mp3');
@@ -52,21 +54,7 @@ export default class level1 extends SorcererScene {
     this.playerExtraHP = false;
     this.reduceLife = false;
     this.stage = 1;
-    //musica de fondo
-    this.musiclv1 = this.sound.add('musiclv1');
-    this.musiclv1.loop = true;
-    this.musiclv1.volume = 0.2;
-    //this.musiclv1.play();
-    //efectos de sonido
-    this.fireballfx = this.sound.add('fireballfx');
-    this.laserfx = this.sound.add('laserfx');
-    this.stopTimefx = this.sound.add('stopTime');
-    this.stopTimefx.volume = 0.1;
-    this.tornadofx = this.sound.add('tornado');
-    this.tornadofx.volume = 0.1;
-    this.windfx = this.sound.add('viento');
-    this.windfx.volume = 0.1;
-    this.meleefx = this.sound.add('meleefx');
+    
     //Tilemap de prueba
     this.map = this.make.tilemap({
       key: 'nivel1',
@@ -269,8 +257,6 @@ export default class level1 extends SorcererScene {
       frameRate: 15,
       repeat: -1
     });
-
-
   }
 
   update(time, delta) {

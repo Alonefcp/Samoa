@@ -50,11 +50,10 @@ export default class level2 extends SorcererScene {
     this.ghostLayer = this.map.getObjectLayer('Fantasma');
     this.ghostPoints = this.map.getObjectLayer('GhostPoints');
     this.playerSpawnLayer = this.map.getObjectLayer('playerSpawn');
-
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
-      this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints,this.playerSpawnLayer ,this.numEnemies,'spikes2','hole2');
-
+    this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints,this.playerSpawnLayer ,this.numEnemies,'spikes2','hole2');
+    
 
 
   }

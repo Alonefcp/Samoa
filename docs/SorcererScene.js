@@ -44,6 +44,24 @@ export default class SorcererScene extends Phaser.Scene {
     this.tankLayer = tankLayer;
     this.ghostLayer = ghostLayer;
     this.ghostPoints = ghostPoints;
+
+   //musica de fondo
+   this.music = this.sound.add('musiclv'+this.stage.toString());
+   this.music.loop = true;
+   this.music.volume = 0.2;
+   this.music.play();
+
+    //efectos de sonido
+    this.fireballfx = this.sound.add('fireballfx');
+    this.laserfx = this.sound.add('laserfx');
+    this.stopTimefx = this.sound.add('stopTime');
+    this.stopTimefx.volume = 0.1;
+    this.tornadofx = this.sound.add('tornado');
+    this.tornadofx.volume = 0.1;
+    this.windfx = this.sound.add('viento');
+    this.windfx.volume = 0.1;
+    this.meleefx = this.sound.add('meleefx');
+
     //colisiones
     this.paredes.setCollisionByProperty({ colisiona: true });
     if (this.paredes2 !== undefined)
@@ -320,7 +338,7 @@ export default class SorcererScene extends Phaser.Scene {
     return this.numEnemies <= 0;
   }
   CreateExit() {
-    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, this.stage + 1);
+    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, this.stage + 1,this.music);
 
 
   }
