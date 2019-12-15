@@ -14,7 +14,7 @@ export default class Enemy extends Entity {
     this.timeStopped = false;
   }
 
-  FollowPlayer(maxDist, minDist,isWizard) {
+  FollowPlayer(maxDist, minDist) {
     this.dirX = this.x - this.scene.player.x;
     this.dirY = this.y - this.scene.player.y;
     this.module = Math.sqrt(Math.pow(this.dirX, 2) + Math.pow(this.dirY, 2));
@@ -24,10 +24,6 @@ export default class Enemy extends Entity {
     this.distanceToPlayer = Phaser.Math.Distance.Squared(this.x, this.y, this.scene.player.x, this.scene.player.y);
 
     if (this.windForce)//es afectado por la magia de viento
-    {
-      this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
-    }
-    else if(this.knockback && !isWizard) // es empujado por el ataque fisico del jugador
     {
       this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
     }
@@ -41,7 +37,11 @@ export default class Enemy extends Entity {
         this.Stop();
       }
     }
+  }
 
+
+  StopKnockback()
+  {
     if(this.knockback)
     {
       this.knockbackTime++;
@@ -52,7 +52,6 @@ export default class Enemy extends Entity {
       this.knockback=false;
     }
   }
-
 
   setTimeStopped(value) {
     this.timeStopped = value;

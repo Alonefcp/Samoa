@@ -187,10 +187,11 @@ export default class SorcererScene extends Phaser.Scene {
     this.input.on('pointerdown', pointer => {
       if (pointer.leftButtonDown()) {
         this.player.Attack();
+        this.meleefx.play();
         this.player.isAttacking = true;
       }
       else if (pointer.rightButtonDown())
-        this.player.currentMagic.Cast();
+        this.player.currentMagic.Cast();      
     });
 
 
@@ -208,7 +209,7 @@ export default class SorcererScene extends Phaser.Scene {
           enemy.ReceiveDamage(this.player.atk);
 
           if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
-
+          enemy.knockback=true;
           if (enemy.HP <= 0) {
             this.UpdateNumEnemies(-1);
             enemy.DropItem();

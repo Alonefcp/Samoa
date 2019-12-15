@@ -14,7 +14,9 @@ export default class Wizard extends Enemy {
             this.Stop();
         }
         else {
-            this.FollowPlayer(25000, 10000,true);
+            
+            if(this.knockback) this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
+            else this.FollowPlayer(25000, 10000);
 
             if (this.distanceToPlayer <= 10000) {
             this.frireRate++;
@@ -25,5 +27,7 @@ export default class Wizard extends Enemy {
             }
 
         }
+
+        this.StopKnockback();
     }
 }

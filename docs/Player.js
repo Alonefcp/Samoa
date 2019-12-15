@@ -69,7 +69,7 @@ export default class Player extends Entity {
     this.poison = false;
     this.currentMagic = Fireball; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
 
-
+    
   }
 
 
@@ -210,6 +210,7 @@ export default class Player extends Entity {
         }
       case 2:
         if (this.mana - this.windcost >= 0 && this.canCastMagic) {
+          this.scene.windfx.play();
           this.CalcDir();
           this.wind = new Wind(this.scene, this.x - 100, this.y, 'wind');
           this.wind.setScale(4.5);
@@ -224,6 +225,7 @@ export default class Player extends Entity {
         break;
       case 3:
         if (this.mana - this.timestopCost >= 0 && this.canCastMagic) {
+          this.scene.stopTimefx.play();
           this.timestop = new TimeStop(this.scene, this.x, this.y, 'time', this.TimeStopDuration, this.scene.enemies);
           this.mana -= this.timestopCost;
         }
@@ -231,6 +233,7 @@ export default class Player extends Entity {
       case 4:
         if (this.mana - this.tornadoCost && this.canCastMagic) {
           this.CalcDir();
+          this.scene.tornadofx.play();
           this.tornado = new Tornado(this.scene, this.x, this.y, 'tornado', this.tornadoDamage, this.tornadoSpeed, this.fireballDamage, this.fireballSpeed, this.AtkDirX,
             this.AtkDirY, this.scene.enemies);
           this.mana -= this.tornadoCost;

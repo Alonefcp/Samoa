@@ -21,7 +21,7 @@ export default class Ghost extends Enemy {
             this.receiveDamage = false;
         }
         else {
-            this.FollowPlayer(25000, 10000,false);
+            this.FollowPlayer(25000, 10000);
 
             if (this.distanceToPlayer <= 10000) this.frireRate++;
 

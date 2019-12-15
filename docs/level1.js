@@ -18,6 +18,10 @@ export default class level1 extends SorcererScene {
     this.load.audio('fireballfx', 'Assets/audio/fireball.mp3');
     this.load.audio('laserfx', 'Assets/audio/laser.mp3');
     this.load.audio('meleefx', 'Assets/audio/melee.mp3');
+    this.load.audio('stopTime', 'Assets/audio/stopTime.mp3');
+    this.load.audio('enemyFireball', 'Assets/audio/enemyFireball.mp3');
+    this.load.audio('tornado', 'Assets/audio/tornado.mp3');
+    this.load.audio('viento', 'Assets/audio/viento.mp3');
     this.load.spritesheet('meleeEnemy', 'Assets/melee.png', { frameWidth: 32, frameHeight: 36 });
     this.load.spritesheet('wizard', 'Assets/wizard.png', { frameWidth: 16, frameHeight: 21 });
     this.load.spritesheet('ghost', 'Assets/ghost.png', { frameWidth: 16, frameHeight: 17 });
@@ -56,6 +60,12 @@ export default class level1 extends SorcererScene {
     //efectos de sonido
     this.fireballfx = this.sound.add('fireballfx');
     this.laserfx = this.sound.add('laserfx');
+    this.stopTimefx = this.sound.add('stopTime');
+    this.stopTimefx.volume = 0.1;
+    this.tornadofx = this.sound.add('tornado');
+    this.tornadofx.volume = 0.1;
+    this.windfx = this.sound.add('viento');
+    this.windfx.volume = 0.1;
     this.meleefx = this.sound.add('meleefx');
     //Tilemap de prueba
     this.map = this.make.tilemap({
