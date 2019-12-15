@@ -23,9 +23,9 @@ export default class Trap extends Phaser.GameObjects.Sprite {
             if(this.firstTime)this.cont++;
             if(this.cont>20)
             {            
-                player.Spawn();
                 this.firstTime=false;
             }   
+            player.Spawn();
         }
             
     }

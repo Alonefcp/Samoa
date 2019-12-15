@@ -1,4 +1,5 @@
 import Portal from './Portal.js';
+import Item from './Item.js';
 import Player from './Player.js';
 import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
@@ -10,7 +11,7 @@ import Book from './book.js';
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
     super(data);
-    this.stage=0;
+
 
   }
   init(data) {
@@ -23,7 +24,7 @@ export default class SorcererScene extends Phaser.Scene {
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
-    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies,spikes,hole) {
+    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies) {
     this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;
     this.suelo = groundlayer;
@@ -51,7 +52,7 @@ export default class SorcererScene extends Phaser.Scene {
     //Trampas
     this.traps = this.physics.add.group();
     this.spikesLayer.objects.forEach(element => {
-      this.spike = new Trap(this, element.x, element.y, spikes, 1).setScale(.5);
+      this.spike = new Trap(this, element.x, element.y, 'spikes' + this.stage.toString(), 1).setScale(.5);
       this.traps.add(this.spike);
     });
 
@@ -67,7 +68,7 @@ export default class SorcererScene extends Phaser.Scene {
     });
 
     this.holeLayer.objects.forEach(object => {
-      this.hole = new Trap(this, object.x, object.y, hole, 3).setScale(0.5);
+      this.hole = new Trap(this, object.x, object.y, 'hole' + this.stage.toString(), 3).setScale(0.5);
       this.traps.add(this.hole);
     });
 

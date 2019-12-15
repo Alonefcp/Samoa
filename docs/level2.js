@@ -1,7 +1,6 @@
 
 import SorcererScene from './SorcererScene.js';
-import Item from './Item.js';
-import Portal from './Portal.js';
+
 export default class level2 extends SorcererScene {
   constructor() {
     super({ key: 'level2' });

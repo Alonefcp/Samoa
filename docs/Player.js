@@ -318,6 +318,9 @@ export default class Player extends Entity {
   getMoney() {
     return this.coins;
   }
+  getUnlockedMagic(){
+    return this.unlockedMagic;
+  }
 
 }
 

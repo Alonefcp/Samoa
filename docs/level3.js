@@ -1,15 +1,6 @@
 import SorcererScene from './SorcererScene.js'
-import Player from './Player.js';
-import Item from './Item.js';
-import Trap from './Trap.js';
-import DestructibleObject from './DestructibleObject.js';
-import Melee from './Melee.js';
-import Wizard from './Wizard.js';
-import Tank from './Tank.js';
-import Ghost from './Ghost.js';
-import Book from './book.js';
-import Portal from './Portal.js';
-export default class level2 extends SorcererScene {
+
+export default class level3 extends SorcererScene {
   constructor() {
 
     super({ key: 'level3' });
@@ -66,7 +57,7 @@ export default class level2 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer,
-      this.ghostPoints,this.playerSpawnLayer ,this.numEnemies,'spikes3','hole3');
+      this.ghostPoints,this.playerSpawnLayer ,this.numEnemies,);
 
   }
 
