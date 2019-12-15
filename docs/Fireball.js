@@ -5,6 +5,7 @@ export default class Fireball extends Magic {
         this.dirX = dirX;
         this.dirY = dirY;
         this.speed = speed;
+        this.offset = 40;
         this.time = 0;
         this.timeStopped = false;
         this.maxtime = 66;
@@ -80,14 +81,18 @@ export default class Fireball extends Magic {
         this.timeStopped = value;
     }
     Cast() {
-        this.Cast_rec(0,0,0);
+        this.Cast_rec(0, 0, 0);
     }
-    Cast_rec(angle, playerX, playerY) {
+    Cast_rec(angle, X, Y, dirX, dirY) {
         if (angle !== 360) {
-            this.nFireBall = new Fireball(this.scene, 0, 0, 'fireball', this.damage, this.speed, 0, 0, 0);
-            scene.add.existing(this);
-            scene.physics.add.existing(this);
-            this.Cast_rec(angle+45,0,0);
+            this.nX = x + Math.cos(dirX) * this.offset;
+            this.nY = Y + Math.sin(dirY) * this.offset;
+            this.ndirX = dirx + Math.cos(Math.PI / 4);
+            this.ndirY = dirY + Math.sin(Math.PI / 4);
+            this.nFireBall = new Fireball(this.scene, X, Y, 'fireball', this.damage, this.speed, dirX, dirY, 0);
+            // scene.add.existing(this);
+            // scene.physics.add.existing(this);
+            this.Cast_rec(angle + 45, this.nX, this.nY, dirX, dirY, 0);
         }
     }
 

@@ -2,8 +2,8 @@ import Enemy from './Enemy.js';
 import Fireball from './Fireball.js'
 export default class Ghost extends Enemy {
 
-    constructor(scene, x, y, img, damage) {
-        super(scene, x, y, img, damage);
+    constructor(scene, x, y, img, damage,hasReducedLife,player) {
+        super(scene, x, y, img, damage,hasReducedLife,player);
         this.frireRate = 0;
         this.receiveDamage = false;
     }

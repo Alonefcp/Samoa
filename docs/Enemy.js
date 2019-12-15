@@ -1,11 +1,12 @@
 import Entity from './Entity.js';
 export default class Enemy extends Entity {
 
-  constructor(scene, x, y, img, damage, hasReducedLife) {
+  constructor(scene, x, y, img, damage, hasReducedLife, player) {
     super(scene, x, y, img);
     scene.physics.add.existing(this);
+    this.player = player;
     this.windForce = false;
-    this.knockback=false;
+    this.knockback = false;
     this.knockbackTime = 0;
     this.reducedLife = 20;
     if (hasReducedLife)
@@ -15,17 +16,17 @@ export default class Enemy extends Entity {
   }
 
   FollowPlayer(maxDist, minDist) {
-    this.dirX = this.x - this.scene.player.x;
-    this.dirY = this.y - this.scene.player.y;
+    this.dirX = this.x - this.player.x;
+    this.dirY = this.y - this.player.y;
     this.module = Math.sqrt(Math.pow(this.dirX, 2) + Math.pow(this.dirY, 2));
     this.dirX /= this.module;
     this.dirY /= this.module;
 
-    this.distanceToPlayer = Phaser.Math.Distance.Squared(this.x, this.y, this.scene.player.x, this.scene.player.y);
+    this.distanceToPlayer = Phaser.Math.Distance.Squared(this.x, this.y, this.player.x, this.player.y);
 
     if (this.windForce)//es afectado por la magia de viento
     {
-      this.ApplyForce(this.scene.player.AtkDirX, this.scene.player.AtkDirY);
+      this.ApplyForce(this.player.AtkDirX, this.player.AtkDirY);
     }
     else //sigue al jugador
     {
@@ -40,16 +41,13 @@ export default class Enemy extends Entity {
   }
 
 
-  StopKnockback()
-  {
-    if(this.knockback)
-    {
+  StopKnockback() {
+    if (this.knockback) {
       this.knockbackTime++;
     }
-    if(this.knockbackTime>4)
-    {
-      this.knockbackTime=0;
-      this.knockback=false;
+    if (this.knockbackTime > 4) {
+      this.knockbackTime = 0;
+      this.knockback = false;
     }
   }
 

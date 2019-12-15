@@ -85,8 +85,9 @@ export default class Shop extends Phaser.Scene {
             this.texts.getChildren().forEach(el => {
                 el.setVisible(false);
             });
-            this.scene.revome('Shop');
             this.scene.launch('HUD');
+            this.scene.remove('Shop');
+            
 
         }, this);
     }

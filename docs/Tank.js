@@ -2,8 +2,8 @@ import Enemy from './Enemy.js';
 import Melee from './Melee.js';
 export default class Tank extends Enemy {
 
-    constructor(scene, x, y, img, damage) {
-        super(scene, x, y, img, damage);
+    constructor(scene, x, y, img, damage,hasReducedLife,player) {
+        super(scene, x, y, img, damage,hasReducedLife,player);
 
         this.timeMoving = 0;
         this.timePerSpawn = 0;

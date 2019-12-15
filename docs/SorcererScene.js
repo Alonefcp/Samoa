@@ -123,25 +123,25 @@ export default class SorcererScene extends Phaser.Scene {
     this.book = new Book(this, this.bookLayer.objects[0].x, this.bookLayer.objects[0].y, 'book', this.player);
 
     this.meleeLayer.objects.forEach(object => {
-      this.melee = new Melee(this, object.x, object.y, 'meleeEnemy', 20).setScale(0.8);
+      this.melee = new Melee(this, object.x, object.y, 'meleeEnemy', 20, this.reduceLife, this.player).setScale(0.8);
       if (this.reduceLife) this.melee.HP -= 10;
       this.enemies.add(this.melee);
     }, this);
 
     this.wizardLayer.objects.forEach(object => {
-      this.wizard = new Wizard(this, object.x, object.y, 'wizard', 30).setScale(1.1);
+      this.wizard = new Wizard(this, object.x, object.y, 'wizard', 30, this.reduceLife, this.player).setScale(1.1);
       if (this.reduceLife) this.wizard.HP -= 10;
       this.enemies.add(this.wizard);
     }, this);
 
     this.tankLayer.objects.forEach(object => {
-      this.tank = new Tank(this, object.x, object.y, 'tank', 15).setScale(1.2);
+      this.tank = new Tank(this, object.x, object.y, 'tank', 15, this.reduceLife, this.player).setScale(1.2);
       if (this.reduceLife) this.tank.HP -= 10;
       this.enemies.add(this.tank);
     }, this);
 
     this.ghostLayer.objects.forEach(object => {
-      this.ghost = new Ghost(this, object.x, object.y, 'ghost', 15).setScale(1.1);
+      this.ghost = new Ghost(this, object.x, object.y, 'ghost', 15, this.reduceLife, this.player).setScale(1.1);
       if (this.reduceLife) this.ghost.HP -= 10;
       this.enemies.add(this.ghost);
     }, this);
@@ -209,13 +209,12 @@ export default class SorcererScene extends Phaser.Scene {
         this.player.isAttacking = true;
       }
       else if (pointer.rightButtonDown())
-        this.player.currentMagic.Cast();      
+      this.player.CastMagic();
     });
 
 
    
 
-    console.log('b');
   }
   update(time, delta) {
     //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
@@ -313,7 +312,6 @@ export default class SorcererScene extends Phaser.Scene {
   EnemyHitsPlayer(player, enemy) {
     player.ReceiveDamage(enemy.atk);
     this.HUDscene.ReduceHealthBar(player.HP, player.MaxHP);
-    console.log(player.HP);
     let dirX = player.x - enemy.x;
     let dirY = player.y - enemy.y;
     let module = Math.sqrt(Math.pow(dirX, 2) + Math.pow(dirY, 2));
