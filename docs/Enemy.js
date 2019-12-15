@@ -8,6 +8,8 @@ export default class Enemy extends Entity {
     this.windForce = false;
     this.knockback = false;
     this.knockbackTime = 0;
+    this.knockbackDirX=0;
+    this.knockbackDirY=0;
     this.reducedLife = 20;
     if (hasReducedLife)
       this.HP -= this.reducedLife;
@@ -53,6 +55,10 @@ export default class Enemy extends Entity {
 
   setTimeStopped(value) {
     this.timeStopped = value;
+  }
+  SetKnockbackDir(x,y){
+    this.knockbackDirX=x;
+    this.knockbackDirY=y;
   }
 }
 

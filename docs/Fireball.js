@@ -59,7 +59,7 @@ export default class Fireball extends Magic {
     OnOverlap(fireball, enemy) {
         this.Explode();
         this.Harm(enemy);
-        enemy.ApplyForce(fireball.dirX,fireball.dirY);
+        enemy.SetKnockbackDir(fireball.dirX,fireball.dirY);
         if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
         //así evito que dañe a los enemigos mientras se destruye
         this.damage = 0;

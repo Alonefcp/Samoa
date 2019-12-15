@@ -224,6 +224,7 @@ export default class SorcererScene extends Phaser.Scene {
 
         if (this.physics.overlap(enemy, this.player.trigger)) {
           enemy.ReceiveDamage(this.player.atk);
+          enemy.SetKnockbackDir(this.player.AtkDirX,this.player.AtkDirY);
 
           if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
           enemy.knockback=true;
