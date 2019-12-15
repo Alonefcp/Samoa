@@ -31,7 +31,7 @@ export default class Player extends Entity {
     this.windcost = 5;
     this.fireballDamage = 5;
     this.waterRayDamage = 5;
-    this.tornadoSpeed = 10;
+    this.tornadoSpeed = 80;
     this.tornadoDamage = 5;
     this.fireballSpeed = 150;
     this.TimeStopDuration = 200;

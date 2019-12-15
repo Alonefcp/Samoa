@@ -20,6 +20,8 @@ export default class WaterRay extends Magic {
       if (this.AABB(this, enemy)) {
         this.Harm(enemy);
         if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
+        enemy.knockback=true;
+        enemy.SetKnockbackDir(Math.sin(angle),-Math.cos(angle));
       }
 
     }, this);
@@ -46,10 +48,7 @@ export default class WaterRay extends Magic {
 
 
   }
-  OnOverlap(waterray, enemy) {
-    this.Harm(enemy);
-    enemy.SetKnockbackDir(-Math.sin(angle),cos(angle));
-  }
+  
   AABB(sprite1, sprite2) {
     this.bounds1 = sprite1.getBounds();
     this.bounds2 = sprite2.getBounds();
