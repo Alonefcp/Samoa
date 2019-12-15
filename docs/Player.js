@@ -5,6 +5,7 @@ import Wind from './Wind.js';
 import TimeStop from './TimeStop.js';
 import Tornado from './Tornado.js';
 import Whirlpool from './Whirlpool.js';
+import Magic from './Magic.js';
 export default class Player extends Entity {
 
   constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana) {
@@ -204,7 +205,6 @@ export default class Player extends Entity {
             Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), 0);
           this.mana -= this.fireballCost;
         }
-
         break;
       case 1:
         if (this.mana - this.waterrayCost >= 0 && this.canCastMagic) {
@@ -213,7 +213,8 @@ export default class Player extends Entity {
           if (this.nDX > 0) this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) + Math.PI / 2);
           else this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) - Math.PI / 2);
           this.mana -= this.waterrayCost;
-        } break;
+          break;
+        } 
       case 2:
         if (this.mana - this.windcost >= 0 && this.canCastMagic) {
           this.CalcDir();

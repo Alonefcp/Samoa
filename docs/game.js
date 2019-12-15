@@ -56,7 +56,7 @@ export default class Game extends Phaser.Scene {
     this.musiclv1 = this.sound.add('musiclv1');
     this.musiclv1.loop = true;
     this.musiclv1.volume = 0.2;
-    this.musiclv1.play();
+    //this.musiclv1.play();
     //efectos de sonido
     this.fireballfx = this.sound.add('fireballfx');
     this.laserfx = this.sound.add('laserfx');
