@@ -5,6 +5,10 @@ export default class HUD extends Phaser.Scene {
 
     }
 
+    init(data) {
+        this.initCoins = data.money;
+        this.initMagic = data.magic;
+    }
     preload() {
         this.load.image('greenbar', 'Assets/LifeBar.png');
         this.load.spritesheet('windB', 'Assets/AnimViento.png', { frameWidth: 128, frameHeight: 128 });
@@ -15,8 +19,7 @@ export default class HUD extends Phaser.Scene {
         this.load.image('tornado', 'Assets/TornadoButton.png');
     }
     create() {
-        this.mainScene = this.scene.get('level1');
-
+        
         //Barra de vida
         this.lifebar = this.add.sprite(135, 25, 'greenbar');
         this.initialWidth = this.lifebar.width;
@@ -27,15 +30,15 @@ export default class HUD extends Phaser.Scene {
         this.initialWidthMana = this.manabar.width;
         this.manabar.setOrigin(0, 0.5);
 
-        this.coinsText = this.add.text(135, 125, 'COINS: ' + this.mainScene.player.coins, { fontSize: '64px', fill: '#FFF' });
+        this.coinsText = this.add.text(135, 125, 'COINS: ' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
 
-        this.ChangeMagicIcon(this.mainScene.player.GetCurrentMagic());
+        this.ChangeMagicIcon(this.initMagic);
 
 
     }
 
 
-    
+
     UpdateCoins(coins) {
         this.coinsText.setText('COINS: ' + coins);
     }
@@ -73,5 +76,5 @@ export default class HUD extends Phaser.Scene {
                 break;
         }
     }
-    
+
 }

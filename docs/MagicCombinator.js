@@ -6,6 +6,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.fire = false;
         this.water = false;
         this.unlockedMagics = 1;
+        this.stage=1;
     }
     preload() {
         this.load.spritesheet('windB', 'Assets/AnimViento.png', { frameWidth: 128, frameHeight: 128 });
@@ -22,10 +23,6 @@ export default class MagicCombinator extends Phaser.Scene {
         this.fireB = this.add.sprite(16 * this.tamButton, 2 * this.tamButton, 'fireB').setInteractive();
         this.waterB = this.add.sprite(11 * this.tamButton, 11 * this.tamButton, 'waterB').setInteractive();
         this.button = this.add.sprite(11 * this.tamButton, 6 * this.tamButton, 'button');
-        // this.windB.alpha = .75;
-        // this.fireB.alpha = .75;
-        // this.waterB.alpha = .75;
-        // this.button.alpha = .75;
         this.close = this.add.text(0, 0, 'CLOSE', { fontSize: '64px', fill: '#F0F' }).setInteractive();
         this.combine = this.add.text(0, 750, 'COMBINE', { fontSize: '64px', fill: '#F0F' }).setInteractive();
         this.anims.create({
@@ -95,7 +92,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.close.on('pointerdown', () => {
             this.scene.sleep('Combinator');
             this.scene.launch('HUD');
-            this.scene.resume('main');
+            this.scene.resume('level'+this.stage.toString());
             switch (this.button.anims.getCurrentKey()) {
 
                 case 'mistB':
@@ -170,5 +167,8 @@ export default class MagicCombinator extends Phaser.Scene {
         this.unlockedMagics++;
         if (this.unlockedMagics > 3)
             this.unlockedMagics = 3;
+    }
+    NextStage(){
+        this.stage++;
     }
 }

@@ -5,7 +5,6 @@ import Wind from './Wind.js';
 import TimeStop from './TimeStop.js';
 import Tornado from './Tornado.js';
 import Whirlpool from './Whirlpool.js';
-import Magic from './Magic.js';
 export default class Player extends Entity {
 
   constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana) {
@@ -68,7 +67,7 @@ export default class Player extends Entity {
     this.poisonIntervals = 0;
     this.slowdown = false;
     this.poison = false;
-    this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+    this.currentMagic = Fireball; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
 
 
   }
@@ -143,16 +142,15 @@ export default class Player extends Entity {
     this.trigger.body.moves = false;
   }
 
-  PlayAnimation(anim)
-  {
+  PlayAnimation(anim) {
 
     this.CalcDir();
-    if(this.isAttacking && (this.AtkDirY>0 && (this.AtkDirX>0.90 && this.AtkDirX>-0.90)))this.play('attackRight',true); 
-    else if(this.isAttacking && this.AtkDirY<0)this.play('attackUp',true); 
-    else if(this.isAttacking && (this.AtkDirX<0 && (this.AtkDirY<0.90 && this.AtkDirY>-0.90))) this.play('attackLeft',true); 
-    else if(this.isAttacking && this.AtkDirY>0)this.play('attackDown',true);
-    else this.play(anim,true);
-    
+    if (this.isAttacking && (this.AtkDirY > 0 && (this.AtkDirX > 0.90 && this.AtkDirX > -0.90))) this.play('attackRight', true);
+    else if (this.isAttacking && this.AtkDirY < 0) this.play('attackUp', true);
+    else if (this.isAttacking && (this.AtkDirX < 0 && (this.AtkDirY < 0.90 && this.AtkDirY > -0.90))) this.play('attackLeft', true);
+    else if (this.isAttacking && this.AtkDirY > 0) this.play('attackDown', true);
+    else this.play(anim, true);
+
   }
 
   Spawn() {
@@ -177,13 +175,8 @@ export default class Player extends Entity {
   }
   //Activa los pinchos
   Spikes() {
-    this.cont += 2;
-
-    if (this.cont >= 50) {
-      this.ReceiveDamage(10);
-      this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
-      this.cont = 0;
-    }
+    this.ReceiveDamage(10);
+    this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
   }
 
   CastMagic() {
@@ -214,7 +207,7 @@ export default class Player extends Entity {
           else this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) - Math.PI / 2);
           this.mana -= this.waterrayCost;
           break;
-        } 
+        }
       case 2:
         if (this.mana - this.windcost >= 0 && this.canCastMagic) {
           this.CalcDir();
@@ -318,7 +311,7 @@ export default class Player extends Entity {
   getMoney() {
     return this.coins;
   }
-  getUnlockedMagic(){
+  getUnlockedMagic() {
     return this.unlockedMagic;
   }
 

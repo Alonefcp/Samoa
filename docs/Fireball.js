@@ -79,5 +79,16 @@ export default class Fireball extends Magic {
     SetTimeStopped(value) {
         this.timeStopped = value;
     }
+    Cast() {
+        this.Cast_rec(0,0,0);
+    }
+    Cast_rec(angle, playerX, playerY) {
+        if (angle !== 360) {
+            this.nFireBall = new Fireball(this.scene, 0, 0, 'fireball', this.damage, this.speed, 0, 0, 0);
+            scene.add.existing(this);
+            scene.physics.add.existing(this);
+            this.Cast_rec(angle+45,0,0);
+        }
+    }
 
 }

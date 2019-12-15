@@ -8,6 +8,7 @@ import Wizard from './Wizard.js';
 import Tank from './Tank.js';
 import Ghost from './Ghost.js';
 import Book from './book.js';
+
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
     super(data);
@@ -189,12 +190,11 @@ export default class SorcererScene extends Phaser.Scene {
         this.player.isAttacking = true;
       }
       else if (pointer.rightButtonDown())
-        this.player.CastMagic();
+        this.player.currentMagic.Cast();
     });
 
 
-    //Hacemos que la escena del HUD corra en paralelo con esta
-    this.scene.launch('HUD');
+   
 
     console.log('b');
   }

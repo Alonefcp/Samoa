@@ -1,6 +1,6 @@
 import SorcererScene from './SorcererScene.js';
 
-export default class Game extends SorcererScene {
+export default class level1 extends SorcererScene {
   constructor() {
 
     super({ key: 'level1' });
@@ -92,6 +92,8 @@ export default class Game extends SorcererScene {
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
       this.numEnemies);
     this.unlockedMagic = this.player.getUnlockedMagic();
+    //Hacemos que la escena del HUD corra en paralelo con esta
+    this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
     //animaciones de los enemigos
     this.anims.create({
       key: 'meleeIdle',

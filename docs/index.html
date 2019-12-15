@@ -15,7 +15,7 @@
     <h1>The sorcerer's apprentice</h1>
 
     <script type="module">
-        import Game from './game.js';
+        import Level1 from './level1.js';
         import Level2 from './level2.js';
         import Level3 from './level3.js';
         import HUD from './HUD.js';
@@ -35,7 +35,7 @@
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
-            scene: [ Game,Level2,Level3,HUD,Shop,MagicCombinator,Pause],
+            scene: [ Level1,Level2,Level3,HUD,Shop,MagicCombinator,Pause],
             physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: true } }
         };
         new Phaser.Game(config);
