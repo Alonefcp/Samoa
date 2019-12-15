@@ -54,6 +54,7 @@ export default class level1 extends SorcererScene {
     this.playerExtraHP = false;
     this.reduceLife = false;
     this.stage = 1;
+    this.unlockedMagic = 1;
     
     //Tilemap de prueba
     this.map = this.make.tilemap({
@@ -89,9 +90,8 @@ export default class level1 extends SorcererScene {
     this.createScene(this.suelo, this.paredes, this.paredes2, this.decoracion, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
       this.numEnemies);
-    this.unlockedMagic = this.player.getUnlockedMagic();
     //Hacemos que la escena del HUD corra en paralelo con esta
-    this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
+    this.scene.launch('HUD', { money: this.player.getMoney(), magic: 0 });
     //animaciones de los enemigos
     this.anims.create({
       key: 'meleeIdle',

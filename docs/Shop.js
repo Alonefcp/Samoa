@@ -76,6 +76,7 @@ export default class Shop extends Phaser.Scene {
 
         this.continueText = this.add.text(1000, 700, 'Continue', { fontSize: '64px', fill: '#FFF' }).setInteractive();
         this.texts.add(this.continueText);
+        
         this.continueText.on('pointerdown', function () {
 
             this.scene.launch('level' + (this.stage).toString(), {
@@ -85,9 +86,9 @@ export default class Shop extends Phaser.Scene {
             this.texts.getChildren().forEach(el => {
                 el.setVisible(false);
             });
-            this.scene.launch('HUD');
+            this.scene.launch('HUD', { money: this.coins, magic: this.unlockedMagic });
             this.scene.remove('Shop');
-            
+
 
         }, this);
     }

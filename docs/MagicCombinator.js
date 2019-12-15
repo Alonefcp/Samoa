@@ -6,7 +6,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.fire = false;
         this.water = false;
         this.unlockedMagics = 1;
-        this.stage=1;
+        this.stage = 1;
     }
     preload() {
         this.load.spritesheet('windB', 'Assets/AnimViento.png', { frameWidth: 128, frameHeight: 128 });
@@ -18,7 +18,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.load.image('tornado', 'Assets/TornadoButton.png');
     }
     create() {
-        this.mainScene = this.scene.get("main");
+        this.mainScene = this.scene.get("level" + this.stage.toString());
         this.windB = this.add.sprite(6 * this.tamButton, 2 * this.tamButton, 'windB').setInteractive();
         this.fireB = this.add.sprite(16 * this.tamButton, 2 * this.tamButton, 'fireB').setInteractive();
         this.waterB = this.add.sprite(11 * this.tamButton, 11 * this.tamButton, 'waterB').setInteractive();
@@ -90,9 +90,6 @@ export default class MagicCombinator extends Phaser.Scene {
             this.windB.play('windNeutral');
         //callbacks
         this.close.on('pointerdown', () => {
-            this.scene.sleep('Combinator');
-            this.scene.launch('HUD');
-            this.scene.resume('level'+this.stage.toString());
             switch (this.button.anims.getCurrentKey()) {
 
                 case 'mistB':
@@ -105,6 +102,10 @@ export default class MagicCombinator extends Phaser.Scene {
                     this.mainScene.player.setMagic(5);
                     break;
             }
+            this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });
+            this.mainScene.player.UpdateMagicIcon();
+            this.scene.sleep('Combinator');
+            this.scene.resume('level' + this.stage.toString());
 
 
         });
@@ -168,7 +169,7 @@ export default class MagicCombinator extends Phaser.Scene {
         if (this.unlockedMagics > 3)
             this.unlockedMagics = 3;
     }
-    NextStage(){
+    NextStage() {
         this.stage++;
     }
 }

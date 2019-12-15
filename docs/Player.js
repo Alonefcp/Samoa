@@ -7,7 +7,7 @@ import Tornado from './Tornado.js';
 import Whirlpool from './Whirlpool.js';
 export default class Player extends Entity {
 
-  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana) {
+  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana,unlockedMagic) {
     super(scene, x, y, 'player');
 
     scene.physics.add.existing(this);
@@ -46,7 +46,7 @@ export default class Player extends Entity {
     this.timestopCoolDown = 120;
     this.whirlpoolCoolDown = 110;
     this.coolDown = 0;
-    this.unlockedMagic = 1;
+    this.unlockedMagic = unlockedMagic;
     this.canCastMagic = true;
 
     this.isAttacking = false;
@@ -159,10 +159,10 @@ export default class Player extends Entity {
     this.body.reset(this.Spawnx, this.Spawny);
     this.ResetHP();
     this.resetMana();
-    //Reseteamos las barras a 100 y las monedas a 0
+    //Reseteamos las barras a 100
     this.scene.HUDscene.lifebar.displayWidth = this.scene.HUDscene.initialWidth;
     this.scene.HUDscene.manabar.displayWidth = this.scene.HUDscene.initialWidthMana;
-    this.scene.HUDscene.UpdateCoins(this.coins);
+    
   }
 
   //Activa la ralentizacion

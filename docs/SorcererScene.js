@@ -102,13 +102,14 @@ export default class SorcererScene extends Phaser.Scene {
       object.body.setImmovable(true);
     });
 
-    this.shop = this.scene.get('Shop');
-    this.HUDscene = this.scene.get('HUD');
     //Jugador
-    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana);
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana,this.unlockedMagic);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
-
+    
+    
+    
+    this.HUDscene = this.scene.get('HUD');
 
     //Camara
     this.camera = this.cameras.main;
@@ -153,7 +154,6 @@ export default class SorcererScene extends Phaser.Scene {
     // //Overlap entre el jugador y las trampas
     this.physics.add.overlap(this.traps, this.player, this.OnTrapOverlap, null, this);
 
-    // //Acceso a la escena del HUD
 
     //colision entre el jugador y entre los objetos destruibles
     this.physics.add.collider(this.enemies, this.destuctibleObjects);
