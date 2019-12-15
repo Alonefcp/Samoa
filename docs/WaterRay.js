@@ -21,7 +21,7 @@ export default class WaterRay extends Magic {
         this.Harm(enemy);
         if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
         enemy.knockback=true;
-        enemy.SetKnockbackDir(Math.sin(angle),-Math.cos(angle));
+        enemy.SetKnockbackDir(-Math.cos(angle),Math.sin(angle));
       }
 
     }, this);
