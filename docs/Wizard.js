@@ -32,9 +32,6 @@ export default class Wizard extends Enemy {
     }
     ReceiveDamage(damage) {
         super.ReceiveDamage(damage);
-        this.dX = this.x - this.player.x;
-        this.dY = this.y - this.player.y;
-        this.module = Math.sqrt(Math.pow(this.nDX, 2) + Math.pow(this.nDY, 2));
-        this.ApplyForce(this.dX / this.module, this.dY / this.module);
+        this.knockback=true;
     }
 }

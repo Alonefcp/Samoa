@@ -3,7 +3,7 @@ export default class Entity extends Phaser.GameObjects.Sprite {
     super(scene, x, y, img);
     this.MaxHP = 100;
     this.HP = 100;
-    this.atk = 100;
+    this.atk = 5;
     this.speedX = 160;
     this.speedY = 160;
 
