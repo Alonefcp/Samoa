@@ -11,27 +11,29 @@ export default class HUD extends Phaser.Scene {
     }
     preload() {
         this.load.image('greenbar', 'Assets/LifeBar.png');
+        this.load.image('manaBar', 'Assets/manaBar.png');
         this.load.spritesheet('windB', 'Assets/AnimViento.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('fireB', 'Assets/AnimFuego.png', { frameWidth: 128, frameHeight: 128 });
         this.load.spritesheet('waterB', 'Assets/AnimAgua.png', { frameWidth: 128, frameHeight: 128 });
         this.load.image('mistB', 'Assets/MistButton.png');
         this.load.image('whirlpoolB', 'Assets/WhirlpoolButton.png');
         this.load.image('tornado', 'Assets/TornadoButton.png');
+        this.load.image('HUDCoin','Assets/HUDcoin.png');
     }
     create() {
-        
+
         //Barra de vida
         this.lifebar = this.add.sprite(135, 25, 'greenbar');
         this.initialWidth = this.lifebar.width;
         this.lifebar.setOrigin(0, 0.5);
 
         //Barra de maná
-        this.manabar = this.add.sprite(135, 95, 'greenbar');
+        this.manabar = this.add.sprite(135, 95, 'manaBar');
         this.initialWidthMana = this.manabar.width;
         this.manabar.setOrigin(0, 0.5);
 
-        this.coinsText = this.add.text(135, 125, 'COINS: ' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
-
+        this.coinIMG = this.add.image(155, 145, 'HUDCoin');
+        this.coinsText = this.add.text(this.coinIMG.getBounds().x + 50, this.coinIMG.getBounds().y - 20, 'x:' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
         this.ChangeMagicIcon(this.initMagic);
 
 
@@ -40,7 +42,7 @@ export default class HUD extends Phaser.Scene {
 
 
     UpdateCoins(coins) {
-        this.coinsText.setText('COINS: ' + coins);
+        this.coinsText.setText('x:' + coins);
     }
 
     ReduceManaBar(playerMana, playerMaxMana) {

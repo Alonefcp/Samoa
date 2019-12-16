@@ -34,7 +34,7 @@ export default class level1 extends SorcererScene {
     this.load.spritesheet('hole1', 'Assets/hoyolv1.png', { frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes1', 'Assets/pinchoslv1.png');
     this.load.image('chest', 'Assets/cofre.png');
-    this.load.image('coin', 'Assets/moneda.png');
+    this.load.image('coin', 'Assets/coin.png');
     this.load.image('mana', 'Assets/star.png');
     this.load.tilemapTiledJSON('nivel1', 'Assets/nivel1.json')
     this.load.spritesheet('player', 'Assets/knightisochar.png', { frameWidth: 84, frameHeight: 84 });

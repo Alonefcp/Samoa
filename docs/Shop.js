@@ -7,77 +7,59 @@ export default class Shop extends Phaser.Scene {
 
 
     preload() {
+        this.load.image('maxHP', 'Assets/MaxHP.png');
+        this.load.image('maxMana', 'Assets/MaxMana.png');
+        this.load.image('maxAtk', 'Assets/MaxATK2.png');
 
     }
     init(data) {
-        
+
         this.coins = data.money;
         this.stage = data.stage;
         this.unlockedMagic = data.unlockedMagic;
     }
 
     create() {
+        this.priceMaxMana = 10;
+        this.priceDamage = 10;
+        this.priceMaxHP = 10;
         this.playermaxMana = false;
         this.playerMaxHP = false;
         this.price = 0;
         this.reduceLife = false;
         this.HUDscene = this.scene.get('HUD');
 
-        this.texts = this.add.group();
         this.coinsText = this.add.text(135, 125, 'COINS: ' + this.coins, { fontSize: '64px', fill: '#FFF' });
-        this.texts.add(this.coinsText);
         this.shopText = this.add.text(500, 50, 'SHOP', { fontSize: '128px', fill: '#FFF' });
-        this.texts.add(this.shopText);
         this.maxHPText = this.add.text(100, 400, 'Buy MaxHP', { fontSize: '64px', fill: '#FFF' }).setInteractive();
-        this.texts.add(this.maxHPText);
+        this.hpIMG = this.add.image(this.maxHPText.getCenter().x, this.maxHPText.getBounds().y + this.maxHPText.getBounds().height + 100, 'maxHP')
+            .setInteractive();
         this.maxHPText.on('pointerdown', function () {
-
-            this.priceMaxHP = 10;
-
-            if (this.coins >= this.priceMaxHP) {
-                this.playerMaxHP = true;
-                this.coins -= this.priceMaxHP;
-                this.coinsText.setText('COINS: ' + (this.coins));
-
-            }
-
+            this.Buy(this.priceMaxHP, this.playerMaxHP, this.maxHPText);
         }, this);
-
-        this.maxManaText = this.add.text(550, 400, 'Buy MaxMana', { fontSize: '64px', fill: '#FFF' }).setInteractive();
-        this.texts.add(this.maxManaText);
+        this.hpIMG.on('pointerdown', () => {
+            this.Buy(this.priceMaxHP, this.playerMaxHP, this.maxHPText);
+        }, this);
+        this.maxManaText = this.add.text(this.maxHPText.getBounds().x + this.maxHPText.getBounds().width + 50, this.maxHPText.getBounds().y, 'Buy MaxMana', { fontSize: '64px', fill: '#FFF' }).setInteractive();
+        this.manaIMG = this.add.image(this.maxManaText.getCenter().x, this.maxManaText.getBounds().y + this.maxManaText.getBounds().height + 100,
+            'maxMana').setInteractive();
         this.maxManaText.on('pointerdown', function () {
-
-            this.priceMaxMana = 10;
-
-            if (this.coins >= this.priceMaxMana) {
-                this.playermaxMana = true;
-                this.coins -= this.priceMaxMana;
-                this.coinsText.setText('COINS: ' + (this.coins));
-            }
-
-
+            this.Buy(this.priceMaxMana, this.playermaxMana, this.maxManaText);
         }, this);
-
+        this.manaIMG.on('pointerdown', () => {
+            this.Buy(this.priceMaxMana, this.playermaxMana, this.maxManaText);
+        }, this);
 
         this.damageText = this.add.text(1000, 400, 'Buy damage', { fontSize: '64px', fill: '#FFF' }).setInteractive();
-        this.texts.add(this.damageText);
         this.damageText.on('pointerdown', function () {
-
-            this.priceDamage = 10;
-
-            if (this.coins >= this.priceDamage) {
-                this.reduceLife = true;
-
-                this.coins -= this.priceDamage;
-                this.coinsText.setText('COINS: ' + (this.coins));
-            }
-
-
+            this.Buy(this.priceDamage, this.reduceLife, this.damageText);
         }, this);
-
+        this.damageIMG = this.add.image(this.damageText.getCenter().x, this.damageText.getBounds().y + this.damageText.getBounds().height + 100,
+            'maxAtk').setInteractive();
         this.continueText = this.add.text(1000, 700, 'Continue', { fontSize: '64px', fill: '#FFF' }).setInteractive();
-        this.texts.add(this.continueText);
-        
+        this.damageIMG.on('pointerdown', () => {
+            this.Buy(this.priceDamage, this.reduceLife, this.damageText);
+        }, this);
         this.continueText.on('pointerdown', function () {
 
             this.scene.launch('HUD', { money: this.coins, magic: this.unlockedMagic });
@@ -88,4 +70,12 @@ export default class Shop extends Phaser.Scene {
         }, this);
     }
 
+    Buy(price, effect, text) {
+        if (this.coins >= price && !effect) {
+            effect = true;
+            this.coins -= price;
+            this.coinsText.setText('COINS: ' + (this.coins));
+            text.setColor('#595656');
+        }
+    }
 }
