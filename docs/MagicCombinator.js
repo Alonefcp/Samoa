@@ -102,12 +102,12 @@ export default class MagicCombinator extends Phaser.Scene {
                     this.mainScene.player.setMagic(5);
                     break;
             }
-            this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });
+            //this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });
             this.mainScene.player.UpdateMagicIcon();
             this.scene.sleep('Combinator');
+            this.scene.setVisible(true,'HUD');
             this.scene.resume('level' + this.stage.toString());
-
-
+          
         });
         this.combine.on('pointerdown', () => {
             if (this.fire && this.water)

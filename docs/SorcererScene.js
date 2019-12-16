@@ -186,7 +186,7 @@ export default class SorcererScene extends Phaser.Scene {
     this.t = this.input.keyboard.addKey('T');
     this.t.on('up', () => {
       this.scene.launch('Combinator');
-      this.scene.sleep('HUD');
+      this.scene.setVisible(false,'HUD');
       this.scene.pause('level' + (this.stage).toString());
 
     });

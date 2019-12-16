@@ -16,7 +16,7 @@ export default class level1 extends SorcererScene {
     //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.audio('musiclv1', 'Assets/audio/level1.mp3');
     this.load.audio('musiclv2', 'Assets/audio/level2.mp3');
-    this.load.audio('musiclv2', 'Assets/audio/level3.mp3');
+    this.load.audio('musiclv3', 'Assets/audio/level3.mp3');
     this.load.audio('fireballfx', 'Assets/audio/fireball.mp3');
     this.load.audio('laserfx', 'Assets/audio/laser.mp3');
     this.load.audio('meleefx', 'Assets/audio/melee.mp3');
