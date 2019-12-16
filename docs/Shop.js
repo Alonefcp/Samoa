@@ -39,32 +39,32 @@ export default class Shop extends Phaser.Scene {
         this.hpIMG = this.add.image(this.maxHPText.getCenter().x, this.maxHPText.getBounds().y + this.maxHPText.getBounds().height + 100, 'maxHP')
             .setInteractive();
         this.maxHPText.on('pointerdown', function () {
-            this.BuyHP();
+            this.playerMaxHP = this.Buy(this.priceMaxHP, this.playerMaxHP, this.maxHPText);
         }, this);
         this.texts.add(this.maxHPText);
         this.hpIMG.on('pointerdown', () => {
-            this.BuyHP();
+            this.playerMaxHP = this.Buy(this.priceMaxHP, this.playerMaxHP, this.maxHPText);
         }, this);
         //Mana
         this.maxManaText = this.add.text(this.maxHPText.getBounds().x + this.maxHPText.getBounds().width + 50, this.maxHPText.getBounds().y, 'Buy MaxMana', { fontSize: '64px', fill: '#FFF' }).setInteractive();
         this.manaIMG = this.add.image(this.maxManaText.getCenter().x, this.maxManaText.getBounds().y + this.maxManaText.getBounds().height + 100,
             'maxMana').setInteractive();
         this.maxManaText.on('pointerdown', function () {
-            this.BuyMana();
+            this.playermaxMana = this.Buy(this.priceMaxMana, this.playermaxMana, this.maxManaText);
         }, this);
         this.manaIMG.on('pointerdown', () => {
-            this.BuyMana();
+            this.playermaxMana = this.Buy(this.priceMaxMana, this.playermaxMana, this.maxManaText);
         }, this);
         this.texts.add(this.maxManaText);
         //Damage
         this.damageText = this.add.text(1000, 400, 'Buy damage', { fontSize: '64px', fill: '#FFF' }).setInteractive();
         this.damageText.on('pointerdown', function () {
-            this.BuyDamage();
+            this.reduceLife = this.Buy(this.priceDamage, this.reduceLife, this.damageText);
         }, this);
         this.damageIMG = this.add.image(this.damageText.getCenter().x, this.damageText.getBounds().y + this.damageText.getBounds().height + 100,
             'maxAtk').setInteractive();
         this.damageIMG.on('pointerdown', () => {
-            this.BuyDamage();
+            this.reduceLife = this.Buy(this.priceDamage, this.reduceLife, this.damageText);
         }, this);
         this.texts.add(this.damageText);
 
@@ -84,32 +84,15 @@ export default class Shop extends Phaser.Scene {
     }
 
 
-    BuyHP() {
-        if (this.coins >= this.priceMaxHP && !this.playerMaxHP && this.buyed < this.maxBuyed) {
-            this.playerMaxHP = true;
-            this.coins -= this.priceMaxHP;
+    Buy(price, effect, text) {
+        if (this.coins >= price && !effect && this.buyed < this.maxBuyed) {
+            effect = true;
+            this.coins -= price;
             this.coinsText.setText('COINS: ' + (this.coins));
-            this.maxHPText.setColor('#595656');
+            text.setColor('#595656');
             this.buyed++;
         }
-    }
-    BuyMana() {
-        if (this.coins >= this.priceMaxMana && !this.playermaxMana && this.buyed < this.maxBuyed) {
-            this.playermaxMana = true;
-            this.coins -= this.priceMaxMana;
-            this.coinsText.setText('COINS: ' + (this.coins));
-            this.maxManaText.setColor('#595656');
-            this.buyed++;
-        }
-    }
-    BuyDamage(){
-        if (this.coins >= this.priceDamage && !this.reduceLife && this.buyed < this.maxBuyed) {
-            this.reduceLife = true;
-            this.coins -= this.priceMaxMana;
-            this.coinsText.setText('COINS: ' + (this.coins));
-            this.damageText.setColor('#595656');
-            this.buyed++;
-        }
+        return effect;
     }
     Cancel() {
         this.playerMaxHP = false;
