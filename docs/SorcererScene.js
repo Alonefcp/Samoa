@@ -51,19 +51,23 @@ export default class SorcererScene extends Phaser.Scene {
    //musica de fondo
    this.music = this.sound.add('musiclv'+this.stage.toString());
    this.music.loop = true;
-   this.music.volume = 0.2;
+   this.music.volume = 0.04;
    this.music.play();
 
     //efectos de sonido
     this.fireballfx = this.sound.add('fireballfx');
+    this.fireballfx.volume = 0.1;
     this.laserfx = this.sound.add('laserfx');
+    this.laserfx.volume = 0.03;
     this.stopTimefx = this.sound.add('stopTime');
     this.stopTimefx.volume = 0.1;
     this.tornadofx = this.sound.add('tornado');
-    this.tornadofx.volume = 0.1;
+    this.tornadofx.volume = 0.03;
     this.windfx = this.sound.add('viento');
     this.windfx.volume = 0.1;
     this.meleefx = this.sound.add('meleefx');
+    this.enemyFireball = this.sound.add('enemyFireball');
+    this.enemyFireball.volume = 0.5;
 
     //colisiones
     this.paredes.setCollisionByProperty({ colisiona: true });

@@ -241,6 +241,7 @@ export default class Player extends Entity {
         break;
       case 5:
         if (this.mana - this.whirlpoolCost > 0 && this.canCastMagic) {
+          this.scene.tornadofx.play();
           this.whirlpool = new Whirlpool(this.scene, this.x, this.y, 'whirlpool', this.whirlpoolDamage, this.scene.enemies);
           this.mana -= this.whirlpoolCost;
         }
