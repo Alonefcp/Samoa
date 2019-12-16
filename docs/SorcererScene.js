@@ -22,6 +22,9 @@ export default class SorcererScene extends Phaser.Scene {
     this.playerExtraHP = data.extraHP;
     this.reduceLife = data.reduceLife;
     this.stage = data.stage;
+    if(this.playerExtraMana)console.log('mana');
+    if(this.playerExtraHP)console.log('hp');
+    if(this.reduceLife)console.log('reduce');
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
