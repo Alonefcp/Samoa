@@ -9,6 +9,8 @@ export default class Menu extends Phaser.Scene {
     preload()
     {
         this.load.audio('menu', 'Assets/audio/menu.mp3');
+        this.load.image('title','Assets/title.png');
+        this.load.image('play','Assets/play.png');
     }
 
     create()
@@ -17,9 +19,10 @@ export default class Menu extends Phaser.Scene {
         this.music.loop = true;
         this.music.volume = 0.04;
         this.music.play(); 
-        this.titleText = this.add.text(100, 100, 'The sorcerer\'s apprentice', { fontSize: '80px', fill: '#FFF' }).setInteractive();
 
-        this.playText = this.add.text(600, 400, 'Play', { fontSize: '64px', fill: '#FFF' }).setInteractive();
+        this.add.image(700, 300, 'title').setScale(0.7);
+
+        this.playText = this.add.image(700, 600, 'play').setScale(0.5).setInteractive();
         this.playText.on('pointerdown', function () {
             this.music.stop();
             this.scene.start('level1');

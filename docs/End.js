@@ -6,8 +6,13 @@ export default class End extends Phaser.Scene {
   
     }
 
+    preload()
+    {
+      this.load.image('endText','Assets/endText.png');
+    }
+
     create()
     {
-        this.titleText = this.add.text(100, 400, 'Thanks for playing', { fontSize: '80px', fill: '#FFF' }).setInteractive();
+        this.endText = this.add.image(800, 400, 'endText').setScale(0.5);
     }
 }
