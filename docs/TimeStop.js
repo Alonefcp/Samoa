@@ -1,7 +1,7 @@
 import Magic from './Magic.js'
 export default class TimeStop extends Magic {
-    constructor(scene, x, y, img, duration, enemies) {
-        super(scene, x, y, img, 0);
+    constructor(scene, x, y, img, duration, enemies,manaCost) {
+        super(scene, x, y, img, 0,manaCost);
         this.duration = duration;
         this.enemies = enemies;
         this.cont = 0;

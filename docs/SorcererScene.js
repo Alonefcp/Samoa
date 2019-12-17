@@ -20,9 +20,7 @@ export default class SorcererScene extends Phaser.Scene {
     this.playerExtraHP = data.extraHP;
     this.reduceLife = data.reduceLife;
     this.stage = data.stage;
-    if(this.playerExtraMana)console.log('mana');
-    if(this.playerExtraHP)console.log('hp');
-    if(this.reduceLife)console.log('reduce');
+
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
@@ -46,11 +44,11 @@ export default class SorcererScene extends Phaser.Scene {
     this.ghostLayer = ghostLayer;
     this.ghostPoints = ghostPoints;
 
-   //musica de fondo
-   this.music = this.sound.add('musiclv'+this.stage.toString());
-   this.music.loop = true;
-   this.music.volume = 0.04;
-   this.music.play();
+    //musica de fondo
+    this.music = this.sound.add('musiclv' + this.stage.toString());
+    this.music.loop = true;
+    this.music.volume = 0.04;
+    this.music.play();
 
     //efectos de sonido
     this.fireballfx = this.sound.add('fireballfx');
@@ -107,11 +105,13 @@ export default class SorcererScene extends Phaser.Scene {
       object.body.setImmovable(true);
     });
 
+    //Enemigos
+    this.enemies = this.physics.add.group();
     //Jugador
-    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana,this.unlockedMagic);
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
-    
+
     this.HUDscene = this.scene.get('HUD');
 
     //Camara
@@ -121,8 +121,6 @@ export default class SorcererScene extends Phaser.Scene {
     //this.camera.setBounds(0, 0, 800, 1400);
     //this.camera.setViewport(0, 0, 900, 900);
 
-    //Enemigos
-    this.enemies = this.physics.add.group();
     //libro
     this.book = new Book(this, this.bookLayer.objects[0].x, this.bookLayer.objects[0].y, 'book', this.player);
 
@@ -189,16 +187,16 @@ export default class SorcererScene extends Phaser.Scene {
     this.t = this.input.keyboard.addKey('T');
     this.t.on('up', () => {
       this.scene.launch('Combinator');
-      this.scene.setVisible(false,'HUD');
+      this.scene.setVisible(false, 'HUD');
       this.scene.pause('level' + (this.stage).toString());
 
     });
-    // this.escape = this.input.keyboard.addKey('ESC');
-    // this.escape.on('up', () => {
-    //   this.player.Stop();
-    //   this.scene.launch('Pause', this.stage);
-    //   this.scene.pause('level' + (this.stage).toString());
-    // });
+    this.escape = this.input.keyboard.addKey('ESC');
+    this.escape.on('up', () => {
+      this.player.Stop();
+      this.scene.launch('Pause', this.stage);
+      this.scene.pause('level' + (this.stage).toString());
+    });
     this.n = this.input.keyboard.addKey('N');
     this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);
 
@@ -211,12 +209,14 @@ export default class SorcererScene extends Phaser.Scene {
         this.meleefx.play();
         this.player.isAttacking = true;
       }
-      else if (pointer.rightButtonDown())
-      this.player.CastMagic();
+      else if (pointer.rightButtonDown()) {
+        this.Ndir = this.player.CalcDir();
+        this.player.setCurrentMana(this.player.GetCurrentMagic().Cast(this.player.x, this.player.y, this.player.getCurrentMana(), this.Ndir.x, this.Ndir.y));
+      }
     });
 
 
-   
+
 
   }
   update(time, delta) {
@@ -227,10 +227,10 @@ export default class SorcererScene extends Phaser.Scene {
 
         if (this.physics.overlap(enemy, this.player.trigger)) {
           enemy.ReceiveDamage(this.player.atk);
-          enemy.SetKnockbackDir(this.player.AtkDirX,this.player.AtkDirY);
+          enemy.SetKnockbackDir(this.player.AtkDirX, this.player.AtkDirY);
 
           if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
-          enemy.knockback=true;
+          enemy.knockback = true;
           if (enemy.HP <= 0) {
             this.UpdateNumEnemies(-1);
             enemy.DropItem();

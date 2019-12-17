@@ -1,8 +1,8 @@
 import Magic from './Magic.js'
 import Fireball from './Fireball.js'
 export default class Tornado extends Magic {
-    constructor(scene, x, y, img, damage, speed, fireballdamage, fireballspeed, dirX, dirY, enemy) {
-        super(scene, x, y, img, damage);
+    constructor(scene, x, y, img, damage, speed, fireballdamage, fireballspeed, dirX, dirY, enemy,manaCost) {
+        super(scene, x, y, img, damage,manaCost);
         this.play('tornado');
         this.dirX = dirX;
         this.dirY = dirY;

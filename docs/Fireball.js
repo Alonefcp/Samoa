@@ -1,8 +1,10 @@
 import Magic from './Magic.js'
+import WaterRay from './WaterRay.js';
 export default class Fireball extends Magic {
-    constructor(scene, x, y, sprite, damage, speed, dirX, dirY, overlapEnemies) {
-        super(scene, x, y, sprite, damage);
+    constructor(scene, x, y, damage, speed, dirX, dirY, overlapEnemies, manaCost, numFireballs) {
+        super(scene, x, y, 'fireball', damage, manaCost);
         this.dirX = dirX;
+        this.numFireballs = numFireballs;
         this.dirY = dirY;
         this.speed = speed;
         this.offset = 40;
@@ -59,7 +61,7 @@ export default class Fireball extends Magic {
     OnOverlap(fireball, enemy) {
         this.Explode();
         this.Harm(enemy);
-        enemy.SetKnockbackDir(fireball.dirX,fireball.dirY);
+        enemy.SetKnockbackDir(fireball.dirX, fireball.dirY);
         if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
         //así evito que dañe a los enemigos mientras se destruye
         this.damage = 0;
@@ -81,20 +83,28 @@ export default class Fireball extends Magic {
     SetTimeStopped(value) {
         this.timeStopped = value;
     }
-    Cast() {
-        this.Cast_rec(0, 0, 0);
-    }
-    Cast_rec(angle, X, Y, dirX, dirY) {
-        if (angle !== 360) {
-            this.nX = x + Math.cos(dirX) * this.offset;
-            this.nY = Y + Math.sin(dirY) * this.offset;
-            this.ndirX = dirx + Math.cos(Math.PI / 4);
-            this.ndirY = dirY + Math.sin(Math.PI / 4);
-            this.nFireBall = new Fireball(this.scene, X, Y, 'fireball', this.damage, this.speed, dirX, dirY, 0);
-            // scene.add.existing(this);
-            // scene.physics.add.existing(this);
-            this.Cast_rec(angle + 45, this.nX, this.nY, dirX, dirY, 0);
+    Cast(x, y, currentmana) {
+        this.nMana = currentmana - this.manaCost;
+        if (this.nMana >= 0) {
+            this.scene.fireballfx.play();
+            this.angle = 360 / this.numFireballs;
+            this.newAngle = 0;
+            for (let i = 0; i < this.numFireballs; i++) {
+                this.nFireBall = new Fireball(this.scene, x + this.offset * Math.cos(this.newAngle * Math.PI / 180), y + this.offset * Math.sin(this.newAngle * Math.PI / 180),
+                    this.damage, this.speed, this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
+                    this.dirX * Math.sin(this.newAngle * Math.PI / 180) + this.dirY * Math.cos(this.newAngle * Math.PI / 180), true, this.manaCost, this.numFireballs);
+                    this.scene.add.existing(this.nFireBall);
+                    this.scene.physics.add.existing(this.nFireBall);
+                this.newAngle += this.angle;
+
+            }
+            return this.nMana;
         }
+        else
+            return currentmana;
+    }
+    Next() {
+        return new WaterRay(this.scene, 0, 0, 0, 0, 0);
     }
 
 }

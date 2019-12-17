@@ -7,7 +7,7 @@ import Tornado from './Tornado.js';
 import Whirlpool from './Whirlpool.js';
 export default class Player extends Entity {
 
-  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana,unlockedMagic) {
+  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic) {
     super(scene, x, y, 'player');
 
     scene.physics.add.existing(this);
@@ -33,7 +33,7 @@ export default class Player extends Entity {
     this.waterRayDamage = 5;
     this.tornadoSpeed = 80;
     this.tornadoDamage = 5;
-    this.fireballSpeed = 150;
+    this.fireballSpeed = 15;
     this.TimeStopDuration = 200;
     this.timestopCost = 5;
     this.tornadoCost = 5
@@ -67,9 +67,10 @@ export default class Player extends Entity {
     this.poisonIntervals = 0;
     this.slowdown = false;
     this.poison = false;
-    this.currentMagic = 0; //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+    this.currentMagic = new Fireball(this.scene, this.x, this.y, this.fireballDamage, this.fireballSpeed, this.fireballSpeed, this.fireballSpeed,
+      true, this.fireballCost, 8); //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
 
-    
+
   }
 
 
@@ -258,6 +259,7 @@ export default class Player extends Entity {
     this.module = Math.sqrt(Math.pow(this.nDX, 2) + Math.pow(this.nDY, 2));
     this.AtkDirX = this.nDX / this.module;
     this.AtkDirY = this.nDY / this.module;
+    return {x:this.AtkDirX,y:this.AtkDirY};
   }
 
   setThrust(ntX, ntY) {
@@ -267,9 +269,9 @@ export default class Player extends Entity {
   }
 
   RotateMagic() {
-    if (this.currentMagic < this.unlockedMagic)
-      this.currentMagic = (this.currentMagic + 1) % this.unlockedMagic;
-    else this.currentMagic = 0;
+    
+      this.currentMagic = this.currentMagic.Next();
+    
     this.UpdateMagicIcon();
 
   }
@@ -317,7 +319,13 @@ export default class Player extends Entity {
   getUnlockedMagic() {
     return this.unlockedMagic;
   }
-
+  setCurrentMana(nmana) {
+    this.mana = nmana;
+    this.scene.scene.get('HUD').ReduceManaBar(this.mana,this.maxMana);
+  }
+  getCurrentMana() {
+    return this.mana;
+  }
 }
 
 

@@ -1,7 +1,7 @@
 import Magic from './Magic.js';
 export default class Whirlpool extends Magic {
-    constructor(scene, x, y, img, damage, enemies) {
-        super(scene, x, y, img, damage);
+    constructor(scene, x, y, img, damage, enemies,manaCost) {
+        super(scene, x, y, img, damage,manaCost);
         this.play('whirlpool', true);
         this.enemies = enemies;
         this.maxDistance = 25000;

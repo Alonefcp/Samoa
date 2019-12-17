@@ -1,7 +1,7 @@
 import Magic from './Magic.js'
 export default class Wind extends Magic {
-    constructor(scene, x, y, sprite) {
-        super(scene, x, y, sprite, 0);
+    constructor(scene, x, y, sprite,manaCost) {
+        super(scene, x, y, sprite, 0,manaCost);
         this.play('wind');
         this.applyForce = true;
         this.on('animationcomplete', () => {

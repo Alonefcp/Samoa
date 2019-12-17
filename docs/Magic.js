@@ -1,15 +1,15 @@
 
 export default class Magic extends Phaser.GameObjects.Sprite {
-    constructor(scene, x, y, img, damage) {
+    constructor(scene, x, y, img, damage, manaCost) {
         super(scene, x, y, img);
         this.damage = damage;
-        scene.add.existing(this);
-        scene.physics.add.existing(this);
+        this.manaCost = manaCost;
 
     }
+  
     Harm(enemy) {
         enemy.ReceiveDamage(this.damage);
-        
+
 
         if (enemy.HP <= 0) {
             this.scene.UpdateNumEnemies(-1);
@@ -17,7 +17,6 @@ export default class Magic extends Phaser.GameObjects.Sprite {
             enemy.destroy();
         }
     }
-    Cast(){
 
-    }
+
 }

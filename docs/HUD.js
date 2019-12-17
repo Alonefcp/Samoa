@@ -57,11 +57,11 @@ export default class HUD extends Phaser.Scene {
         if (this.magicIcon !== undefined)
             this.magicIcon.destroy();
 
-        switch (currentMagic) {
-            case 0:
+        switch (currentMagic.texture) {
+            case 'fireball':
                 this.magicIcon = this.add.image(180, 230, 'fireB').setScale(0.5);
                 break;
-            case 1:
+            case 'waterray':
                 this.magicIcon = this.add.image(180, 230, 'waterB').setScale(0.5);
                 break;
             case 2:
