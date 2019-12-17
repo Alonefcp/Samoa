@@ -33,7 +33,7 @@ export default class HUD extends Phaser.Scene {
         this.manabar.setOrigin(0, 0.5);
 
         this.coinIMG = this.add.image(155, 145, 'HUDCoin');
-        this.coinsText = this.add.text(this.coinIMG.getBounds().x + 50, this.coinIMG.getBounds().y - 20, 'x:' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
+        this.coinsText = this.add.text(this.coinIMG.getBounds().x + 50, this.coinIMG.getBounds().y - 20, 'x' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
         this.ChangeMagicIcon(this.initMagic);
 
 
@@ -42,7 +42,7 @@ export default class HUD extends Phaser.Scene {
 
 
     UpdateCoins(coins) {
-        this.coinsText.setText('x:' + coins);
+        this.coinsText.setText('x' + coins);
     }
 
     ReduceManaBar(playerMana, playerMaxMana) {

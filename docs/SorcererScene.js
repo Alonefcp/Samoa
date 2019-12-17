@@ -12,8 +12,6 @@ import Book from './book.js';
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
     super(data);
-
-
   }
   init(data) {
     this.coins = data.money;
@@ -114,8 +112,6 @@ export default class SorcererScene extends Phaser.Scene {
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
     
-    
-    
     this.HUDscene = this.scene.get('HUD');
 
     //Camara
@@ -197,12 +193,12 @@ export default class SorcererScene extends Phaser.Scene {
       this.scene.pause('level' + (this.stage).toString());
 
     });
-    this.escape = this.input.keyboard.addKey('ESC');
-    this.escape.on('up', () => {
-      this.player.Stop();
-      this.scene.launch('Pause', this.stage);
-      this.scene.pause('level' + (this.stage).toString());
-    });
+    // this.escape = this.input.keyboard.addKey('ESC');
+    // this.escape.on('up', () => {
+    //   this.player.Stop();
+    //   this.scene.launch('Pause', this.stage);
+    //   this.scene.pause('level' + (this.stage).toString());
+    // });
     this.n = this.input.keyboard.addKey('N');
     this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);
 
@@ -303,7 +299,9 @@ export default class SorcererScene extends Phaser.Scene {
       this.player.atkTime = 0;
     }
 
-    if (this.player.HP <= 0) this.player.Spawn();//Muerte del jugador
+    //Muerte del jugador
+    if (this.player.HP <= 0) this.player.Spawn();
+
 
   }
 
@@ -344,7 +342,7 @@ export default class SorcererScene extends Phaser.Scene {
     return this.numEnemies <= 0;
   }
   CreateExit() {
-    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, this.stage + 1,this.music);
+    this.portal = new Portal(this, this.portalLayer.objects[0].x, this.portalLayer.objects[0].y, 'portal', this.player, this.stage + 1);
 
 
   }

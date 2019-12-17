@@ -23,7 +23,7 @@ export default class Tornado extends Magic {
         if (this.spawncont >= 10) {
             //crea una bola de fuego con dirección aleatoria entre[-1,1]
             this.fireball = new Fireball(this.scene, this.x, this.y, 'fireball', this.fireballdamage, this.fireballspeed, Math.random() * (1.001 + 1.001) - 1.001,
-                Math.random() * (1.001 + 1.001) - 1.001, 0);
+                Math.random() * (1.001 + 1.001) - 1.001, true);
             this.spawncont = 0;
         }
         this.time++;
@@ -32,7 +32,12 @@ export default class Tornado extends Magic {
     }
     OnOverlap(tornado, enemy) {
 
-        tornado.Harm(enemy);
+        if(enemy.knockbackTank != undefined) enemy.knockbackTank=true;
+    
+        if(!enemy.knockbackTank)tornado.Harm(enemy);
+        
         if (enemy.receiveDamage != undefined) enemy.receiveDamage = true;
+        
+        enemy.SetKnockbackDir(tornado.dirX,tornado.dirY);
     }
 }

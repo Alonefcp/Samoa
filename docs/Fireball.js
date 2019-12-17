@@ -1,6 +1,6 @@
 import Magic from './Magic.js'
 export default class Fireball extends Magic {
-    constructor(scene, x, y, sprite, damage, speed, dirX, dirY, param) {
+    constructor(scene, x, y, sprite, damage, speed, dirX, dirY, overlapEnemies) {
         super(scene, x, y, sprite, damage);
         this.dirX = dirX;
         this.dirY = dirY;
@@ -10,7 +10,7 @@ export default class Fireball extends Magic {
         this.timeStopped = false;
         this.maxtime = 66;
         //overlap entre la bola de fuego y los enemigos
-        if (param == 0) this.scene.physics.add.overlap(this.scene.enemies, this, this.OnOverlap, null, this);
+        if (overlapEnemies) this.scene.physics.add.overlap(this.scene.enemies, this, this.OnOverlap, null, this);
         else {
             this.scene.physics.add.overlap(this.scene.player, this, this.OnOverlapPlayer, null, this);//overlap entre la bola de fuego y el jugador
             this.dirX *= -1;

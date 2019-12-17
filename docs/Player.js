@@ -15,12 +15,12 @@ export default class Player extends Entity {
     this.coins = coins;
     this.stage = 0;
     this.numStages = 3;
-    this.extraMaxHP = 20;
+    this.extraMaxHP = 50;
     if (hasIncreasedMaxHP) {
       this.MaxHP += this.extraMaxHP;
       this.HP = this.MaxHP;
     }
-    this.extraMaxMana = 10;
+    this.extraMaxMana = 50;
     this.maxMana = 100;
     if (hasIncreasedMaxMana)
       this.maxMana += this.extraMaxMana;
@@ -162,7 +162,6 @@ export default class Player extends Entity {
     //Reseteamos las barras a 100
     this.scene.HUDscene.lifebar.displayWidth = this.scene.HUDscene.initialWidth;
     this.scene.HUDscene.manabar.displayWidth = this.scene.HUDscene.initialWidthMana;
-    
   }
 
   //Activa la ralentizacion
@@ -184,18 +183,18 @@ export default class Player extends Entity {
       case 0:
         if (this.mana - this.fireballCost >= 0 && this.canCastMagic) {
           this.scene.fireballfx.play();
-          this.fireball = new Fireball(this.scene, this.x + 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, 1, 0, 0);
-          this.fireball2 = new Fireball(this.scene, this.x, this.y + 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, 1, 0);
-          this.fireball3 = new Fireball(this.scene, this.x - 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, -1, 0, 0);
-          this.fireball4 = new Fireball(this.scene, this.x, this.y - 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, -1, 0);
+          this.fireball = new Fireball(this.scene, this.x + 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, 1, 0, true);
+          this.fireball2 = new Fireball(this.scene, this.x, this.y + 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, 1, true);
+          this.fireball3 = new Fireball(this.scene, this.x - 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, -1, 0, true);
+          this.fireball4 = new Fireball(this.scene, this.x, this.y - 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, -1, true);
           this.fireball5 = new Fireball(this.scene, this.x - Math.cos(Math.PI / 4) * 40, this.y - Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            -Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), 0);
+            -Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), true);
           this.fireball6 = new Fireball(this.scene, this.x + Math.cos(Math.PI / 4) * 40, this.y - Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), 0);
+            Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), true);
           this.fireball7 = new Fireball(this.scene, this.x - Math.cos(Math.PI / 4) * 40, this.y + Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            -Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), 0);
+            -Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), true);
           this.fireball8 = new Fireball(this.scene, this.x + Math.cos(Math.PI / 4) * 40, this.y + Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), 0);
+            Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), true);
           this.mana -= this.fireballCost;
         }
         break;

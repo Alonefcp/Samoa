@@ -27,7 +27,7 @@ export default class Ghost extends Enemy {
 
             if (this.frireRate >= 50) {
                 this.scene.enemyFireball.play();
-                this.fireball = new Fireball(this.scene, this.x, this.y, 'fireball', this.atk, 150, this.dirX, this.dirY, 1);
+                this.fireball = new Fireball(this.scene, this.x, this.y, 'fireball', this.atk, 150, this.dirX, this.dirY, false);
                 this.frireRate = 0;
             }
         }

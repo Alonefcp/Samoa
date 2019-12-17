@@ -23,9 +23,9 @@ export default class Shop extends Phaser.Scene {
         this.buyed = 0;
         this.maxBuyed = 2;
         this.coins = this.inticoins;
-        this.priceMaxMana = 10;
-        this.priceDamage = 10;
-        this.priceMaxHP = 10;
+        this.priceMaxMana = 40;
+        this.priceDamage = 40;
+        this.priceMaxHP = 40;
         this.playermaxMana = false;
         this.playerMaxHP = false;
         this.price = 0;
