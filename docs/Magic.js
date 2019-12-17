@@ -12,7 +12,6 @@ export default class Magic extends Phaser.GameObjects.Sprite {
         this.tornadoSpeed = 80;
         this.tornadoDamage = 5;
         this.fireballSpeed = 15;
-        this.TimeStopDuration = 200;
         this.timestopCost = 5;
         this.tornadoCost = 5
         this.whirlpoolCost = 5;

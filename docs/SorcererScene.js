@@ -12,6 +12,7 @@ import Book from './book.js';
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
     super(data);
+    this.coolDown = 1000000;
   }
   init(data) {
     this.coins = data.money;
@@ -209,9 +210,10 @@ export default class SorcererScene extends Phaser.Scene {
         this.meleefx.play();
         this.player.isAttacking = true;
       }
-      else if (pointer.rightButtonDown()) {
+      else if (pointer.rightButtonDown() &&this.coolDown>this.player.GetCurrentMagic().GetCoolDown()) {
         this.Ndir = this.player.CalcDir();
         this.player.setCurrentMana(this.player.GetCurrentMagic().Cast(this.player.x, this.player.y, this.player.getCurrentMana(), this.Ndir.x, this.Ndir.y));
+        this.coolDown=0;
       }
     });
 
@@ -222,6 +224,7 @@ export default class SorcererScene extends Phaser.Scene {
   update(time, delta) {
     //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
     //objetos destructibles
+   this.coolDown++;
     if (this.physics.overlap(this.enemies, this.player.trigger)) {
       this.enemies.getChildren().forEach(function (enemy) {
 

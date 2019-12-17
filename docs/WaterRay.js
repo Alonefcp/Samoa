@@ -73,4 +73,7 @@ export default class WaterRay extends Magic {
   Next(){
     return new Wind(this.scene,this.x,this.y,this.windcost,false);
   }
+  GetCoolDown(){
+    return this.waterRayCoolDown;
+  }
 }

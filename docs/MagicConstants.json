@@ -1,3 +1,4 @@
+
 {
     "fireballCost": 5,
     "waterrayCost": 5,
@@ -7,7 +8,7 @@
     "tornadoSpeed": 8,
     "tornadoDamage": 5,
     "fireballSpeed": 1,
-    "TimeStopDuration": 20,
+    "TimeStopDuration": 200,
     "timestopCost": 5,
     "tornadoCost": 5,
     "whirlpoolCost": 5,

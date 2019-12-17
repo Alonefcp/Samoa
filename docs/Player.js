@@ -59,12 +59,6 @@ export default class Player extends Entity {
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
-    this.coolDown++;
-    if (this.coolDown >= this.fireballCoolDown || this.coolDown >= this.waterRayCoolDown || this.coolDown >= this.waterRayCoolDown ||
-      this.coolDown >= this.windCoolDown || this.coolDown >= this.tornadoCoolDown || this.coolDown >= this.timestopCoolDown || this.coolDown >= this.whirlpoolCoolDown) {
-      this.canCastMagic = true;
-      this.coolDown = 0;
-    }
 
 
     //Aplica un empuje al jugador
@@ -163,48 +157,7 @@ export default class Player extends Entity {
 
   CastMagic() {
     switch (this.currentMagic) {
-      case 0:
-        if (this.mana - this.fireballCost >= 0 && this.canCastMagic) {
-          this.scene.fireballfx.play();
-          this.fireball = new Fireball(this.scene, this.x + 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, 1, 0, true);
-          this.fireball2 = new Fireball(this.scene, this.x, this.y + 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, 1, true);
-          this.fireball3 = new Fireball(this.scene, this.x - 40, this.y, 'fireball', this.fireballDamage, this.fireballSpeed, -1, 0, true);
-          this.fireball4 = new Fireball(this.scene, this.x, this.y - 40, 'fireball', this.fireballDamage, this.fireballSpeed, 0, -1, true);
-          this.fireball5 = new Fireball(this.scene, this.x - Math.cos(Math.PI / 4) * 40, this.y - Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            -Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), true);
-          this.fireball6 = new Fireball(this.scene, this.x + Math.cos(Math.PI / 4) * 40, this.y - Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            Math.cos(Math.PI / 4), -Math.sin(Math.PI / 4), true);
-          this.fireball7 = new Fireball(this.scene, this.x - Math.cos(Math.PI / 4) * 40, this.y + Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            -Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), true);
-          this.fireball8 = new Fireball(this.scene, this.x + Math.cos(Math.PI / 4) * 40, this.y + Math.sin(Math.PI / 4) * 40, 'fireball', this.fireballDamage, this.fireballSpeed,
-            Math.cos(Math.PI / 4), Math.sin(Math.PI / 4), true);
-          this.mana -= this.fireballCost;
-        }
-        break;
-      case 1:
-        if (this.mana - this.waterrayCost >= 0 && this.canCastMagic) {
-          this.scene.laserfx.play();
-          this.CalcDir();
-          if (this.nDX > 0) this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) + Math.PI / 2);
-          else this.water = new WaterRay(this.scene, this.x + this.AtkDirX, this.y + this.AtkDirY, 'waterray', this.waterRayDamage, Math.atan(this.nDY / this.nDX) - Math.PI / 2);
-          this.mana -= this.waterrayCost;
-          break;
-        }
-      case 2:
-        if (this.mana - this.windcost >= 0 && this.canCastMagic) {
-          this.scene.windfx.play();
-          this.CalcDir();
-          this.wind = new Wind(this.scene, this.x - 100, this.y, 'wind');
-          this.wind.setScale(4.5);
-          this.wind.alpha = 0.3;
-          //hacemos que a los enemigos les afecte la magia de viento    
-          this.scene.enemies.getChildren().forEach(function (enemy) {
-            enemy.windForce = true;
-          }, this);
-          this.mana -= this.windcost;
-        }
-
-        break;
+      
       case 3:
         if (this.mana - this.timestopCost >= 0 && this.canCastMagic) {
           this.scene.stopTimefx.play();

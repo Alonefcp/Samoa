@@ -10,8 +10,8 @@ export default class Melee extends Enemy {
         this.play('meleeIdle', true);
         if (this.timeStopped) {
             this.Stop();
-            if (this.knockback) this.ApplyForce(this.knockbackDirX, this.knockbackDirY);
-            else this.FollowPlayer(25000, 200);
+            // if (this.knockback) this.ApplyForce(this.knockbackDirX, this.knockbackDirY);
+            // else this.FollowPlayer(25000, 200);
         }
         else
         {

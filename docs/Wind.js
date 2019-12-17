@@ -34,4 +34,7 @@ export default class Wind extends Magic {
         return new Fireball(this.scene,this.x,this.y,this.fireballDamage,this.fireballSpeed,this.fireballSpeed,this.fireballSpeed,true,this.fireballCost,
             8);
     }
+    GetCoolDown(){
+        return this.windCoolDown;
+    }
 }

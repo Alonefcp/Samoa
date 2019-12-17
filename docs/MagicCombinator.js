@@ -1,3 +1,6 @@
+import TimeStop from "./TimeStop.js";
+
+
 export default class MagicCombinator extends Phaser.Scene {
     constructor() {
         super({ key: 'Combinator' });
@@ -7,6 +10,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.water = false;
         this.unlockedMagics = 1;
         this.stage = 1;
+        this.TimeStopDuration = 200;
     }
     preload() {
         this.load.spritesheet('windB', 'Assets/AnimViento.png', { frameWidth: 128, frameHeight: 128 });
@@ -16,6 +20,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.load.image('mistB', 'Assets/MistButton.png');
         this.load.image('whirlpoolB', 'Assets/WhirlpoolButton.png');
         this.load.image('tornado', 'Assets/TornadoButton.png');
+        this.load.json('constants','./MagicConstants.json')
     }
     create() {
         this.mainScene = this.scene.get("level" + this.stage.toString());
@@ -90,10 +95,11 @@ export default class MagicCombinator extends Phaser.Scene {
             this.windB.play('windNeutral');
         //callbacks
         this.close.on('pointerdown', () => {
+            this.constants=this.cache.json.get('constants');
             switch (this.button.anims.getCurrentKey()) {
 
                 case 'mistB':
-                    this.mainScene.player.setMagic(3);
+                    this.mainScene.player.setMagic(new TimeStop(this.mainScene, 0, 0,this.constants.TimeStopDuration, this.mainScene.enemies,this.constants.timestopCost, false));
                     break;
                 case 'tornadoB':
                     this.mainScene.player.setMagic(4);
@@ -105,9 +111,9 @@ export default class MagicCombinator extends Phaser.Scene {
             //this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });
             this.mainScene.player.UpdateMagicIcon();
             this.scene.sleep('Combinator');
-            this.scene.setVisible(true,'HUD');
+            this.scene.setVisible(true, 'HUD');
             this.scene.resume('level' + this.stage.toString());
-          
+
         });
         this.combine.on('pointerdown', () => {
             if (this.fire && this.water)
