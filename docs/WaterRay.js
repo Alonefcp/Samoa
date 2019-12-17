@@ -1,4 +1,5 @@
 import Magic from './Magic.js'
+import Wind from './Wind.js';
 export default class WaterRay extends Magic {
   constructor(scene, x, y, damage, angle, manaCost) {
     super(scene, x, y, 'waterray', damage, manaCost);
@@ -68,5 +69,8 @@ export default class WaterRay extends Magic {
       return this.nMana;
     }
     else return currentmana;
+  }
+  Next(){
+    return new Wind(this.scene,this.x,this.y,this.windcost,false);
   }
 }

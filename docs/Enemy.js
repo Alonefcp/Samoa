@@ -28,7 +28,7 @@ export default class Enemy extends Entity {
 
     if (this.windForce)//es afectado por la magia de viento
     {
-      this.ApplyForce(this.player.AtkDirX, this.player.AtkDirY);
+      
     }
     else //sigue al jugador
     {

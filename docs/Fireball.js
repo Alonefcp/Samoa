@@ -83,7 +83,7 @@ export default class Fireball extends Magic {
     SetTimeStopped(value) {
         this.timeStopped = value;
     }
-    Cast(x, y, currentmana) {
+    Cast(x, y, currentmana, dirX, dirY) {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
             this.scene.fireballfx.play();
@@ -93,8 +93,8 @@ export default class Fireball extends Magic {
                 this.nFireBall = new Fireball(this.scene, x + this.offset * Math.cos(this.newAngle * Math.PI / 180), y + this.offset * Math.sin(this.newAngle * Math.PI / 180),
                     this.damage, this.speed, this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
                     this.dirX * Math.sin(this.newAngle * Math.PI / 180) + this.dirY * Math.cos(this.newAngle * Math.PI / 180), true, this.manaCost, this.numFireballs);
-                    this.scene.add.existing(this.nFireBall);
-                    this.scene.physics.add.existing(this.nFireBall);
+                this.scene.add.existing(this.nFireBall);
+                this.scene.physics.add.existing(this.nFireBall);
                 this.newAngle += this.angle;
 
             }
@@ -104,7 +104,7 @@ export default class Fireball extends Magic {
             return currentmana;
     }
     Next() {
-        return new WaterRay(this.scene, 0, 0, 0, 0, 0);
+        return new WaterRay(this.scene, 0, 0, this.waterRayDamage, 0, this.waterrayCost);
     }
 
 }

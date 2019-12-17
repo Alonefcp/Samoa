@@ -26,25 +26,7 @@ export default class Player extends Entity {
       this.maxMana += this.extraMaxMana;
     this.mana = this.maxMana;
 
-    this.fireballCost = 5;
-    this.waterrayCost = 5;
-    this.windcost = 5;
-    this.fireballDamage = 5;
-    this.waterRayDamage = 5;
-    this.tornadoSpeed = 80;
-    this.tornadoDamage = 5;
-    this.fireballSpeed = 15;
-    this.TimeStopDuration = 200;
-    this.timestopCost = 5;
-    this.tornadoCost = 5
-    this.whirlpoolCost = 5;
-    this.whirlpoolDamage = 5;
-    this.fireballCoolDown = 110;
-    this.waterRayCoolDown = 80;
-    this.windCoolDown = 150;
-    this.tornadoCoolDown = 150;
-    this.timestopCoolDown = 120;
-    this.whirlpoolCoolDown = 110;
+    
     this.coolDown = 0;
     this.unlockedMagic = unlockedMagic;
     this.canCastMagic = true;
@@ -67,8 +49,8 @@ export default class Player extends Entity {
     this.poisonIntervals = 0;
     this.slowdown = false;
     this.poison = false;
-    this.currentMagic = new Fireball(this.scene, this.x, this.y, this.fireballDamage, this.fireballSpeed, this.fireballSpeed, this.fireballSpeed,
-      true, this.fireballCost, 8); //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+    this.currentMagic = new Fireball(this.scene, this.x, this.y, 5, 15, 15, 15,
+      true, 5, 8); //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
 
 
   }
