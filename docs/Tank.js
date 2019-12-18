@@ -2,8 +2,8 @@ import Enemy from './Enemy.js';
 import Melee from './Melee.js';
 export default class Tank extends Enemy {
 
-    constructor(scene, x, y, img, damage,hasReducedLife,player) {
-        super(scene, x, y, img, damage,hasReducedLife,player);
+    constructor(scene, x, y, img, constants,hasReducedLife,player) {
+        super(scene, x, y, img,hasReducedLife,player);
 
         this.timeMoving = 0;
         this.timePerSpawn = 0;
@@ -12,8 +12,9 @@ export default class Tank extends Enemy {
         this.dirY = Phaser.Math.Between(-1, 1);
         this.speedX = this.speedY = 55;
         this.knockbackTank = false;
-        this.HP = 130;
-        this.atk=10;
+        this.constants = constants;
+        this.atk = constants.tankAtk;
+        this.HP = constants.tankHP;
     }
 
     preUpdate(time, delta) {

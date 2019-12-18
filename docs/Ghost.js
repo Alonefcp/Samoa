@@ -8,6 +8,9 @@ export default class Ghost extends Enemy {
         this.receiveDamage = false;
         this.HP=50;
         this.atk=30;
+        this.constants = constants;
+        this.atk = constants.ghostAtk;
+        this.HP = constants.ghostHP;
     }
 
     preUpdate(time, delta) {

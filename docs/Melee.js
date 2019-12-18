@@ -1,9 +1,11 @@
 import Enemy from './Enemy.js';
 export default class Melee extends Enemy {
 
-    constructor(scene, x, y, img, damage, hasReducedLife, player) {
-        super(scene, x, y, img, damage, hasReducedLife, player);
-        this.atk=15;
+    constructor(scene, x, y, img, constants, hasReducedLife, player) {
+        super(scene, x, y, img,hasReducedLife, player);
+        this.constants = constants;
+        this.atk = constants.meleeAtk;
+        this.HP = constants.meleeHP;
     }
 
     preUpdate(time, delta) {

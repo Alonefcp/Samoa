@@ -18,5 +18,15 @@
     "windCoolDown": 10,
     "tornadoCoolDown": 10,
     "timestopCoolDown": 10,
-    "whirlpoolCoolDown": 10
+    "whirlpoolCoolDown": 10,
+
+    "meleeHP": 100,
+    "meleeAtk": 15,
+    "wizardHP": 80,
+    "wizardAtk": 20,
+    "ghostHP": 50,
+    "ghostAtk": 30,
+    "tankHP": 130,
+    "tankAtk": 10
+
 }

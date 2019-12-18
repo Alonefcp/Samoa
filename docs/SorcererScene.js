@@ -124,26 +124,28 @@ export default class SorcererScene extends Phaser.Scene {
     //libro
     this.book = new Book(this, this.bookLayer.objects[0].x, this.bookLayer.objects[0].y, 'book', this.player);
 
+    this.enemyConstants = this.cache.json.get('constants');
+
     this.meleeLayer.objects.forEach(object => {
-      this.melee = new Melee(this, object.x, object.y, 'meleeEnemy', 20, this.reduceLife, this.player).setScale(0.8);
+      this.melee = new Melee(this, object.x, object.y, 'meleeEnemy', this.enemyConstants, this.reduceLife, this.player).setScale(0.8);
       if (this.reduceLife) this.melee.HP -= 20;
       this.enemies.add(this.melee);
     }, this);
 
     this.wizardLayer.objects.forEach(object => {
-      this.wizard = new Wizard(this, object.x, object.y, 'wizard', 30, this.reduceLife, this.player).setScale(1.1);
+      this.wizard = new Wizard(this, object.x, object.y, 'wizard', this.enemyConstants, this.reduceLife, this.player).setScale(1.1);
       if (this.reduceLife) this.wizard.HP -= 20;
       this.enemies.add(this.wizard);
     }, this);
 
     this.tankLayer.objects.forEach(object => {
-      this.tank = new Tank(this, object.x, object.y, 'tank', 15, this.reduceLife, this.player).setScale(1.2);
+      this.tank = new Tank(this, object.x, object.y, 'tank', this.enemyConstants, this.reduceLife, this.player).setScale(1.2);
       if (this.reduceLife) this.tank.HP -= 20;
       this.enemies.add(this.tank);
     }, this);
 
     this.ghostLayer.objects.forEach(object => {
-      this.ghost = new Ghost(this, object.x, object.y, 'ghost', 15, this.reduceLife, this.player).setScale(1.1);
+      this.ghost = new Ghost(this, object.x, object.y, 'ghost', this.enemyConstants, this.reduceLife, this.player).setScale(1.1);
       if (this.reduceLife) this.ghost.HP -= 20;
       this.enemies.add(this.ghost);
     }, this);

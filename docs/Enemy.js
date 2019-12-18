@@ -1,7 +1,7 @@
 import Entity from './Entity.js';
 export default class Enemy extends Entity {
 
-  constructor(scene, x, y, img, damage, hasReducedLife, player) {
+  constructor(scene, x, y, img,hasReducedLife, player) {
     super(scene, x, y, img);
     scene.physics.add.existing(this);
     this.player = player;

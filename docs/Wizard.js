@@ -2,11 +2,12 @@ import Enemy from './Enemy.js';
 import Fireball from './Fireball.js'
 export default class Wizard extends Enemy {
 
-    constructor(scene, x, y, img, damage, hasReducedLife, player) {
-        super(scene, x, y, img, damage, hasReducedLife, player);
+    constructor(scene, x, y, img, constants, hasReducedLife, player) {
+        super(scene, x, y, img,hasReducedLife, player);
         this.frireRate = 0;
-        this.HP=80;
-        this.atk=20;
+        this.constants = constants;
+        this.atk = constants.wizardAtk;
+        this.HP = constants.wizardHP;
     }
 
     preUpdate(time, delta) {
