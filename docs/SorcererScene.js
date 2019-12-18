@@ -25,7 +25,8 @@ export default class SorcererScene extends Phaser.Scene {
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
     wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies, enemiesgroup
-    , unlockedmagic) {
+    , unlockedmagic,constants) {
+    this.constants = constants;
     this.unlockedMagic = unlockedmagic;
     this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;

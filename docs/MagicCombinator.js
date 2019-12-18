@@ -22,7 +22,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.load.image('mistB', 'Assets/MistButton.png');
         this.load.image('whirlpoolB', 'Assets/WhirlpoolButton.png');
         this.load.image('tornado', 'Assets/TornadoButton.png');
-        this.load.json('constants', './MagicConstants.json');
+        this.load.json('constants', './Constants.json');
     }
     create() {
         this.mainScene = this.scene.get("level" + this.stage.toString());

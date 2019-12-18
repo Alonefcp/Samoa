@@ -8,7 +8,7 @@ export default class Magic extends Phaser.GameObjects.Sprite {
         
     }
     preload() {
-        this.load.json('constants', './MagicConstants.json');
+        this.load.json('constants', './Constants.json');
 
     }
 

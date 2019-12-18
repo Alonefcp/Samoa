@@ -18,7 +18,7 @@ export default class level2 extends SorcererScene {
     this.load.image('tilesetLevel2', 'Assets/LEVEL2TILES.png');
     this.load.spritesheet('hole2', 'Assets/hoyolv2.png', { frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes2', 'Assets/pinchoslv2.png');
-    this.load.json('constants', './MagicConstants.json');
+    this.load.json('constants', './Constants.json');
   }
 
   create() {
@@ -60,7 +60,7 @@ export default class level2 extends SorcererScene {
     this.unlockedMagic = new WaterRay(this, 0, 0, 0, this.constants);
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
-      this.numEnemies, this.enemies, this.unlockedMagic);
+      this.numEnemies, this.enemies, this.unlockedMagic,this.constants);
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
 
 

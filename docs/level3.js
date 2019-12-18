@@ -22,7 +22,7 @@ export default class level3 extends SorcererScene {
     this.load.image('tilesetLevel3', 'Assets/Nivel3Tiles.png');
     this.load.spritesheet('hole3', 'Assets/hoyolv3.png', { frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes3', 'Assets/pinchoslv3.png');
-    this.load.json('constants', './MagicConstants.json');
+    this.load.json('constants', './Constants.json');
 
   }
 
@@ -64,7 +64,7 @@ export default class level3 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer,
-      this.ghostPoints, this.playerSpawnLayer, this.numEnemies, this.enemies, this.unlockedMagic);
+      this.ghostPoints, this.playerSpawnLayer, this.numEnemies, this.enemies, this.unlockedMagic,this.constants);
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
 
   }

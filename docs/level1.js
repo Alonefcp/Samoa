@@ -46,7 +46,7 @@ export default class level1 extends SorcererScene {
     this.load.spritesheet('tornado', 'Assets/tornadoAnim150.png', { frameWidth: 50, frameHeight: 49 });
     this.load.spritesheet('whirlpool', 'Assets/whirlpool32.png', { frameWidth: 32, frameHeight: 32 });
     this.load.spritesheet('portal', 'Assets/portal.png', { frameWidth: 26, frameHeight: 64 });
-    this.load.json('constants', './MagicConstants.json');
+    this.load.json('constants', './Constants.json');
   }
 
   create() {
@@ -93,7 +93,7 @@ export default class level1 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.decoracion, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
-      this.numEnemies, this.enemies, this.unlockedMagic);
+      this.numEnemies, this.enemies, this.unlockedMagic,this.constants);
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
     //animaciones de los enemigos
