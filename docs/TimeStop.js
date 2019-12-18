@@ -1,12 +1,13 @@
 import Magic from './Magic.js'
 import Fireball from './Fireball.js'
 export default class TimeStop extends Magic {
-    constructor(scene, x, y, duration, enemies, manaCost, apply) {
+    constructor(scene, x, y, duration, enemies, manaCost, apply, cooldown) {
         super(scene, x, y, 'time', 0, manaCost);
         this.apply = apply;
         this.duration = duration;
         this.enemies = enemies;
         this.cont = 0;
+        this.cooldown = cooldown;
         if (this.apply) {
 
             this.enemies.getChildren().forEach(function (enemy) {
@@ -38,7 +39,8 @@ export default class TimeStop extends Magic {
     Cast(x, y, currentmana, dirX, dirY) {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
-            this.Ts = new TimeStop(this.scene, x, y, this.duration, this.enemies, this.timestopCost, true);
+            this.scene.stopTimefx.play();
+            this.Ts = new TimeStop(this.scene, x, y, this.duration, this.enemies, this.timestopCost, true,this.cooldown);
             this.scene.add.existing(this.Ts);
             this.scene.physics.add.existing(this.Ts);
             return this.nMana;
@@ -50,6 +52,6 @@ export default class TimeStop extends Magic {
             8);
     }
     GetCoolDown() {
-        return this.timestopCoolDown;
+        return this.cooldown;
     }
 }

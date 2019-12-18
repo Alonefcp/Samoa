@@ -61,6 +61,7 @@ export default class WaterRay extends Magic {
   Cast(x, y, currentmana, dirX, dirY) {
     this.nMana = currentmana - this.manaCost;
     if (this.nMana >= 0) {
+      this.scene.laserfx.play();
       if (dirX < 0)
         this.water = new WaterRay(this.scene, x, y, this.damage, Math.atan(dirY / dirX) - Math.PI / 2, this.manaCost);
       else this.water = new WaterRay(this.scene, x, y, this.damage, Math.atan(dirY / dirX) + Math.PI / 2, this.manaCost);

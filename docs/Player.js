@@ -26,7 +26,7 @@ export default class Player extends Entity {
       this.maxMana += this.extraMaxMana;
     this.mana = this.maxMana;
 
-    
+
     this.coolDown = 0;
     this.unlockedMagic = unlockedMagic;
     this.canCastMagic = true;
@@ -55,7 +55,7 @@ export default class Player extends Entity {
 
   }
 
-
+  
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
@@ -157,7 +157,7 @@ export default class Player extends Entity {
 
   CastMagic() {
     switch (this.currentMagic) {
-      
+
       case 3:
         if (this.mana - this.timestopCost >= 0 && this.canCastMagic) {
           this.scene.stopTimefx.play();
@@ -194,7 +194,7 @@ export default class Player extends Entity {
     this.module = Math.sqrt(Math.pow(this.nDX, 2) + Math.pow(this.nDY, 2));
     this.AtkDirX = this.nDX / this.module;
     this.AtkDirY = this.nDY / this.module;
-    return {x:this.AtkDirX,y:this.AtkDirY};
+    return { x: this.AtkDirX, y: this.AtkDirY };
   }
 
   setThrust(ntX, ntY) {
@@ -204,9 +204,9 @@ export default class Player extends Entity {
   }
 
   RotateMagic() {
-    
-      this.currentMagic = this.currentMagic.Next();
-    
+
+    this.currentMagic = this.currentMagic.Next();
+
     this.UpdateMagicIcon();
 
   }
@@ -256,7 +256,7 @@ export default class Player extends Entity {
   }
   setCurrentMana(nmana) {
     this.mana = nmana;
-    this.scene.scene.get('HUD').ReduceManaBar(this.mana,this.maxMana);
+    this.scene.scene.get('HUD').ReduceManaBar(this.mana, this.maxMana);
   }
   getCurrentMana() {
     return this.mana;

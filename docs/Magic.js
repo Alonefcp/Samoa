@@ -22,6 +22,10 @@ export default class Magic extends Phaser.GameObjects.Sprite {
         this.tornadoCoolDown = 150;
         this.timestopCoolDown = 120;
         this.whirlpoolCoolDown = 110;
+        
+    }
+    preload() {
+        this.load.json('constants', './MagicConstants.json');
 
     }
 

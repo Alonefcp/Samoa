@@ -23,6 +23,7 @@ export default class Wind extends Magic {
     Cast(x, y, currentmana, dirX, dirY) {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
+            this.scene.windfx.play();
             this.nwind = new Wind(this.scene, x, y, this.manaCost,true);
             this.scene.add.existing(this.nwind);
             this.scene.physics.add.existing(this.nwind);

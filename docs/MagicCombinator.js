@@ -1,4 +1,5 @@
 import TimeStop from "./TimeStop.js";
+import Tornado from "./Tornado.js";
 
 
 export default class MagicCombinator extends Phaser.Scene {
@@ -20,7 +21,7 @@ export default class MagicCombinator extends Phaser.Scene {
         this.load.image('mistB', 'Assets/MistButton.png');
         this.load.image('whirlpoolB', 'Assets/WhirlpoolButton.png');
         this.load.image('tornado', 'Assets/TornadoButton.png');
-        this.load.json('constants','./MagicConstants.json')
+        this.load.json('constants','./MagicConstants.json');
     }
     create() {
         this.mainScene = this.scene.get("level" + this.stage.toString());
@@ -99,10 +100,13 @@ export default class MagicCombinator extends Phaser.Scene {
             switch (this.button.anims.getCurrentKey()) {
 
                 case 'mistB':
-                    this.mainScene.player.setMagic(new TimeStop(this.mainScene, 0, 0,this.constants.TimeStopDuration, this.mainScene.enemies,this.constants.timestopCost, false));
+                    this.mainScene.player.setMagic(new TimeStop(this.mainScene, 0, 0,this.constants.TimeStopDuration, this.mainScene.enemies,
+                        this.constants.timestopCost, false,this.constants.timestopCoolDown));
                     break;
                 case 'tornadoB':
-                    this.mainScene.player.setMagic(4);
+                    this.mainScene.player.setMagic(new Tornado(this.mainScene,0,0,this.constants.tornadoDamage,this.constants.tornadoSpeed,
+                        this.constants.fireballDamage,this.constants.fireballSpeed,0,0,this.mainScene.enemies,this.constants.tornadoCost,
+                        this.constants.tornadoCoolDown));
                     break;
                 case 'whirlpoolB':
                     this.mainScene.player.setMagic(5);
