@@ -60,7 +60,7 @@ export default class level3 extends SorcererScene {
     //Enemigos
     this.enemies = this.physics.add.group();
     this.constants = this.cache.json.get('constants');
-    this.unlockedMagic = new Wind(this, 0, 0, this.constants.windcost, false, this.constants.windCoolDown);
+    this.unlockedMagic = new Wind(this, 0, 0, false, this.constants);
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer,

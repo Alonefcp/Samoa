@@ -58,8 +58,7 @@ export default class level1 extends SorcererScene {
     this.constants = this.cache.json.get('constants');
     //Enemigos
     this.enemies = this.physics.add.group();
-    this.unlockedMagic = new Fireball(this, 0, 0, this.constants.fireballDamage, this.constants.fireballSpeed, this.constants.fireballSpeed,
-      this.constants.fireballSpeed, true, this.constants.fireballCost, 8,this.constants.fireballCoolDown);
+    this.unlockedMagic = new Fireball(this, 0, 0, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
 
     //Tilemap de prueba
     this.map = this.make.tilemap({
@@ -94,7 +93,7 @@ export default class level1 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.decoracion, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
-      this.numEnemies,this.enemies,this.unlockedMagic);
+      this.numEnemies, this.enemies, this.unlockedMagic);
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
     //animaciones de los enemigos

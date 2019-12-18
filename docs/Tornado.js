@@ -1,20 +1,21 @@
 import Magic from './Magic.js'
 import Fireball from './Fireball.js'
 export default class Tornado extends Magic {
-    constructor(scene, x, y, damage, speed, fireballdamage, fireballspeed, dirX, dirY, enemy, manaCost, coolDown) {
-        super(scene, x, y, 'tornado', damage, manaCost);
+    constructor(scene, x, y, dirX, dirY, enemy, constants) {
+        super(scene, x, y, 'tornado', constants.tornadoDamage, constants.tornadoCost);
         this.play('tornado');
+        this.constants = constants;
         this.dirX = dirX;
         this.dirY = dirY;
         this.enemy = enemy;
-        this.speed = speed;
+        this.speed = this.constants.tornadoSpeed;
         this.scene.physics.add.overlap(this, enemy, this.OnOverlap, null, this);
         this.spawncont = 0;
-        this.fireballdamage = fireballdamage;
-        this.fireballspeed = fireballspeed;
+        this.fireballdamage = this.constants.fireballDamage;
+        this.fireballspeed = this.constants.fireballSpeed;
         this.time = 0;
         this.maxTime = 100;
-        this.coolDown = coolDown;
+        this.coolDown = this.constants.tornadoCoolDown;
     }
     preUpdate(time, delta) {
         super.preUpdate(time, delta);
@@ -23,10 +24,10 @@ export default class Tornado extends Magic {
         this.spawncont++;
         if (this.spawncont >= 10) {
             //crea una bola de fuego con dirección aleatoria entre[-1,1]
-            this.fireball = new Fireball(this.scene, this.x, this.y, this.fireballdamage, this.fireballspeed, (Math.random() * (1.001 + 1.001) - 1.001) *
-                this.fireballSpeed, this.fireballSpeed * (Math.random() * (1.001 + 1.001) - 1.001), true, 0, 0);
-            this.scene.add.existing(this.fireball);
-            this.scene.physics.add.existing(this.fireball);
+            this.fireballs = new Fireball(this.scene, this.x, this.y, (Math.random() * (1.001 + 1.001) - 1.001) *
+                this.constants.fireballSpeed, this.constants.fireballSpeed * (Math.random() * (1.001 + 1.001) - 1.001), true, 0, this.constants);
+            this.scene.add.existing(this.fireballs);
+            this.scene.physics.add.existing(this.fireballs);
             this.spawncont = 0;
         }
         this.time++;
@@ -47,8 +48,7 @@ export default class Tornado extends Magic {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
             this.scene.tornadofx.play();
-            this.nTornado = new Tornado(this.scene, x, y, this.damage, this.speed, this.fireballdamage,
-                this.fireballspeed, dirX, dirY, this.enemy, this.manaCost, this.coolDown);
+            this.nTornado = new Tornado(this.scene, x, y, dirX, dirY, this.enemy, this.constants);
             this.scene.add.existing(this.nTornado);
             this.scene.physics.add.existing(this.nTornado);
             return this.nMana;
@@ -56,8 +56,7 @@ export default class Tornado extends Magic {
         else return currentmana;
     }
     Next() {
-        return new Fireball(this.scene, this.x, this.y, this.fireballDamage, this.fireballSpeed, this.fireballSpeed, this.fireballSpeed, true, this.fireballCost,
-            8);
+        return new Fireball(this.scene, this.x, this.y, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
     }
     GetCoolDown() {
         return this.coolDown;
