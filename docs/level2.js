@@ -1,5 +1,6 @@
 
 import SorcererScene from './SorcererScene.js';
+import WaterRay from './WaterRay.js';
 
 export default class level2 extends SorcererScene {
   constructor() {
@@ -17,6 +18,7 @@ export default class level2 extends SorcererScene {
     this.load.image('tilesetLevel2', 'Assets/LEVEL2TILES.png');
     this.load.spritesheet('hole2', 'Assets/hoyolv2.png', { frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes2', 'Assets/pinchoslv2.png');
+    this.load.json('constants', './MagicConstants.json');
   }
 
   create() {
@@ -32,6 +34,7 @@ export default class level2 extends SorcererScene {
     this.paredes2 = this.map.createStaticLayer('paredes2', [this.tiles]);
     this.paredes = this.map.createStaticLayer('paredes', [this.tiles]);
     this.deco = this.map.createStaticLayer('Decoracion', [this.tiles]);
+
 
     this.paredes.setCollisionByProperty({ colisiona: true });
     this.paredes2.setCollisionByProperty({ colisiona: true });
@@ -50,9 +53,14 @@ export default class level2 extends SorcererScene {
     this.ghostLayer = this.map.getObjectLayer('Fantasma');
     this.ghostPoints = this.map.getObjectLayer('GhostPoints');
     this.playerSpawnLayer = this.map.getObjectLayer('playerSpawn');
+    //Enemigos
+    this.enemies = this.physics.add.group();
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
+    this.constants = this.chache.json.get('constants');
+    this.unlockedMagic = new WaterRay(this, 0, 0, this.constants.waterRayDamage, 0, this.constants.waterrayCost, this.constants.waterRayCoolDown)
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
-      this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer, this.numEnemies, 'spikes2', 'hole2');
+      this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
+      this.numEnemies, this.enemies,this.unlockedMagic);
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
 
 

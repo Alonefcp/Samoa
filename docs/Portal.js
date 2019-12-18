@@ -15,9 +15,7 @@ export default class Portal extends Phaser.GameObjects.Sprite {
         this.scene.scene.remove('level' + (this.NextStage - 1).toString());
         this.scene.scene.get('Combinator').NextStage();
         this.scene.scene.run('Shop', {
-          money: this.player.getMoney(), stage: this.NextStage, current: this.player.GetCurrentMagic(),
-          unlockedMagic: this.player.getUnlockedMagic()
-        });
+          money: this.player.getMoney(), stage: this.NextStage});
       }
 
       this.destroy();

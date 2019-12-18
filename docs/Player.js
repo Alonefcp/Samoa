@@ -11,7 +11,7 @@ export default class Player extends Entity {
     super(scene, x, y, 'player');
 
     scene.physics.add.existing(this);
-
+    this.maxMagic = 3;
     this.coins = coins;
     this.stage = 0;
     this.numStages = 3;
@@ -49,13 +49,12 @@ export default class Player extends Entity {
     this.poisonIntervals = 0;
     this.slowdown = false;
     this.poison = false;
-    this.currentMagic = new Fireball(this.scene, this.x, this.y, 5, 15, 15, 15,
-      true, 5, 8); 
+    this.currentMagic = this.unlockedMagic;
 
 
   }
 
-  
+
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
 
@@ -155,7 +154,7 @@ export default class Player extends Entity {
     this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
   }
 
-  
+
 
   CalcDir() {
     this.nDX = this.scene.pointer.worldX - this.x
@@ -173,9 +172,10 @@ export default class Player extends Entity {
   }
 
   RotateMagic() {
-
-    this.currentMagic = this.currentMagic.Next();
-
+    this.nextMagic = this.currentMagic.Next();
+    if (this.nextMagic == this.unlockedMagic)
+      this.currentMagic = this.currentMagic.Next();
+    
     this.UpdateMagicIcon();
 
   }
@@ -192,9 +192,8 @@ export default class Player extends Entity {
     this.scene.HUDscene.ReduceManaBar(this.mana, this.maxMana);
   }
   UnlockMagic() {
-    this.unlockedMagic++;
-    if (this.unlockedMagic > 3)
-      this.unlockedMagic = 3;
+    this.unlockedMagic = this.unlockedMagic.Next();
+
   }
   GetCoins(coins) {
     if (coins > 0)

@@ -41,6 +41,7 @@ export default class Whirlpool extends Magic {
     Cast(x, y, currentmana, dirX, dirY) {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
+            this.scene.tornadofx.play();
             this.nWhirlpool = new Whirlpool(this.scene, x, y, this.damage, this.enemies, this.manaCost, this.coolDown);
             this.scene.add.existing(this.nWhirlpool);
             this.scene.physics.add.existing(this.nWhirlpool);

@@ -1,4 +1,5 @@
 import SorcererScene from './SorcererScene.js'
+import Wind from './Wind.js';
 
 export default class level3 extends SorcererScene {
   constructor() {
@@ -21,6 +22,8 @@ export default class level3 extends SorcererScene {
     this.load.image('tilesetLevel3', 'Assets/Nivel3Tiles.png');
     this.load.spritesheet('hole3', 'Assets/hoyolv3.png', { frameWidth: 32, frameHeight: 32 });
     this.load.image('spikes3', 'Assets/pinchoslv3.png');
+    this.load.json('constants', './MagicConstants.json');
+
   }
 
   create() {
@@ -54,10 +57,14 @@ export default class level3 extends SorcererScene {
     this.ghostLayer = this.map.getObjectLayer('Fantasma');
     this.ghostPoints = this.map.getObjectLayer('GhostPoints');
     this.playerSpawnLayer = this.map.getObjectLayer('playerSpawn');
+    //Enemigos
+    this.enemies = this.physics.add.group();
+    this.constants = this.cache.json.get('constants');
+    this.unlockedMagic = new Wind(this, 0, 0, this.constants.windcost, false, this.constants.windCoolDown);
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer,
-      this.ghostPoints, this.playerSpawnLayer, this.numEnemies);
+      this.ghostPoints, this.playerSpawnLayer, this.numEnemies, this.enemies, this.unlockedMagic);
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
 
   }

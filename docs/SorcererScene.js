@@ -16,7 +16,6 @@ export default class SorcererScene extends Phaser.Scene {
   }
   init(data) {
     this.coins = data.money;
-    this.unlockedMagic = data.magic;
     this.playerExtraMana = data.extraMana;
     this.playerExtraHP = data.extraHP;
     this.reduceLife = data.reduceLife;
@@ -25,8 +24,10 @@ export default class SorcererScene extends Phaser.Scene {
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
-    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies) {
-    this.numEnemies = numEnemies;
+    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies,enemiesgroup
+    ,unlockedmagic) {
+    this.unlockedMagic=unlockedmagic;
+      this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;
     this.suelo = groundlayer;
     this.paredes = wallsLayer;
@@ -44,6 +45,7 @@ export default class SorcererScene extends Phaser.Scene {
     this.tankLayer = tankLayer;
     this.ghostLayer = ghostLayer;
     this.ghostPoints = ghostPoints;
+    this.enemies=enemiesgroup;
 
     //musica de fondo
     this.music = this.sound.add('musiclv' + this.stage.toString());
@@ -105,9 +107,6 @@ export default class SorcererScene extends Phaser.Scene {
     this.destuctibleObjects.children.iterate(function (object) {
       object.body.setImmovable(true);
     });
-
-    //Enemigos
-    this.enemies = this.physics.add.group();
     //Jugador
     this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic);
     this.player.body.setSize(16, 60);//Ajustamos el collider
@@ -210,10 +209,10 @@ export default class SorcererScene extends Phaser.Scene {
         this.meleefx.play();
         this.player.isAttacking = true;
       }
-      else if (pointer.rightButtonDown() &&this.coolDown>this.player.GetCurrentMagic().GetCoolDown()) {
+      else if (pointer.rightButtonDown() && this.coolDown > this.player.GetCurrentMagic().GetCoolDown()) {
         this.Ndir = this.player.CalcDir();
         this.player.setCurrentMana(this.player.GetCurrentMagic().Cast(this.player.x, this.player.y, this.player.getCurrentMana(), this.Ndir.x, this.Ndir.y));
-        this.coolDown=0;
+        this.coolDown = 0;
       }
     });
 
@@ -224,7 +223,7 @@ export default class SorcererScene extends Phaser.Scene {
   update(time, delta) {
     //Colisiones entre el trigger del jugdor y los enemigos(el jugador ataca fisicamente al enemigo) y los 
     //objetos destructibles
-   this.coolDown++;
+    this.coolDown++;
     if (this.physics.overlap(this.enemies, this.player.trigger)) {
       this.enemies.getChildren().forEach(function (enemy) {
 
