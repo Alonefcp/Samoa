@@ -12,7 +12,7 @@
     "timestopCost": 30,
     "tornadoCost": 50,
     "whirlpoolCost": 40,
-    "whirlpoolDamage": 50,
+    "whirlpoolDamage": 15,
     "fireballCoolDown": 110,
     "waterRayCoolDown": 8,
     "windCoolDown": 10,

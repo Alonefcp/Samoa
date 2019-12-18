@@ -1,5 +1,6 @@
 import TimeStop from "./TimeStop.js";
 import Tornado from "./Tornado.js";
+import Whirlpool from "./Whirlpool.js";
 
 
 export default class MagicCombinator extends Phaser.Scene {
@@ -109,7 +110,8 @@ export default class MagicCombinator extends Phaser.Scene {
                         this.constants.tornadoCoolDown));
                     break;
                 case 'whirlpoolB':
-                    this.mainScene.player.setMagic(5);
+                    this.mainScene.player.setMagic(new Whirlpool(this.mainScene,0,0,this.constants.whirlpoolDamage,this.mainScene.enemies,
+                        this.constants.whirlpoolCost,this.constants.whirlpoolCoolDown));
                     break;
             }
             //this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });

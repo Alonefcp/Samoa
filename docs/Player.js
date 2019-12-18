@@ -50,7 +50,7 @@ export default class Player extends Entity {
     this.slowdown = false;
     this.poison = false;
     this.currentMagic = new Fireball(this.scene, this.x, this.y, 5, 15, 15, 15,
-      true, 5, 8); //0: fuego, 1: agua 2: viento 3:niebla 4:tornado 5: remolino
+      true, 5, 8); 
 
 
   }
