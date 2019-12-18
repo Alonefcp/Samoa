@@ -12,7 +12,8 @@ export default class Tank extends Enemy {
         this.dirY = Phaser.Math.Between(-1, 1);
         this.speedX = this.speedY = 55;
         this.knockbackTank = false;
-
+        this.HP = 130;
+        this.atk=10;
     }
 
     preUpdate(time, delta) {

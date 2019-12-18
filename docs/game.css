@@ -16,15 +16,12 @@ body {
   margin: 0;
   font-family: Courier, 'Courier New', monospace;
   font-size: 1.6rem;
-  background-image: url("");
+  background-image: url("0xkonB.jpg");
   background-position: center;
   background-size: cover;
   color: #ffffff;
 }
 
-#izda {
-  align;
-}
 
 a {
   color: #c39;
@@ -35,9 +32,11 @@ font-size:24px;
 font-style:italic;
 text-decoration:underline #4f8fbc;
 }
+
 p {
   color: black;
   margin-bottom: 0.5rem;
+  text-align: center;
 }
 
 main {

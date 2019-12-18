@@ -5,6 +5,8 @@ export default class Wizard extends Enemy {
     constructor(scene, x, y, img, damage, hasReducedLife, player) {
         super(scene, x, y, img, damage, hasReducedLife, player);
         this.frireRate = 0;
+        this.HP=80;
+        this.atk=20;
     }
 
     preUpdate(time, delta) {

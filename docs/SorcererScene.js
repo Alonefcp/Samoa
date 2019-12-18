@@ -127,25 +127,25 @@ export default class SorcererScene extends Phaser.Scene {
 
     this.meleeLayer.objects.forEach(object => {
       this.melee = new Melee(this, object.x, object.y, 'meleeEnemy', 20, this.reduceLife, this.player).setScale(0.8);
-      if (this.reduceLife) this.melee.HP -= 10;
+      if (this.reduceLife) this.melee.HP -= 20;
       this.enemies.add(this.melee);
     }, this);
 
     this.wizardLayer.objects.forEach(object => {
       this.wizard = new Wizard(this, object.x, object.y, 'wizard', 30, this.reduceLife, this.player).setScale(1.1);
-      if (this.reduceLife) this.wizard.HP -= 10;
+      if (this.reduceLife) this.wizard.HP -= 20;
       this.enemies.add(this.wizard);
     }, this);
 
     this.tankLayer.objects.forEach(object => {
       this.tank = new Tank(this, object.x, object.y, 'tank', 15, this.reduceLife, this.player).setScale(1.2);
-      if (this.reduceLife) this.tank.HP -= 10;
+      if (this.reduceLife) this.tank.HP -= 20;
       this.enemies.add(this.tank);
     }, this);
 
     this.ghostLayer.objects.forEach(object => {
       this.ghost = new Ghost(this, object.x, object.y, 'ghost', 15, this.reduceLife, this.player).setScale(1.1);
-      if (this.reduceLife) this.ghost.HP -= 10;
+      if (this.reduceLife) this.ghost.HP -= 20;
       this.enemies.add(this.ghost);
     }, this);
 
@@ -331,9 +331,9 @@ export default class SorcererScene extends Phaser.Scene {
   }
   GenerateItem(item, x, y) {
     if (item === 0)
-      this.item = new Item(this, x, y, 'mana', 0, this.manaRecovery);
+      this.item = new Item(this, x, y, 'mana', 0, 20);
     else
-      this.item = new Item(this, x, y, 'coin', 1, this.coinsDropped);
+      this.item = new Item(this, x, y, 'coin', 1, 5);
   }
   UpdateNumEnemies(value) {
     this.numEnemies += value;

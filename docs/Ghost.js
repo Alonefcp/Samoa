@@ -6,6 +6,8 @@ export default class Ghost extends Enemy {
         super(scene, x, y, img, damage,hasReducedLife,player);
         this.frireRate = 0;
         this.receiveDamage = false;
+        this.HP=50;
+        this.atk=30;
     }
 
     preUpdate(time, delta) {
