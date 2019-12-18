@@ -173,7 +173,7 @@ export default class Player extends Entity {
 
   RotateMagic() {
     this.nextMagic = this.currentMagic.Next();
-    if (this.nextMagic == this.unlockedMagic)
+    if (this.nextMagic !== this.unlockedMagic)
       this.currentMagic = this.currentMagic.Next();
     
     this.UpdateMagicIcon();

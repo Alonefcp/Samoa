@@ -56,7 +56,7 @@ export default class level2 extends SorcererScene {
     //Enemigos
     this.enemies = this.physics.add.group();
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
-    this.constants = this.chache.json.get('constants');
+    this.constants = this.cache.json.get('constants');
     this.unlockedMagic = new WaterRay(this, 0, 0, this.constants.waterRayDamage, 0, this.constants.waterrayCost, this.constants.waterRayCoolDown)
     this.createScene(this.suelo, this.paredes, this.paredes2, this.deco, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,

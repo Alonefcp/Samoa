@@ -1,13 +1,14 @@
 import Magic from './Magic.js'
 import WaterRay from './WaterRay.js';
 export default class Fireball extends Magic {
-    constructor(scene, x, y, damage, speed, dirX, dirY, overlapEnemies, manaCost, numFireballs, cooldown) {
+    constructor(scene, x, y, dirX, dirY, overlapEnemies, numFireballs, constants) {
         super(scene, x, y, 'fireball', damage, manaCost);
-        this.cooldown = cooldown;
+        this.constants = constants;
+        this.cooldown = this.constants.fireballCoolDown;
         this.dirX = dirX;
         this.numFireballs = numFireballs;
         this.dirY = dirY;
-        this.speed = speed;
+        this.speed = this.constants.fireballSpeed;
         this.offset = 40;
         this.time = 0;
         this.timeStopped = false;
@@ -94,8 +95,8 @@ export default class Fireball extends Magic {
             this.newAngle = 0;
             for (let i = 0; i < this.numFireballs; i++) {
                 this.nFireBall = new Fireball(this.scene, x + this.offset * Math.cos(this.newAngle * Math.PI / 180), y + this.offset * Math.sin(this.newAngle * Math.PI / 180),
-                    this.damage, this.speed, this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
-                    this.dirX * Math.sin(this.newAngle * Math.PI / 180) + this.dirY * Math.cos(this.newAngle * Math.PI / 180), true, this.manaCost, this.numFireballs,this.cooldown);
+                     this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
+                    this.dirX * Math.sin(this.newAngle * Math.PI / 180) + this.dirY * Math.cos(this.newAngle * Math.PI / 180), true, this.numFireballs, this.constants);
                 this.scene.add.existing(this.nFireBall);
                 this.scene.physics.add.existing(this.nFireBall);
                 this.newAngle += this.angle;
