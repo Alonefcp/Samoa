@@ -1,9 +1,10 @@
 import Magic from './Magic.js'
 import Fireball from './Fireball.js';
 export default class Wind extends Magic {
-    constructor(scene, x, y, manaCost, applyForce, coolDown) {
-        super(scene, x, y, 'wind', 0, manaCost);
-        this.coolDown = coolDown;
+    constructor(scene, x, y, applyForce, constants) {
+        super(scene, x, y, 'wind', 0, constants.windcost);
+        this.constants = constants;
+        this.coolDown = this.constants.windCoolDown;
         this.play('wind');
         if (applyForce)
             this.scene.enemies.getChildren().forEach(el => {
@@ -25,7 +26,7 @@ export default class Wind extends Magic {
         this.nMana = currentmana - this.manaCost;
         if (this.nMana >= 0) {
             this.scene.windfx.play();
-            this.nwind = new Wind(this.scene, x, y, this.manaCost, true);
+            this.nwind = new Wind(this.scene, x, y, true,this.constants);
             this.scene.add.existing(this.nwind);
             this.scene.physics.add.existing(this.nwind);
             return this.nMana;
@@ -33,8 +34,7 @@ export default class Wind extends Magic {
         else return currentmana;
     }
     Next() {
-        return new Fireball(this.scene, this.x, this.y, this.fireballDamage, this.fireballSpeed, this.fireballSpeed, this.fireballSpeed, true, this.fireballCost,
-            8);
+        return new Fireball(this.scene, this.x, this.y, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
     }
     GetCoolDown() {
         return this.coolDown;

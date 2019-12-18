@@ -17,7 +17,7 @@ export default class HUD extends Phaser.Scene {
         this.load.spritesheet('waterB', 'Assets/AnimAgua.png', { frameWidth: 128, frameHeight: 128 });
         this.load.image('mistB', 'Assets/MistButton.png');
         this.load.image('whirlpoolB', 'Assets/WhirlpoolButton.png');
-        this.load.image('tornado', 'Assets/TornadoButton.png');
+        this.load.image('tornadoB', 'Assets/TornadoButton.png');
         this.load.image('HUDCoin','Assets/HUDcoin.png');
     }
     create() {
@@ -71,7 +71,7 @@ export default class HUD extends Phaser.Scene {
                 this.magicIcon = this.add.image(180, 230, 'mistB').setScale(0.5);
                 break;
             case 'tornado':
-                this.magicIcon = this.add.image(180, 230, 'tornado').setScale(0.5);
+                this.magicIcon = this.add.image(180, 230, 'tornadoB').setScale(0.5);
                 break;
             case 'whirlpool':
                 this.magicIcon = this.add.image(180, 230, 'whirlpoolB').setScale(0.5);

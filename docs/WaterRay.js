@@ -1,9 +1,10 @@
 import Magic from './Magic.js'
 import Wind from './Wind.js';
 export default class WaterRay extends Magic {
-  constructor(scene, x, y, damage, angle, manaCost, coolDown) {
-    super(scene, x, y, 'waterray', damage, manaCost);
-    this.coolDown = coolDown;
+  constructor(scene, x, y, angle,constants) {
+    super(scene, x, y, 'waterray', constants.waterRayDamage, constants.waterrayCost);
+    this.constants=constants;
+    this.coolDown = this.constants.waterRayCoolDown;
     this.angle = angle;
     this.setOrigin(.5, 1);
     this.hasHit = false;
@@ -63,8 +64,8 @@ export default class WaterRay extends Magic {
     if (this.nMana >= 0) {
       this.scene.laserfx.play();
       if (dirX < 0)
-        this.water = new WaterRay(this.scene, x, y, this.damage, Math.atan(dirY / dirX) - Math.PI / 2, this.manaCost,this.coolDown);
-      else this.water = new WaterRay(this.scene, x, y, this.damage, Math.atan(dirY / dirX) + Math.PI / 2, this.manaCost,this.coolDown);
+        this.water = new WaterRay(this.scene, x, y, Math.atan(dirY / dirX) - Math.PI / 2,this.constants);
+      else this.water = new WaterRay(this.scene, x, y, Math.atan(dirY / dirX) + Math.PI / 2,this.constants);
       this.scene.add.existing(this.water);
       this.scene.physics.add.existing(this.water);
       return this.nMana;
@@ -72,7 +73,7 @@ export default class WaterRay extends Magic {
     else return currentmana;
   }
   Next() {
-    return new Wind(this.scene, this.x, this.y, this.windcost, false);
+    return new Wind(this.scene, this.x, this.y, false,this.constants);
   }
   GetCoolDown() {
     return this.coolDown;

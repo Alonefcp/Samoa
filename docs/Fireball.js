@@ -2,12 +2,12 @@ import Magic from './Magic.js'
 import WaterRay from './WaterRay.js';
 export default class Fireball extends Magic {
     constructor(scene, x, y, dirX, dirY, overlapEnemies, numFireballs, constants) {
-        super(scene, x, y, 'fireball', damage, manaCost);
+        super(scene, x, y, 'fireball', constants.fireballDamage, constants.fireballCost);
         this.constants = constants;
         this.cooldown = this.constants.fireballCoolDown;
-        this.dirX = dirX;
+        this.dirX = dirX; 
         this.numFireballs = numFireballs;
-        this.dirY = dirY;
+        this.dirY = dirY ;
         this.speed = this.constants.fireballSpeed;
         this.offset = 40;
         this.time = 0;
@@ -37,6 +37,7 @@ export default class Fireball extends Magic {
 
         super.preUpdate(time, delta);
         this.cooldown += 1;
+        console.log(this.x);
         if (this.timeStopped) {
             this.Stop();
         }
@@ -53,6 +54,7 @@ export default class Fireball extends Magic {
     }
     Move() {
         this.body.setVelocityX(this.dirX * this.speed);
+        console.log(this.dirX);
         this.body.setVelocityY(this.dirY * this.speed);
     }
     Stop() {
@@ -95,7 +97,7 @@ export default class Fireball extends Magic {
             this.newAngle = 0;
             for (let i = 0; i < this.numFireballs; i++) {
                 this.nFireBall = new Fireball(this.scene, x + this.offset * Math.cos(this.newAngle * Math.PI / 180), y + this.offset * Math.sin(this.newAngle * Math.PI / 180),
-                     this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
+                    this.dirX * Math.cos(this.newAngle * Math.PI / 180) - this.dirY * Math.sin(this.newAngle * Math.PI / 180),
                     this.dirX * Math.sin(this.newAngle * Math.PI / 180) + this.dirY * Math.cos(this.newAngle * Math.PI / 180), true, this.numFireballs, this.constants);
                 this.scene.add.existing(this.nFireBall);
                 this.scene.physics.add.existing(this.nFireBall);
@@ -109,7 +111,7 @@ export default class Fireball extends Magic {
             return currentmana;
     }
     Next() {
-        return new WaterRay(this.scene, 0, 0, this.waterRayDamage, 0, this.waterrayCost);
+        return new WaterRay(this.scene, 0, 0, 0, this.constants);
     }
     GetCoolDown() {
         return this.cooldown;
