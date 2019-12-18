@@ -155,38 +155,7 @@ export default class Player extends Entity {
     this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
   }
 
-  CastMagic() {
-    switch (this.currentMagic) {
-
-      case 3:
-        if (this.mana - this.timestopCost >= 0 && this.canCastMagic) {
-          this.scene.stopTimefx.play();
-          this.timestop = new TimeStop(this.scene, this.x, this.y, 'time', this.TimeStopDuration, this.scene.enemies);
-          this.mana -= this.timestopCost;
-        }
-        break;
-      case 4:
-        if (this.mana - this.tornadoCost && this.canCastMagic) {
-          this.CalcDir();
-          this.scene.tornadofx.play();
-          this.tornado = new Tornado(this.scene, this.x, this.y, 'tornado', this.tornadoDamage, this.tornadoSpeed, this.fireballDamage, this.fireballSpeed, this.AtkDirX,
-            this.AtkDirY, this.scene.enemies);
-          this.mana -= this.tornadoCost;
-        }
-        break;
-      case 5:
-        if (this.mana - this.whirlpoolCost > 0 && this.canCastMagic) {
-          this.scene.tornadofx.play();
-          this.whirlpool = new Whirlpool(this.scene, this.x, this.y, 'whirlpool', this.whirlpoolDamage, this.scene.enemies);
-          this.mana -= this.whirlpoolCost;
-        }
-        break;
-    }
-
-    this.canCastMagic = false;
-    //Actualizamos la barra de mana
-    this.scene.HUDscene.ReduceManaBar(this.mana, this.maxMana);
-  }
+  
 
   CalcDir() {
     this.nDX = this.scene.pointer.worldX - this.x
