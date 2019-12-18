@@ -24,10 +24,10 @@ export default class SorcererScene extends Phaser.Scene {
   }
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
-    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies,enemiesgroup
-    ,unlockedmagic) {
-    this.unlockedMagic=unlockedmagic;
-      this.numEnemies = numEnemies;
+    wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies, enemiesgroup
+    , unlockedmagic) {
+    this.unlockedMagic = unlockedmagic;
+    this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;
     this.suelo = groundlayer;
     this.paredes = wallsLayer;
@@ -45,7 +45,7 @@ export default class SorcererScene extends Phaser.Scene {
     this.tankLayer = tankLayer;
     this.ghostLayer = ghostLayer;
     this.ghostPoints = ghostPoints;
-    this.enemies=enemiesgroup;
+    this.enemies = enemiesgroup;
 
     //musica de fondo
     this.music = this.sound.add('musiclv' + this.stage.toString());
@@ -108,7 +108,7 @@ export default class SorcererScene extends Phaser.Scene {
       object.body.setImmovable(true);
     });
     //Jugador
-    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic);
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic, this.constants);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
 

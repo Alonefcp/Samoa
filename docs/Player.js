@@ -1,15 +1,11 @@
 import Entity from './Entity.js';
 import Fireball from './Fireball.js';
-import WaterRay from './WaterRay.js';
-import Wind from './Wind.js';
-import TimeStop from './TimeStop.js';
-import Tornado from './Tornado.js';
-import Whirlpool from './Whirlpool.js';
+
 export default class Player extends Entity {
 
-  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic) {
+  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic, constants) {
     super(scene, x, y, 'player');
-
+    this.constants = constants;
     scene.physics.add.existing(this);
     this.maxMagic = 3;
     this.coins = coins;
@@ -173,9 +169,9 @@ export default class Player extends Entity {
 
   RotateMagic() {
     this.nextMagic = this.currentMagic.Next();
-    if (this.nextMagic !== this.unlockedMagic)
+    if (this.nextMagic === this.unlockedMagic)
       this.currentMagic = this.currentMagic.Next();
-    
+    else this.currentMagic = new Fireball(this.scene, 0, 0, this.constants.fireballSpeed,this.constants.fireballSpeed,true,8,this.constants);
     this.UpdateMagicIcon();
 
   }
