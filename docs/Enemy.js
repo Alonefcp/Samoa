@@ -13,7 +13,6 @@ export default class Enemy extends Entity {
     this.reducedLife = 20;
     if (hasReducedLife)
       this.HP -= this.reducedLife;
-    this.atk = damage;
     this.timeStopped = false;
   }
 
