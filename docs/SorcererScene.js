@@ -190,9 +190,7 @@ export default class SorcererScene extends Phaser.Scene {
 
     });
 
-    //QUITAR CUANDO HAGAMOS LA ENTREGA
-    this.n = this.input.keyboard.addKey('N');
-    this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);
+    
 
     this.pointer = this.input.activePointer;
     this.input.mouse.disableContextMenu();
