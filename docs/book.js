@@ -12,7 +12,6 @@ export default class Book extends Phaser.GameObjects.Sprite {
     }
     EndLevel() {
         if (this.scene.AllEnemiesDead()) {
-            this.player.UnlockMagic();
             this.scene.CreateExit();
             this.combinator = this.scene.scene.get('Combinator');
             this.combinator.unlockMagic();

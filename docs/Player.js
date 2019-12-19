@@ -5,7 +5,7 @@ import Wind from './Wind.js';
 
 export default class Player extends Entity {
 
-  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic, constants,magic) {
+  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic, constants, magic) {
     super(scene, x, y, 'player');
     this.constants = constants;
     scene.physics.add.existing(this);
@@ -28,7 +28,7 @@ export default class Player extends Entity {
     this.coolDown = 0;
     this.unlockedMagic = unlockedMagic;
     this.magic = magic;
-    this.magicCont =-1;
+    this.magicCont = -1;
     this.canCastMagic = true;
     this.isAttacking = false;
     this.atkTime = 0;
@@ -166,15 +166,14 @@ export default class Player extends Entity {
     this.thrustY = ntY;
   }
 
-  RotateMagic() {    
-    
-      //if(this.currentMagic==this.unlockedMagic)this.magicCont=this.magic-this.stage;
-      /*else */this.magicCont = (this.magicCont+1)%(this.magic+1); 
-      
-      if(this.magicCont == 0) this.currentMagic = new Fireball(this.scene, 0, 0, this.constants.fireballSpeed,this.constants.fireballSpeed,true,8,this.constants);
-      else if(this.magicCont == 1) this.currentMagic = new WaterRay(this.scene, 0, 0, 0, this.constants);
-      else if(this.magicCont == 2) this.currentMagic = new Wind(this.scene, 0, 0, false, this.constants);      
-     this.UpdateMagicIcon(); 
+  RotateMagic() {
+
+    this.magicCont = (this.magicCont + 1) % (this.magic + 1);
+
+    if (this.magicCont == 0) this.currentMagic = new Fireball(this.scene, 0, 0, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
+    else if (this.magicCont == 1) this.currentMagic = new WaterRay(this.scene, 0, 0, 0, this.constants);
+    else if (this.magicCont == 2) this.currentMagic = new Wind(this.scene, 0, 0, false, this.constants);
+    this.UpdateMagicIcon();
   }
   setMagic(magic) {
     this.currentMagic = magic;
@@ -188,11 +187,8 @@ export default class Player extends Entity {
     //Actualizamos la barra de mana
     this.scene.HUDscene.ReduceManaBar(this.mana, this.maxMana);
   }
-  
-  UnlockMagic() {
-    this.unlockedMagic = this.unlockedMagic.Next();
-  }
-  
+
+
   GetCoins(coins) {
     if (coins > 0)
       this.coins += coins;

@@ -108,9 +108,7 @@ export default class Fireball extends Magic {
         else
             return currentmana;
     }
-    Next() {
-        return new WaterRay(this.scene, 0, 0, 0, this.constants);
-    }
+   
     GetCoolDown() {
         return this.cooldown;
     }

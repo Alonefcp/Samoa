@@ -27,6 +27,11 @@
     "ghostHP": 50,
     "ghostAtk": 30,
     "tankHP": 140,
-    "tankAtk": 10
+    "tankAtk": 10,
+
+    "priceMaxMana":40,
+    "priceDamage": 40,
+    "priceMaxHP": 40
+
 
 }

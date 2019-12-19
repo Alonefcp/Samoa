@@ -10,7 +10,8 @@ export default class Shop extends Phaser.Scene {
         this.load.image('maxHP', 'Assets/MaxHP.png');
         this.load.image('maxMana', 'Assets/MaxMana.png');
         this.load.image('maxAtk', 'Assets/MaxATK2.png');
-        this.load.image('HUDCoin','Assets/HUDcoin.png');
+        this.load.image('HUDCoin', 'Assets/HUDcoin.png');
+        this.load.json('constants', './Constants.json');
 
     }
     init(data) {
@@ -21,25 +22,29 @@ export default class Shop extends Phaser.Scene {
     }
 
     create() {
+        this.constants = this.cache.json.get('constants');
         this.buyed = 0;
         this.maxBuyed = 2;
         this.coins = this.inticoins;
-        this.priceMaxMana = 40;
-        this.priceDamage = 40;
-        this.priceMaxHP = 40;
+        this.priceMaxMana = this.constants.priceMaxMana;
+        this.priceDamage = this.constants.priceDamage;
+        this.priceMaxHP = this.constants.priceMaxHP;
         this.playermaxMana = false;
         this.playerMaxHP = false;
         this.price = 0;
         this.reduceLife = false;
         this.HUDscene = this.scene.get('HUD');
         this.texts = this.add.group();
-        this.coinsImg = this.add.image(100,145,'HUDCoin').setScale(1.5);
-        this.coinsText = this.add.text(135, 125, "x"+this.coins, { fontSize: '64px', fill: '#FFF' });
+        this.coinsImg = this.add.image(100, 145, 'HUDCoin').setScale(1.5);
+        this.coinsText = this.add.text(135, 125, "x" + this.coins, { fontSize: '64px', fill: '#FFF' });
         this.shopText = this.add.text(450, 30, 'SHOP', { fontSize: '90px', fill: '#FFF' });
         //HP
         this.maxHPText = this.add.text(60, 250, 'Buy MaxHP', { fontSize: '50px', fill: '#FFF' }).setInteractive();
         this.hpIMG = this.add.image(this.maxHPText.getCenter().x, this.maxHPText.getBounds().y + this.maxHPText.getBounds().height + 100, 'maxHP')
             .setInteractive();
+        this.priceHPText = this.add.text(this.maxHPText.getBounds().x, this.hpIMG.getBounds().y + this.hpIMG.getBounds().height + 25, 'Price: ' + this.priceMaxHP, {
+            fontSize: '50px', fill: '#FFF'
+        });
         this.maxHPText.on('pointerdown', function () {
             this.playerMaxHP = this.Buy(this.priceMaxHP, this.playerMaxHP, this.maxHPText);
         }, this);
@@ -57,6 +62,9 @@ export default class Shop extends Phaser.Scene {
         this.manaIMG.on('pointerdown', () => {
             this.playermaxMana = this.Buy(this.priceMaxMana, this.playermaxMana, this.maxManaText);
         }, this);
+        this.priceManaText = this.add.text(this.maxManaText.getBounds().x, this.manaIMG.getBounds().y + this.manaIMG.getBounds().height + 25, 'Price: ' + this.priceMaxMana, {
+            fontSize: '50px', fill: '#FFF'
+        });
         this.texts.add(this.maxManaText);
         //Damage
         this.damageText = this.add.text(750, 250, 'Buy damage', { fontSize: '50px', fill: '#FFF' }).setInteractive();
@@ -68,6 +76,8 @@ export default class Shop extends Phaser.Scene {
         this.damageIMG.on('pointerdown', () => {
             this.reduceLife = this.Buy(this.priceDamage, this.reduceLife, this.damageText);
         }, this);
+        this.priceDamageText = this.add.text(this.damageText.getBounds().x, this.damageIMG.getBounds().y + this.damageIMG.getBounds().height + 25,
+            'Price: ' + this.priceDamage, { fontSize: '50px', fill: '#FFF' });
         this.texts.add(this.damageText);
 
         this.continueText = this.add.text(850, 550, 'Continue', { fontSize: '45px', fill: '#FFF' }).setInteractive();

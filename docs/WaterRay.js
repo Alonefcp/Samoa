@@ -72,9 +72,6 @@ export default class WaterRay extends Magic {
     }
     else return currentmana;
   }
-  Next() {
-    return new Wind(this.scene, this.x, this.y, false,this.constants);
-  }
   GetCoolDown() {
     return this.coolDown;
   }

@@ -55,9 +55,6 @@ export default class Tornado extends Magic {
         }
         else return currentmana;
     }
-    Next() {
-        return new Fireball(this.scene, this.x, this.y, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
-    }
     GetCoolDown() {
         return this.coolDown;
     }
