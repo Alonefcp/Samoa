@@ -13,6 +13,6 @@ export default class End extends Phaser.Scene {
 
     create()
     {
-        this.endText = this.add.image(600, 300, 'endText').setScale(0.4);
+        this.endText = this.add.image(550, 300, 'endText').setScale(0.8);
     }
 }
