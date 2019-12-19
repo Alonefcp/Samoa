@@ -37,7 +37,6 @@ export default class Fireball extends Magic {
 
         super.preUpdate(time, delta);
         this.cooldown += 1;
-        console.log(this.x);
         if (this.timeStopped) {
             this.Stop();
         }
@@ -54,7 +53,6 @@ export default class Fireball extends Magic {
     }
     Move() {
         this.body.setVelocityX(this.dirX * this.speed);
-        console.log(this.dirX);
         this.body.setVelocityY(this.dirY * this.speed);
     }
     Stop() {

@@ -8,7 +8,7 @@ export default class Book extends Phaser.GameObjects.Sprite {
         this.play('lockedbook');
     }
     UnlockBook() {
-        this.play('unlockedbook');
+        if(this != undefined)this.play('unlockedbook');
     }
     EndLevel() {
         if (this.scene.AllEnemiesDead()) {

@@ -13,7 +13,6 @@ export default class level1 extends SorcererScene {
   }
 
   preload() {
-    //this.load.image('redbar','Assets/redLifeBar.png')
     this.load.audio('musiclv1', 'Assets/audio/level1.mp3');
     this.load.audio('musiclv2', 'Assets/audio/level2.mp3');
     this.load.audio('musiclv3', 'Assets/audio/level3.mp3');
@@ -59,7 +58,7 @@ export default class level1 extends SorcererScene {
     //Enemigos
     this.enemies = this.physics.add.group();
     this.unlockedMagic = new Fireball(this, 0, 0, this.constants.fireballSpeed, this.constants.fireballSpeed, true, 8, this.constants);
-
+    this.magic = 0;
     //Tilemap de prueba
     this.map = this.make.tilemap({
       key: 'nivel1',
@@ -93,7 +92,7 @@ export default class level1 extends SorcererScene {
     this.numEnemies = this.meleeLayer.objects.length + this.wizardLayer.objects.length + this.tankLayer.objects.length + this.ghostLayer.objects.length;
     this.createScene(this.suelo, this.paredes, this.paredes2, this.decoracion, this.spikesLayer, this.acidLayer, this.webLayer, this.holeLayer, this.bookLayer,
       this.portalLayer, this.destructibleObjectsLayer, this.meleeLayer, this.wizardLayer, this.tankLayer, this.ghostLayer, this.ghostPoints, this.playerSpawnLayer,
-      this.numEnemies, this.enemies, this.unlockedMagic,this.constants);
+      this.numEnemies, this.enemies, this.unlockedMagic,this.constants,this.magic);
     //Hacemos que la escena del HUD corra en paralelo con esta
     this.scene.launch('HUD', { money: this.player.getMoney(), magic: this.player.GetCurrentMagic() });
     //animaciones de los enemigos

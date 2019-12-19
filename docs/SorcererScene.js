@@ -25,9 +25,10 @@ export default class SorcererScene extends Phaser.Scene {
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
     wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies, enemiesgroup
-    , unlockedmagic,constants) {
+    , unlockedmagic,constants,magic) {
     this.constants = constants;
     this.unlockedMagic = unlockedmagic;
+    this.magic = magic;
     this.numEnemies = numEnemies;
     this.playerSpawnLayer = playerSpawnLayer;
     this.suelo = groundlayer;
@@ -82,7 +83,6 @@ export default class SorcererScene extends Phaser.Scene {
       this.traps.add(this.spike);
     });
 
-
     this.acidLayer.objects.forEach(object => {
       this.acid = new Trap(this, object.x, object.y, 'acid', 2).setScale(0.5);
       this.traps.add(this.acid);
@@ -109,7 +109,7 @@ export default class SorcererScene extends Phaser.Scene {
       object.body.setImmovable(true);
     });
     //Jugador
-    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic, this.constants);
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic, this.constants,this.magic);
     this.player.body.setSize(16, 60);//Ajustamos el collider
     this.player.setScale(0.5);
 
@@ -119,8 +119,6 @@ export default class SorcererScene extends Phaser.Scene {
     this.camera = this.cameras.main;
     this.camera.startFollow(this.player);
     this.camera.setZoom(2);
-    //this.camera.setBounds(0, 0, 800, 1400);
-    //this.camera.setViewport(0, 0, 900, 900);
 
     //libro
     this.book = new Book(this, this.bookLayer.objects[0].x, this.bookLayer.objects[0].y, 'book', this.player);
@@ -174,8 +172,6 @@ export default class SorcererScene extends Phaser.Scene {
     // //colision entre el enemigo y el jugador(el enemigo hace daño al jugador)
     this.physics.add.overlap(this.player, this.enemies, this.EnemyHitsPlayer, null, this);
 
-
-
     //input del teclado
     this.cursors = this.input.keyboard.addKeys({
       up: Phaser.Input.Keyboard.KeyCodes.W,
@@ -194,12 +190,8 @@ export default class SorcererScene extends Phaser.Scene {
       this.scene.pause('level' + (this.stage).toString());
 
     });
-    this.escape = this.input.keyboard.addKey('ESC');
-    this.escape.on('up', () => {
-      this.player.Stop();
-      this.scene.launch('Pause', this.stage);
-      this.scene.pause('level' + (this.stage).toString());
-    });
+    
+    //QUITAR CUANDO HAGAMOS LA ENTREGA
     this.n = this.input.keyboard.addKey('N');
     this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);
 
@@ -299,15 +291,13 @@ export default class SorcererScene extends Phaser.Scene {
 
     //Esperamos un pequeño tiempo y paramos la animacion del ataque fisico
     if (this.player.isAttacking) this.player.atkTime++;
-    if (this.player.atkTime > 20) {
+    if (this.player.atkTime > 10) {
       this.player.isAttacking = false;
       this.player.atkTime = 0;
     }
 
     //Muerte del jugador
     if (this.player.HP <= 0) this.player.Spawn();
-
-
   }
 
   AddEnemies(enemy) {

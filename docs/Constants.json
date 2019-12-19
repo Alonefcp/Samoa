@@ -13,7 +13,7 @@
     "tornadoCost": 50,
     "whirlpoolCost": 40,
     "whirlpoolDamage": 15,
-    "fireballCoolDown": 110,
+    "fireballCoolDown": 15,
     "waterRayCoolDown": 8,
     "windCoolDown": 10,
     "tornadoCoolDown": 10,
@@ -26,7 +26,7 @@
     "wizardAtk": 20,
     "ghostHP": 50,
     "ghostAtk": 30,
-    "tankHP": 130,
+    "tankHP": 140,
     "tankAtk": 10
 
 }

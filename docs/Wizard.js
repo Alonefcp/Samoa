@@ -23,7 +23,7 @@ export default class Wizard extends Enemy {
 
             if (this.distanceToPlayer <= 10000) {
                 this.frireRate++;
-                if (this.frireRate >= 30) {
+                if (this.frireRate >= 20) {
                     this.scene.enemyFireball.play();
                     this.fireball = new Fireball(this.scene, this.x, this.y, this.dirX * this.constants.fireballSpeed, this.dirY * this.constants.fireballSpeed, false, 8, this.constants);
                     this.scene.add.existing(this.fireball);

@@ -13,8 +13,6 @@ export default class Item extends Phaser.GameObjects.Sprite {
         if (item.type === 0)
             player.RecoverMana(this.amount);
         else player.GetCoins(this.amount);
-        console.log('mana: ' + this.scene.player.mana);
-        console.log('money: ' + this.scene.player.coins);
         this.destroy();
     }
 }

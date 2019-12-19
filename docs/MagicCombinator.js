@@ -6,7 +6,7 @@ import Whirlpool from "./Whirlpool.js";
 export default class MagicCombinator extends Phaser.Scene {
     constructor() {
         super({ key: 'Combinator' });
-        this.tamButton = 64;
+        this.tamButton = 45;
         this.wind = false;
         this.fire = false;
         this.water = false;
@@ -30,8 +30,8 @@ export default class MagicCombinator extends Phaser.Scene {
         this.fireB = this.add.sprite(16 * this.tamButton, 2 * this.tamButton, 'fireB').setInteractive();
         this.waterB = this.add.sprite(11 * this.tamButton, 11 * this.tamButton, 'waterB').setInteractive();
         this.button = this.add.sprite(11 * this.tamButton, 6 * this.tamButton, 'button');
-        this.close = this.add.text(0, 0, 'CLOSE', { fontSize: '64px', fill: '#F0F' }).setInteractive();
-        this.combine = this.add.text(0, 750, 'COMBINE', { fontSize: '64px', fill: '#F0F' }).setInteractive();
+        this.close = this.add.text(0, 0, 'CLOSE', { fontSize: '50px', fill: '#F0F' }).setInteractive();
+        this.combine = this.add.text(0, 550, 'COMBINE', { fontSize: '50px', fill: '#F0F' }).setInteractive();
         this.anims.create({
             key: 'button',
             frames: this.anims.generateFrameNumbers('button', { start: 0, end: 0 }),
@@ -109,8 +109,7 @@ export default class MagicCombinator extends Phaser.Scene {
                 case 'whirlpoolB':
                     this.mainScene.player.setMagic(new Whirlpool(this.mainScene, 0, 0, this.mainScene.enemies, this.constants));
                     break;
-            }
-            //this.scene.launch('HUD', { money: this.mainScene.player.getMoney(), magic: this.mainScene.player.GetCurrentMagic() });
+            }           
             this.mainScene.player.UpdateMagicIcon();
             this.scene.sleep('Combinator');
             this.scene.setVisible(true, 'HUD');

@@ -42,7 +42,7 @@ export default class Enemy extends Entity {
     if (this.knockback) {
       this.knockbackTime++;
     }
-    if (this.knockbackTime > 8) {
+    if (this.knockbackTime > 6) {
       this.knockbackTime = 0;
       this.knockback = false;
     }

@@ -1,9 +1,11 @@
 import Entity from './Entity.js';
 import Fireball from './Fireball.js';
+import WaterRay from './WaterRay.js';
+import Wind from './Wind.js';
 
 export default class Player extends Entity {
 
-  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic, constants) {
+  constructor(scene, x, y, coins, hasIncreasedMaxHP, hasIncreasedMaxMana, unlockedMagic, constants,magic) {
     super(scene, x, y, 'player');
     this.constants = constants;
     scene.physics.add.existing(this);
@@ -25,8 +27,9 @@ export default class Player extends Entity {
 
     this.coolDown = 0;
     this.unlockedMagic = unlockedMagic;
+    this.magic = magic;
+    this.magicCont =-1;
     this.canCastMagic = true;
-
     this.isAttacking = false;
     this.atkTime = 0;
     this.Spawnx = x;
@@ -46,10 +49,7 @@ export default class Player extends Entity {
     this.slowdown = false;
     this.poison = false;
     this.currentMagic = this.unlockedMagic;
-
-
   }
-
 
   preUpdate(time, delta) {
     super.preUpdate(time, delta);
@@ -60,7 +60,7 @@ export default class Player extends Entity {
     if (this.thrust) {
       this.thrustCont++;
       this.ApplyForce(this.thrustX, this.thrustY);
-      if (this.thrustCont >= 25) {
+      if (this.thrustCont >= 15) {
         this.thrust = false;
         this.thrustCont = 0;
       }
@@ -103,7 +103,6 @@ export default class Player extends Entity {
       this.body.setVelocityX(dirX * this.speedX);
     }
   }
-
 
   Attack() {
     this.CalcDir();
@@ -167,13 +166,15 @@ export default class Player extends Entity {
     this.thrustY = ntY;
   }
 
-  RotateMagic() {
-    this.nextMagic = this.currentMagic.Next();
-    if (this.nextMagic === this.unlockedMagic)
-      this.currentMagic = this.currentMagic.Next();
-    else this.currentMagic = new Fireball(this.scene, 0, 0, this.constants.fireballSpeed,this.constants.fireballSpeed,true,8,this.constants);
-    this.UpdateMagicIcon();
-
+  RotateMagic() {    
+    
+      //if(this.currentMagic==this.unlockedMagic)this.magicCont=this.magic-this.stage;
+      /*else */this.magicCont = (this.magicCont+1)%(this.magic+1); 
+      
+      if(this.magicCont == 0) this.currentMagic = new Fireball(this.scene, 0, 0, this.constants.fireballSpeed,this.constants.fireballSpeed,true,8,this.constants);
+      else if(this.magicCont == 1) this.currentMagic = new WaterRay(this.scene, 0, 0, 0, this.constants);
+      else if(this.magicCont == 2) this.currentMagic = new Wind(this.scene, 0, 0, false, this.constants);      
+     this.UpdateMagicIcon(); 
   }
   setMagic(magic) {
     this.currentMagic = magic;
@@ -187,10 +188,11 @@ export default class Player extends Entity {
     //Actualizamos la barra de mana
     this.scene.HUDscene.ReduceManaBar(this.mana, this.maxMana);
   }
+  
   UnlockMagic() {
     this.unlockedMagic = this.unlockedMagic.Next();
-
   }
+  
   GetCoins(coins) {
     if (coins > 0)
       this.coins += coins;

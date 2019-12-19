@@ -23,16 +23,16 @@ export default class HUD extends Phaser.Scene {
     create() {
 
         //Barra de vida
-        this.lifebar = this.add.sprite(135, 25, 'greenbar');
+        this.lifebar = this.add.sprite(20, 25, 'greenbar');
         this.initialWidth = this.lifebar.width;
         this.lifebar.setOrigin(0, 0.5);
 
         //Barra de maná
-        this.manabar = this.add.sprite(135, 95, 'manaBar');
+        this.manabar = this.add.sprite(20, 95, 'manaBar');
         this.initialWidthMana = this.manabar.width;
         this.manabar.setOrigin(0, 0.5);
 
-        this.coinIMG = this.add.image(155, 145, 'HUDCoin');
+        this.coinIMG = this.add.image(30, 145, 'HUDCoin');
         this.coinsText = this.add.text(this.coinIMG.getBounds().x + 50, this.coinIMG.getBounds().y - 20, 'x' + this.initCoins, { fontSize: '64px', fill: '#FFF' });
         this.ChangeMagicIcon(this.initMagic);
 
@@ -59,22 +59,22 @@ export default class HUD extends Phaser.Scene {
 
         switch (currentMagic.texture.key) {
             case 'fireball':
-                this.magicIcon = this.add.image(180, 230, 'fireB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'fireB').setScale(0.5);
                 break;
             case 'waterray':
-                this.magicIcon = this.add.image(180, 230, 'waterB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'waterB').setScale(0.5);
                 break;
             case 'wind':
-                this.magicIcon = this.add.image(180, 230, 'windB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'windB').setScale(0.5);
                 break;
             case 'time':
-                this.magicIcon = this.add.image(180, 230, 'mistB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'mistB').setScale(0.5);
                 break;
             case 'tornado':
-                this.magicIcon = this.add.image(180, 230, 'tornadoB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'tornadoB').setScale(0.5);
                 break;
             case 'whirlpool':
-                this.magicIcon = this.add.image(180, 230, 'whirlpoolB').setScale(0.5);
+                this.magicIcon = this.add.image(50, 210, 'whirlpoolB').setScale(0.5);
                 break;
         }
     }

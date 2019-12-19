@@ -30,11 +30,7 @@
         
    </footer>
     <canvas id="mijuego"></canvas>
-    <!--
-   <div>
-    <div id="izda">uno</div>
-    <div id="dcha">dos</div>
-   </div> -->
+  
     <script type="module">
         import Level1 from './level1.js';
         import Level2 from './level2.js';
@@ -50,8 +46,8 @@
         var config = {
             type: Phaser.CANVAS,
             canvas: document.getElementById('mijuego'),
-            width: 1400,
-            height: 800,
+            width: 1100,
+            height: 600,
             pixelArt: true,
             input: {
                 gamepad: true
@@ -61,9 +57,10 @@
                 autoCenter: Phaser.Scale.CENTER_BOTH
             },
             scene: [Menu, Level1,Level2,Level3,HUD,Shop,MagicCombinator,End,Pause],
-            physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: true } }
+            physics: { default: 'arcade', arcade: { gravity: { y: 0 }, debug: false } }
         };
-        new Phaser.Game(config);
+         new Phaser.Game(config);
+        
     </script>
 
 
