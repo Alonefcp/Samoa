@@ -47,7 +47,7 @@ export default class Player extends Entity {
     this.poisonedTime = 0;
     this.poisonIntervals = 0;
     this.slowdown = false;
-    this.poison = false;
+    this.acid = false;
     this.currentMagic = this.unlockedMagic;
   }
 
@@ -77,12 +77,12 @@ export default class Player extends Entity {
     }
 
     //El veneno resta vida al jugador un tiempo
-    if (this.poison === true) {
+    if (this.acid === true) {
       this.poisonDamage = this.MaxHP / 20;
       this.poisonedTime += 1;
       this.poisonIntervals += 1;
       if (this.poisonedTime >= 250) {
-        this.poison = false;
+        this.acid = false;
         this.poisonedTime = 0;
       }
       else if (this.poisonIntervals >= 75 && this.HP - this.poisonDamage > 0) {
@@ -126,7 +126,7 @@ export default class Player extends Entity {
 
   Spawn() {
     this.slowdown = false;
-    this.poison = false;
+    this.acid = false;
     this.body.reset(this.Spawnx, this.Spawny);
     this.ResetHP();
     this.resetMana();
@@ -140,8 +140,8 @@ export default class Player extends Entity {
     this.slowdown = true;
   }
   //Activa el veneno
-  Poison() {
-    this.poison = true;
+  Acid() {
+    this.acid = true;
   }
   //Activa los pinchos
   Spikes() {

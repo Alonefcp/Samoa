@@ -1,13 +1,16 @@
 import Portal from './Portal.js';
 import Item from './Item.js';
 import Player from './Player.js';
-import Trap from './Trap.js';
 import DestructibleObject from './DestructibleObject.js';
 import Melee from './Melee.js';
 import Wizard from './Wizard.js';
 import Tank from './Tank.js';
 import Ghost from './Ghost.js';
 import Book from './book.js';
+import SpiderWeb from './SpiderWeb.js';
+import Spikes from './Spikes.js';
+import Acid from './Poison.js';
+import Hole from './Hole.js';
 
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
@@ -25,7 +28,7 @@ export default class SorcererScene extends Phaser.Scene {
   createScene(groundlayer, wallsLayer, wallsLayer2 = undefined, decoLayer = undefined, spikesLayer = undefined, acidLayer = undefined,
     webLayer = undefined, holeLayer = undefined, bookLayer = undefined, portalLayer, destructibleObjectsLayer = undefined, meleeLayer = undefined,
     wizardLayer = undefined, tankLayer = undefined, ghostLayer = undefined, ghostPoints = undefined, playerSpawnLayer = undefined, numEnemies, enemiesgroup
-    , unlockedmagic,constants,magic) {
+    , unlockedmagic, constants, magic) {
     this.constants = constants;
     this.unlockedMagic = unlockedmagic;
     this.magic = magic;
@@ -76,27 +79,30 @@ export default class SorcererScene extends Phaser.Scene {
       this.paredes2.setCollisionByProperty({ colisiona: true });
     if (this.deco !== undefined)
       this.deco.setCollisionByProperty({ colisiona: true });
+    //Jugador
+    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic, this.constants, this.magic);
     //Trampas
-    this.traps = this.physics.add.group();
     this.spikesLayer.objects.forEach(element => {
-      this.spike = new Trap(this, element.x, element.y, 'spikes' + this.stage.toString(), 1).setScale(.5);
-      this.traps.add(this.spike);
+      this.spike = new Spikes(this, element.x, element.y, 'spikes' + this.stage.toString(), this.player).setScale(.5);
     });
 
     this.acidLayer.objects.forEach(object => {
-      this.acid = new Trap(this, object.x, object.y, 'acid', 2).setScale(0.5);
-      this.traps.add(this.acid);
+      this.acid = new Acid(this, object.x, object.y, 'acid', this.player).setScale(0.5);
     });
 
     this.webLayer.objects.forEach(object => {
-      this.web = new Trap(this, object.x, object.y, 'spiderWeb', 0).setScale(0.5);
-      this.traps.add(this.web);
+      this.web = new SpiderWeb(this, object.x, object.y, 'spiderWeb', this.player).setScale(0.5);
+
     });
 
     this.holeLayer.objects.forEach(object => {
-      this.hole = new Trap(this, object.x, object.y, 'hole' + this.stage.toString(), 3).setScale(0.5);
-      this.traps.add(this.hole);
+      this.hole = new Hole(this, object.x, object.y, 'hole' + this.stage.toString(), this.player).setScale(0.5);
+
     });
+    //Ajustes del player
+    this.player.body.setSize(16, 60);//Ajustamos el collider
+    this.player.setScale(0.5);
+    this.player.setDepth(1);
 
     //Objeto destructibles
     this.destuctibleObjects = this.physics.add.group();
@@ -108,10 +114,6 @@ export default class SorcererScene extends Phaser.Scene {
     this.destuctibleObjects.children.iterate(function (object) {
       object.body.setImmovable(true);
     });
-    //Jugador
-    this.player = new Player(this, playerSpawnLayer.objects[0].x, playerSpawnLayer.objects[0].y, this.coins, this.playerExtraHP, this.playerExtraMana, this.unlockedMagic, this.constants,this.magic);
-    this.player.body.setSize(16, 60);//Ajustamos el collider
-    this.player.setScale(0.5);
 
     this.HUDscene = this.scene.get('HUD');
 
@@ -153,10 +155,6 @@ export default class SorcererScene extends Phaser.Scene {
     // Colisiones
     this.physics.add.collider(this.enemies, this.enemies);
 
-    // //Overlap entre el jugador y las trampas
-    this.physics.add.overlap(this.traps, this.player, this.OnTrapOverlap, null, this);
-
-
     //colision entre el jugador y entre los objetos destruibles
     this.physics.add.collider(this.enemies, this.destuctibleObjects);
     this.physics.add.collider(this.player, this.destuctibleObjects);
@@ -190,7 +188,7 @@ export default class SorcererScene extends Phaser.Scene {
       this.scene.pause('level' + (this.stage).toString());
 
     });
-    
+
     //QUITAR CUANDO HAGAMOS LA ENTREGA
     this.n = this.input.keyboard.addKey('N');
     this.n.on('down', () => { this.UpdateNumEnemies(-this.numEnemies); }, null, this);
