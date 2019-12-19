@@ -34,7 +34,7 @@ export default class Player extends Entity {
     this.atkTime = 0;
     this.Spawnx = x;
     this.Spawny = y;
-    this.SpeedNerf = .5;
+    this.SpeedNerf = this.constants.SpeedNerf;
     this.speedX = 160;
     this.speedY = 160;
     this.cont = 0;
@@ -46,6 +46,10 @@ export default class Player extends Entity {
     this.thrustCont = 0;
     this.poisonedTime = 0;
     this.poisonIntervals = 0;
+    this.maxSlowTime = this.constants.MaxSlowTime;
+    this.maxPoisonedTime = this.constants.maxPoisonedTime;
+    this.maxPoisonIntervals = this.constants.maxPoisonIntervals;
+    this.spikesDamage = this.constants.spikesDamage;
     this.slowdown = false;
     this.acid = false;
     this.currentMagic = this.unlockedMagic;
@@ -70,7 +74,7 @@ export default class Player extends Entity {
     if (this.slowdown === true) {
 
       this.SlowTime += 1;
-      if (this.SlowTime >= 100) {
+      if (this.SlowTime >= this.maxSlowTime) {
         this.slowdown = false;
         this.SlowTime = 0;
       }
@@ -81,11 +85,11 @@ export default class Player extends Entity {
       this.poisonDamage = this.MaxHP / 20;
       this.poisonedTime += 1;
       this.poisonIntervals += 1;
-      if (this.poisonedTime >= 250) {
+      if (this.poisonedTime >= this.maxPoisonedTime) {
         this.acid = false;
         this.poisonedTime = 0;
       }
-      else if (this.poisonIntervals >= 75 && this.HP - this.poisonDamage > 0) {
+      else if (this.poisonIntervals >= this.maxPoisonIntervals && this.HP - this.poisonDamage > 0) {
         this.ReceiveDamage(this.poisonDamage);
         this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
         this.poisonIntervals = 0;
@@ -145,7 +149,8 @@ export default class Player extends Entity {
   }
   //Activa los pinchos
   Spikes() {
-    this.ReceiveDamage(10);
+    this.ReceiveDamage(this.spikesDamage);
+    console.log(this.HP)
     this.scene.HUDscene.ReduceHealthBar(this.HP, this.MaxHP);
   }
 

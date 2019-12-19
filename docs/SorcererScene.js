@@ -1,5 +1,4 @@
 import Portal from './Portal.js';
-import Item from './Item.js';
 import Player from './Player.js';
 import DestructibleObject from './DestructibleObject.js';
 import Melee from './Melee.js';
@@ -11,6 +10,8 @@ import SpiderWeb from './SpiderWeb.js';
 import Spikes from './Spikes.js';
 import Acid from './Poison.js';
 import Hole from './Hole.js';
+import ManaItem from './ManaItem.js';
+import CoinsItem from './CoinsItem.js';
 
 export default class SorcererScene extends Phaser.Scene {
   constructor(data) {
@@ -321,9 +322,9 @@ export default class SorcererScene extends Phaser.Scene {
   }
   GenerateItem(item, x, y) {
     if (item === 0)
-      this.item = new Item(this, x, y, 'mana', 0, 20);
+      this.item = new ManaItem(this, x, y, 'mana', 20, this.player);
     else
-      this.item = new Item(this, x, y, 'coin', 1, 5);
+      this.item = new CoinsItem(this, x, y, 'coin', 5, this.player);
   }
   UpdateNumEnemies(value) {
     this.numEnemies += value;
